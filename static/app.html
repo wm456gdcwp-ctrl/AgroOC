@@ -1,0 +1,1811 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>AgroOC</title>
+<style>
+:root{--bg:#07110F;--pn:#101A17;--pn2:#16211D;--ink:#FFFFFF;--ink2:#DCE6E0;--mut:#95A39C;
+--line:#1C2A25;--sep:#18241F;--a:#7ED957;--a2:#E8B547;--btn:#07110F;--accrgb:126,217,87;
+--red:#FF5757;--green:#46D369;--r:26px;--rb:20px;--sh:0 8px 24px rgba(0,0,0,.45);--glow:0 8px 24px rgba(var(--accrgb),.20)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;min-height:100vh;color:var(--ink);font-size:15px;background:var(--bg);
+font-family:'SF Pro Display',-apple-system,BlinkMacSystemFont,Inter,'Segoe UI',Roboto,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:540px;margin:auto;min-height:100vh;padding-bottom:100px}
+header{background:transparent;border:0;padding:10px 13px 4px}
+.hbar{background:var(--pn);border:1px solid var(--line);border-radius:22px;padding:9px 11px;display:grid;
+grid-template-columns:44px 1fr 40px 40px;align-items:center;gap:10px;box-shadow:var(--sh)}
+body.lightbar .hbar{background:#fff;border-color:#e8ecf1}
+body.lightbar .hbar .tt b{color:#0f172a}body.lightbar .hbar .tt small{color:#7b8794}
+.hico{width:44px;height:44px;border-radius:14px;object-fit:cover;display:block;background:#fff}
+header .tt{text-align:left;padding-left:2px}
+header .tt b{display:block;font-size:18px;font-weight:800;letter-spacing:-.02em;line-height:1.15}
+header .tt small{display:block;color:var(--mut);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;margin-top:2px}
+.ibtn{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+background:var(--pn2);border:1px solid var(--line);font-size:15px;color:var(--ink2);position:relative}
+body.lightbar .hbar .ibtn{background:#eef2f7;border-color:#e3e9f0;color:#334155}
+.ibtn.ava{background:linear-gradient(140deg,var(--a2),#3aa657);color:#06210f;font-weight:800;border:0;font-size:16px}
+.ibtn s{position:absolute;top:-4px;right:-4px;width:16px;height:16px;border-radius:50%;background:var(--red);color:#fff;
+font-size:9.5px;font-weight:800;display:flex;align-items:center;justify-content:center;text-decoration:none}
+.greet{padding:14px 4px 12px;display:flex;align-items:flex-end;justify-content:space-between;gap:10px}
+.greet .datechip{background:var(--pn);border:1px solid var(--line);border-radius:100px;padding:8px 13px;font-size:12.5px;color:var(--ink2);white-space:nowrap;display:flex;align-items:center;gap:7px}
+.greet b em{font-style:normal;font-size:18px;margin-left:6px}
+.greet small{color:var(--mut);font-size:13px}
+.greet b{display:block;font-size:26px;font-weight:800;letter-spacing:-.025em;margin-top:3px;color:var(--a)}
+main{padding:2px 13px 0}
+.page{display:none}.page.on{display:block;animation:fade .28s ease}
+body.simple .adv{display:none!important}
+.mode{display:flex;gap:5px;background:var(--pn);border:1px solid var(--line);border-radius:100px;padding:5px;margin:0 0 14px}
+.mode button{flex:1;background:transparent;border:0;border-radius:100px;color:var(--mut);font-size:14px;font-weight:700;
+padding:11px 6px;display:flex;align-items:center;justify-content:center;gap:8px}
+.mode button.on{background:linear-gradient(120deg,var(--a),rgba(var(--accrgb),.72));color:#fff;box-shadow:0 6px 16px rgba(var(--accrgb),.35);text-shadow:0 1px 2px rgba(0,0,0,.28)}
+.simplebar{display:flex;gap:8px;margin-bottom:13px}
+.simplebar button{flex:1;background:var(--pn);border:1px solid var(--line);border-radius:var(--rb);color:var(--ink);
+padding:14px 6px;font-size:13px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:7px}
+.simplebar button i{font-style:normal;font-size:20px;color:var(--a)}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.hero{position:relative;overflow:hidden;border-radius:26px;padding:20px 18px 12px;margin-bottom:14px;
+background:linear-gradient(135deg,rgba(var(--accrgb),.30),var(--pn) 58%);color:var(--ink);box-shadow:var(--sh);border:1px solid var(--line)}
+.scene{position:absolute;right:-4px;top:0;width:56%;height:74%;opacity:.95;pointer-events:none}
+.hring{width:104px;height:104px;border-radius:50%;position:relative;display:flex;align-items:center;justify-content:center;margin:14px 0 12px}
+.hring:before{content:"";position:absolute;inset:11px;border-radius:50%;background:var(--pn)}
+.hring b{position:relative;font-size:21px;font-weight:800}
+.hrow{display:flex;align-items:center;gap:11px;flex-wrap:wrap}
+.hero:before{content:"";position:absolute;right:-70px;top:-80px;width:210px;height:210px;border-radius:50%;background:radial-gradient(circle,rgba(var(--accrgb),.22),transparent 68%)}
+.hero .hl{position:relative}
+.hero small{color:var(--mut);font-size:11.5px;text-transform:uppercase;letter-spacing:.12em;font-weight:600}
+.hero>.hl>div>b{display:block;font-size:34px;font-weight:800;letter-spacing:-.035em;margin:7px 0 2px;line-height:1.05}
+.badge{display:inline-flex;align-items:center;gap:5px;background:rgba(70,211,105,.18);color:var(--green);
+border-radius:100px;padding:5px 11px;font-size:12.5px;font-weight:700}
+.badge.dn{background:rgba(255,87,87,.14);color:var(--red)}
+.hero em{font-style:normal;color:var(--mut);font-size:12px;margin-left:8px}
+#hrSpark svg{display:block;width:100%;height:60px;margin-top:6px;background:rgba(var(--accrgb),.10);border-radius:16px}
+
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.tile{background:var(--pn);border:1px solid var(--line);border-radius:22px;padding:14px 14px 8px;box-shadow:var(--sh);position:relative;overflow:hidden}
+.tile i{font-style:normal;font-size:17px;width:38px;height:38px;border-radius:50%;background:#eaf3ff;
+display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.tile .ar{position:absolute;right:12px;top:14px;width:30px;height:30px;border-radius:10px;background:rgba(126,217,87,.16);
+color:#7ED957;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800}
+.tile .ar.dn{background:rgba(255,87,87,.16);color:var(--red)}
+.tile .sp{display:block;width:calc(100% + 28px);height:34px;margin:8px -14px -8px}
+.tile b{display:block;font-size:21px;font-weight:800;letter-spacing:-.025em;line-height:1.1}
+.tile small{display:block;color:var(--mut);font-size:12px;margin-top:4px}
+.tile em{font-style:normal;font-size:11.5px;font-weight:800;color:var(--a);display:block;margin-top:5px}
+
+.qa{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:14px}
+.qa button{background:var(--pn);border:1px solid var(--line);border-radius:14px;color:var(--ink2);box-shadow:var(--sh);
+padding:11px 4px 9px;font-size:11px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:6px}
+.qa button i{font-style:normal;font-size:16px;color:var(--at,var(--a))}
+.qa button:active{background:var(--pn2)}
+
+.tabbar{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:transparent;border:0;border-radius:0;margin-bottom:13px;padding:0;max-width:100%}
+.tabbar button{background:var(--pn2);border:1px solid var(--line);border-radius:100px;color:var(--mut);
+font:inherit;font-size:13px;font-weight:700;padding:10px 12px;white-space:normal;line-height:1.25;text-align:center;
+min-height:42px;display:flex;align-items:center;justify-content:center;gap:5px;word-break:break-word}
+.tabbar button.on{background:var(--a);border-color:var(--a);color:var(--btn);box-shadow:0 4px 14px rgba(var(--accrgb),.26)}
+.tabbar em{font-style:normal;font-size:11px;opacity:.8;margin-left:5px}
+.pane{display:none}.pane.on{display:block}
+.panehead{margin:0 4px 13px;font-size:13px;color:var(--mut);line-height:1.5}
+.panehead b{color:var(--at,var(--a))}
+
+.section{font-size:11px;color:var(--mut);margin:18px 5px 9px;font-weight:800;text-transform:uppercase;letter-spacing:.14em}
+.subsec{font-size:10.5px;color:var(--mut);margin:15px 3px 9px;font-weight:800;text-transform:uppercase;letter-spacing:.14em}
+.shead{display:flex;justify-content:space-between;align-items:baseline;margin:18px 5px 9px}
+.shead b{font-size:11px;color:var(--mut);font-weight:800;text-transform:uppercase;letter-spacing:.14em}
+.shead span{font-size:12.5px;color:var(--at,var(--a));font-weight:700}
+.box,.card{background:var(--pn);border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:12px;box-shadow:var(--sh)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.kpi{position:relative}
+.kpi small{display:block;color:var(--mut);font-size:11.5px}
+.kpi b{display:block;font-size:20px;margin-top:5px;font-weight:800;letter-spacing:-.02em}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:11px}.full{grid-column:1/-1}
+label{display:block;font-size:10.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.11em;margin:0 0 6px;font-weight:800}
+input,select,textarea{width:100%;border:1px solid var(--line);border-radius:14px;background:var(--fld,rgba(0,0,0,.30));
+padding:12px 13px;font:inherit;font-size:15.5px;color:var(--ink);appearance:none;-webkit-appearance:none}
+select{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><path fill='%237ED957' d='M2 4l4 4 4-4z'/></svg>");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+input::placeholder,textarea::placeholder{color:#5f6f68}
+input:focus,select:focus,textarea:focus{outline:0;border-color:var(--a);box-shadow:0 0 0 3px rgba(var(--accrgb),.16)}
+input[type=date]{color-scheme:dark}
+textarea{min-height:84px;resize:vertical}
+button{border:none;border-radius:var(--rb);padding:13px 18px;font:inherit;font-size:15px;font-weight:600;cursor:pointer;transition:.25s}
+.go{background:var(--a);color:var(--btn);box-shadow:0 6px 18px rgba(var(--accrgb),.28)}
+.go:active{filter:brightness(.94)}
+.ghost{background:rgba(var(--accrgb),.12);color:var(--at,var(--a));border:1px solid rgba(var(--accrgb),.28)}
+.danger{background:rgba(255,87,87,.12);color:var(--red);border:1px solid rgba(255,87,87,.30)}
+
+.list{background:var(--pn);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh)}
+.it{padding:12px 14px;position:relative}
+.it+.it:before{content:"";position:absolute;left:14px;right:14px;top:0;height:1px;background:var(--sep)}
+.t{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.t b{font-size:15px;font-weight:700}
+.t i{font-style:normal;font-weight:800;white-space:nowrap}
+.it p{margin:4px 0 0;color:var(--mut);font-size:13px;line-height:1.45}
+.pos{color:var(--green)}.neg{color:var(--red)}
+.pill{font-size:11px;font-weight:700;padding:4px 10px;border-radius:100px;background:var(--pn2);color:var(--mut)}
+.hint{font-size:13px;color:var(--mut);line-height:1.5;margin:8px 3px}
+.hint b{color:var(--ink2)}
+.cap{display:grid;grid-template-columns:1fr auto;gap:4px 10px;padding:13px 15px;position:relative;cursor:pointer}
+.cap+.cap:before{content:"";position:absolute;left:15px;right:15px;top:0;height:1px;background:var(--sep)}
+.cap:active{background:var(--pn2)}
+.cap .n{font-size:15px;font-weight:700}
+.cap .v{font-size:15px;font-weight:800;text-align:right;white-space:nowrap}
+.cap .d{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:7px}
+.cap .d span{background:var(--pn2);border:1px solid var(--line);border-radius:12px;padding:7px 8px}
+.cap .d small{display:block;color:var(--mut);font-size:10px;text-transform:uppercase;letter-spacing:.07em}
+.cap .d b{display:block;font-size:12.5px;font-weight:800;margin-top:3px}
+.prog{height:6px;background:var(--pn2);border-radius:4px;overflow:hidden;margin-top:7px}
+.prog u{display:block;height:100%;background:var(--a);border-radius:4px}
+
+nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(540px,100%);display:grid;
+grid-template-columns:repeat(7,1fr);background:var(--pn);border-top:1px solid var(--line);
+border-radius:24px 24px 0 0;padding:9px 0 calc(9px + env(safe-area-inset-bottom))}
+nav button{background:transparent;color:var(--mut);border-radius:0;padding:3px 1px;font-size:16px;font-weight:400}
+nav small{display:block;font-size:9.5px;margin-top:3px;font-weight:700}
+nav button.on{color:var(--at,var(--a));position:relative}
+nav button.on:after{content:"";position:absolute;left:50%;transform:translateX(-50%);bottom:-5px;width:22px;height:3px;border-radius:3px;background:var(--at,var(--a))}
+
+.tap{position:relative;cursor:pointer}.tap:active{background:var(--pn2)}
+.tap:after{content:'';position:absolute;right:14px;top:50%;width:7px;height:7px;border-right:2px solid var(--a);border-bottom:2px solid var(--a);opacity:.7;transform:translateY(-50%) rotate(-45deg)}
+.card.tap:after,.tile.tap:after{top:16px;transform:rotate(-45deg)}
+
+.seg{display:flex;background:var(--pn2);border:1px solid var(--line);border-radius:100px;overflow:hidden;margin-bottom:13px;padding:3px;gap:3px}
+.seg button{flex:1;background:transparent;border:0;color:var(--mut);font-weight:800;padding:9px 6px;border-radius:100px;font-size:13.5px}
+.seg button.on{background:var(--a);color:var(--btn)}
+#exText{min-height:150px;font-size:15px;line-height:1.55}
+
+.lpbar{display:flex;flex-direction:column;gap:10px;margin:0 0 11px}
+.lpq{padding:12px 15px;font-size:15px;border-radius:100px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;background:var(--pn2);border:1px solid var(--line);color:var(--ink2);border-radius:100px;padding:8px 14px;font-size:13px;font-weight:700;white-space:nowrap}
+.chip.on{background:var(--a);border-color:var(--a);color:var(--btn)}
+.grp{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 14px;background:var(--pn2);cursor:pointer}
+.grp b{font-size:11px;color:var(--mut);font-weight:800;text-transform:uppercase;letter-spacing:.1em}
+.grp i{font-size:11.5px;font-style:normal;color:var(--mut);font-weight:700}
+.more{width:100%;padding:13px;background:transparent;border:0;border-top:1px solid var(--sep);color:var(--at,var(--a));font-weight:800;font-size:14px;border-radius:0}
+
+.dir{padding:14px;position:relative}
+.dir+.dir:before{content:"";position:absolute;left:14px;right:14px;top:0;height:1px;background:var(--sep)}
+.dir .h{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.dir .h b{font-size:15.5px;font-weight:800}.dir .h em{font-style:normal;font-size:13.5px;font-weight:800}
+.dir p{margin:5px 0 0;font-size:13px;color:var(--mut);line-height:1.5}
+.tag{display:inline-block;padding:5px 12px;border-radius:100px;font-size:12.5px;font-weight:800;margin-top:10px}
+.tag.up{background:rgba(70,211,105,.16);color:var(--at,var(--green))}.tag.keep{background:rgba(255,255,255,.06);color:var(--ink2)}
+.tag.down{background:rgba(255,87,87,.14);color:var(--red)}.tag.wait{background:rgba(232,181,71,.14);color:var(--a2)}
+
+.lg{display:flex;flex-wrap:wrap;gap:12px;margin:0 3px 10px}
+.lg span{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--mut);font-weight:700}
+.lg i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.chbox{padding:15px 11px 11px}
+
+.curbar{display:flex;align-items:center;gap:10px;padding:13px 14px}
+.curbar span{font-size:11px;color:var(--mut);flex:1;font-weight:800;text-transform:uppercase;letter-spacing:.12em}
+.curbar input{width:112px;text-align:center;padding:10px 6px;font-size:15px}
+.pal{display:flex;gap:9px;flex-wrap:wrap;justify-content:flex-end}
+.pal button{width:24px;height:24px;border-radius:50%;padding:0;border:2px solid transparent;box-shadow:0 0 0 1px var(--line)}
+.pal button.on{box-shadow:0 0 0 2px var(--a)}
+
+.dnwrap{display:flex;align-items:center;gap:16px}
+.dn{width:110px;height:110px;border-radius:50%;flex:none;position:relative;display:flex;align-items:center;justify-content:center}
+.dn:before{content:"";position:absolute;inset:19px;border-radius:50%;background:var(--pn)}
+.dn div{position:relative;text-align:center}
+.dn b{display:block;font-size:15px;font-weight:800}
+.dn small{color:var(--mut);font-size:10px}
+.dleg{flex:1;display:flex;flex-direction:column;gap:8px}
+.dleg span{display:flex;align-items:center;gap:8px;font-size:12.5px}
+.dleg i{width:9px;height:9px;border-radius:3px;flex:none}
+.dleg u{margin-left:auto;text-decoration:none;font-weight:800;font-size:12.5px}
+
+.dgrid{display:grid;grid-template-columns:52px 1fr 1fr 1fr;gap:7px;align-items:center;margin-bottom:8px}
+.dgrid input{padding:11px 4px;text-align:center}.dgrid b{font-size:13px;font-weight:800;color:var(--at,var(--a))}
+.dhead{font-size:10px;color:var(--mut);margin-bottom:7px;text-transform:uppercase;letter-spacing:.11em}
+.dhead span{text-align:center}.dhead span:first-child{text-align:left}
+.rgw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:2px 0 4px}
+.rgrid{display:grid;grid-template-columns:66px repeat(4,minmax(58px,1fr));gap:5px;min-width:316px;align-items:center}
+.rgh{font-size:11px;font-weight:800;color:var(--at,var(--a));text-align:center;padding-bottom:2px}
+.rgh:first-child{text-align:left;color:var(--mut)}
+.rgn{font-size:12.5px;font-weight:700}.rgn.tot{color:var(--mut);font-weight:800;font-size:11.5px}
+.rgrid input{padding:10px 4px;text-align:center;font-size:14px}
+.rgt{font-style:normal;text-align:center;font-weight:800;font-size:12.5px;color:var(--at,var(--a))}
+.wag{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:7px}.wag input{padding:11px 8px}
+.wagh{display:grid;grid-template-columns:1fr 100px;gap:8px;font-size:10px;color:var(--mut);margin-bottom:7px;text-transform:uppercase;letter-spacing:.11em}
+.wagrow{display:grid;grid-template-columns:1fr 100px;gap:8px;margin-bottom:8px}
+.recwag{display:grid;grid-template-columns:1fr 62px 86px;gap:8px;align-items:center;margin-bottom:9px}
+.recwag label{display:flex;align-items:center;gap:9px;margin:0;font-size:15px;font-weight:700;color:var(--ink);text-transform:none;letter-spacing:0}
+.recwag input[type=checkbox]{width:21px;height:21px;flex:none;accent-color:var(--a);padding:0}
+.recwag span{font-size:13px;color:var(--mut);text-align:right}
+.recwag input.rwT{padding:10px 6px;text-align:center}
+.wg2{display:grid;grid-template-columns:86px 1fr;gap:8px;align-items:center;margin-bottom:8px}
+.wg2 b{font-size:13px;color:var(--at,var(--a))}.wg2 input{padding:10px 8px;text-align:center}
+.exrow{border:1px solid var(--line)!important;background:var(--fld,rgba(0,0,0,.22))!important;border-radius:18px;padding:14px!important;margin-bottom:11px!important}
+
+#login{position:fixed;inset:0;background:var(--bg);z-index:200;display:none;align-items:center;justify-content:center;padding:24px}
+.lbox{background:var(--pn);border:1px solid var(--line);border-radius:26px;padding:28px 22px;width:min(360px,100%);text-align:center;box-shadow:var(--sh)}
+.llogo{width:88px;height:88px;border-radius:24px;object-fit:cover;display:block;margin:0 auto 16px;background:#fff}
+.lbox b{display:block;font-size:24px;font-weight:800;letter-spacing:-.02em}
+.lbox small{display:block;color:var(--mut);font-size:13.5px;margin:6px 0 18px}
+.lbox input{text-align:center;font-size:26px;letter-spacing:.5em;padding:15px 12px}
+.lbox .go{width:100%;margin-top:14px}
+.lerr{color:var(--red);font-size:13px;min-height:18px;margin:9px 0 0}
+.syncpill{display:inline-block;font-size:11px;font-weight:700;padding:5px 11px;border-radius:100px;background:var(--pn2);color:var(--mut);border:1px solid var(--line)}
+.syncpill.ok{color:var(--a2);border-color:rgba(126,217,87,.3)}
+.syncpill.wait{color:var(--mut)}
+.syncpill.bad{color:var(--red);border-color:rgba(255,87,87,.35)}
+#toast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%) translateY(10px);
+background:var(--pn);border:1px solid var(--line);color:var(--ink);box-shadow:var(--sh);padding:13px 17px;border-radius:var(--rb);font-size:14px;font-weight:700;
+max-width:min(460px,90vw);opacity:0;pointer-events:none;transition:.18s;z-index:90;line-height:1.45;
+box-shadow:0 10px 26px rgba(16,24,40,.3)}
+#toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* DETAIL PAGE (kartaga bosilganda to'liq sahifa ochiladi) */
+.sheet{position:fixed;inset:0;background:var(--bg);display:none;z-index:80;flex-direction:column}
+.sheet.on{display:flex}
+body.light .prog{background:#E9EDF1}
+body.light .pos{color:#137a3a}
+body.light .badge{color:#137a3a}
+body.light .grp{background:#F2F5F8}
+body.light .cap .d span,body.light .qgrid button,body.light .exrow{background:#F6F8FA!important}
+body.light .tabbar button{background:var(--pn)}
+.sheetbox{background:transparent;width:100%;max-width:540px;margin:0 auto;height:100%;display:flex;flex-direction:column;overflow:hidden;border:0}
+.sheethead{background:var(--bg);border-bottom:1px solid var(--line);padding:11px 14px;display:flex;align-items:center;gap:12px}
+.sheethead button{background:var(--pn2);border:1px solid var(--line);color:var(--ink2);border-radius:14px;width:36px;height:36px;padding:0;flex:none;font-size:17px;line-height:1;order:-1}
+.sheethead span{flex:1}
+.sheethead b{font-size:17px;display:block;font-weight:800;color:var(--ink);letter-spacing:-.01em}
+.sheethead small{display:block;color:var(--mut);font-size:12px;margin-top:1px}
+.sheetbody{overflow:auto;padding:13px;padding-bottom:calc(24px + env(safe-area-inset-bottom));flex:1}
+
+.fab{position:fixed;right:calc(50% - min(254px,50vw - 14px));bottom:86px;width:60px;height:60px;border-radius:50%;
+background:var(--a);color:#fff;font-size:26px;font-weight:800;z-index:70;
+display:flex;align-items:center;justify-content:center;padding:0;box-shadow:0 10px 24px rgba(var(--accrgb),.4)}
+.fab:active{transform:scale(.94)}
+.qsheet{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;z-index:85;align-items:flex-end;justify-content:center}
+.qsheet.on{display:flex}
+.qbox{background:var(--pn);border:1px solid var(--line);border-bottom:0;width:min(540px,100%);border-radius:28px 28px 0 0;padding:16px 14px calc(20px + env(safe-area-inset-bottom))}
+.qbox h4{margin:2px 4px 14px;font-size:16px;font-weight:800}
+.qgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.qgrid button{background:var(--pn2);border:1px solid var(--line);border-radius:var(--rb);color:var(--ink);
+padding:14px 12px;font-size:14px;font-weight:700;text-align:left;display:flex;align-items:center;gap:11px}
+.qgrid button i{font-style:normal;font-size:18px;color:var(--at,var(--a))}
+.toolbar{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+</style>
+<link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#050A12"><link rel="apple-touch-icon" sizes="180x180" href="/icon-180.png"><link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="AgroOC">
+</head>
+<body>
+<div class="wrap">
+<header><div class="hbar"><img class="hico" src="/icon-192.png" alt=""><div class="tt"><b id="title">Dashboard</b><small id="sub">AGROOC HOLDINGS</small></div><div class="ibtn" id="bellBtn" onclick="goTo('audit',0)">&#128276;<s id="bellN">0</s></div><div class="ibtn ava" onclick="userMenu()">A</div></div></header>
+<main>
+<section class="page on" id="p-dashboard">
+  <div class="greet"><div><small>Assalomu alaykum,</small><b>Asqar<em>&#127793;</em></b></div><div style="text-align:right"><div class="datechip" id="dateChip">&#128467; —</div><div class="syncpill" id="syncPill" style="margin-top:7px">—</div></div></div>
+  <div class="mode"><button id="mdSimple" onclick="setMode(1)">☀ Oddiy</button><button id="mdFull" onclick="setMode(0)">&#128200; To‘liq</button></div>
+  <div class="hero">
+    <svg class="scene" viewBox="0 0 200 130" preserveAspectRatio="xMidYMid slice">
+      <defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5aa9f0"/><stop offset="1" stop-color="#a9d8f5"/></linearGradient>
+      <linearGradient id="fld" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5fbf5a"/><stop offset="1" stop-color="#2f7a37"/></linearGradient></defs>
+      <rect width="200" height="130" fill="url(#sky)"/>
+      <circle cx="150" cy="26" r="30" fill="#fff" opacity=".22"/><circle cx="128" cy="32" r="18" fill="#fff" opacity=".22"/>
+      <path d="M0 78 Q60 58 120 74 T200 66 V130 H0Z" fill="url(#fld)"/>
+      <path d="M0 96 Q70 82 140 94 T200 90 V130 H0Z" fill="#2b6b33" opacity=".85"/>
+      <g><rect x="120" y="52" width="26" height="22" fill="#7a3b2e"/><path d="M118 52 L133 40 L148 52Z" fill="#5e2c22"/>
+      <rect x="152" y="44" width="13" height="30" rx="6" fill="#c9d3dc"/><path d="M152 46 a6.5 6.5 0 0 1 13 0Z" fill="#9aa8b5"/>
+      <rect x="128" y="62" width="7" height="12" fill="#d8c49a"/></g>
+      <g fill="#1f5a2a" opacity=".9"><ellipse cx="100" cy="66" rx="7" ry="10"/><ellipse cx="110" cy="70" rx="5" ry="8"/><ellipse cx="172" cy="72" rx="8" ry="11"/></g>
+    </svg>
+    <div class="hl"><div><small>Jami aylanma</small><b id="hrVal">$0</b>
+      <div class="hring" id="hrRing"><b id="hrPct">0%</b></div>
+      <div class="hrow"><em id="hrNote">o'tgan oyga nisbatan</em><span class="badge" id="hrBadge">0%</span></div></div></div>
+    <div id="hrSpark"></div>
+  </div>
+  <div class="tiles">
+    <div class="tile" onclick="openSheet('alive')"><i>&#128020;</i><span class="ar" id="arAlive">↑</span><b id="tlAlive">0</b><small>Tirik bosh</small><span id="spAlive"></span></div>
+    <div class="tile" onclick="openStockSheet()"><i>&#127806;</i><span class="ar" id="arWheat">↑</span><b id="tlWheat">0</b><small>Bug'doy omborda</small><span id="spWheat"></span></div>
+    <div class="tile" onclick="goTo('feed',4)"><i>&#128230;</i><span class="ar" id="arFeed">↑</span><b id="tlFeed">0</b><small>Yem ishlab chiqarish</small><span id="spFeed"></span></div>
+    <div class="tile" onclick="openSheet('inv')"><i>&#128176;</i><span class="ar" id="arCash">↑</span><b id="tlCash">0</b><small>Naqd pul</small><span id="spCash"></span></div>
+  </div>
+  <div class="simplebar" id="simpleBar">
+    <button onclick="goTo('farm',1)"><i>◉</i>Kunlik</button>
+    <button onclick="goTo('wheat',2)"><i>⇄</i>Sotuv</button>
+    <button onclick="goTo('farm',3)"><i>⊖</i>Rasxod</button>
+    <button onclick="goTo('slaughter',0)"><i>⚑</i>Zaboy</button>
+  </div>
+  <div class="qa adv">
+    <button onclick="goTo('wheat',0)"><i>▣</i>Xarid</button>
+    <button onclick="goTo('wheat',2)"><i>⇄</i>Sotuv</button>
+    <button onclick="goTo('feed',4)"><i>▤</i>Yem</button>
+    <button onclick="goTo('farm',1)"><i>◉</i>Kunlik</button>
+  </div>
+  <div class="box curbar adv">
+    <span>Kurs — 1 $</span>
+    <input id="kursIn" inputmode="decimal" onchange="setKurs(this.value)">
+  </div>
+  <div class="box curbar adv">
+    <span>Rang</span>
+    <div class="pal" id="palRow"></div>
+  </div>
+  <div class="box curbar adv">
+    <span>Fon</span>
+    <div class="pal" id="bgRow"></div>
+  </div>
+  <div class="grid">
+    <div class="card kpi tap" onclick="openSheet('inv')"><small>Mister X qoldig'i</small><b id="kInv">0</b></div>
+    <div class="card kpi tap" onclick="openSheet('bob')"><small>Bobur qoldig'i</small><b id="kBob">0</b></div>
+  </div>
+  <div class="section">Skladdagi ostatok bug'doy</div>
+  <div class="grid">
+    <div class="card kpi tap" onclick="openSheet('qstock')"><small>Qozog'iston baza (Bobur)</small><b id="kQStock">0 t</b></div>
+    <div class="card kpi tap" onclick="openSheet('road')"><small>Yo'lda</small><b id="kRoad">0 t</b></div>
+    <div class="card kpi tap full" onclick="openSheet('tstock')"><small>Toshkent skladi (Zuhriddin)</small><b id="kTStock">0 t</b></div>
+  </div>
+  <div class="box tap" onclick="openStockSheet()"><div class="t"><b>Jami ostatok qiymati</b><i id="sAll">0</i></div></div>
+  <div class="section">Qarz va ferma</div>
+  <div class="grid">
+    <div class="card kpi tap" onclick="openSheet('debt')"><small>Bug'doy qarzi</small><b id="kDebt">0</b></div>
+    <div class="card kpi tap" onclick="openSheet('zdebt')"><small>Zaboy qarzi</small><b id="kZDebt">0</b></div>
+    <div class="card kpi tap" onclick="openSheet('alive')"><small>Ferma tirik</small><b id="kAlive">0</b></div>
+    <div class="card kpi tap" onclick="openSheet('mort')"><small>Jami padyoj</small><b id="kMort">0</b></div>
+    <div class="card kpi tap full" onclick="openSheet('kitchen')"><small>Oshxona zaboy</small><b id="kKitchen">0</b></div>
+  </div>
+  <div class="shead"><b>Foyda hisoboti</b><span onclick="profSheet('month')">Batafsil</span></div>
+  <div class="box tap" id="profCard" onclick="profSheet('month')"></div>
+  <div class="shead"><b>Kapital — qayerda turibdi</b><span onclick="capSheet('all')">Batafsil</span></div>
+  <div class="list" id="lCap"></div>
+  <div class="box" id="capSum"></div>
+  <div class="shead adv"><b>Foyda taqsimoti</b><span onclick="goTo('dashboard',0)">Barcha</span></div>
+  <div class="box adv"><div class="dnwrap"><div class="dn" id="dnut"><div><b id="dnTot">$0</b><small>jami</small></div></div><div class="dleg" id="dnLeg"></div></div></div>
+  <div class="section adv">Yo'nalishlar</div>
+  <div class="list adv" id="lDirs"></div>
+  <div class="box adv" id="dirSum"></div>
+  <div class="box chbox adv" id="chDirs"></div>
+  <p class="hint" id="dirHint"></p>
+  <div class="section adv">Umumiy grafik</div>
+  <div class="box chbox adv" id="chAll"></div>
+  <div class="section adv">Asosiy natija</div>
+  <div class="box adv">
+    <div class="t"><b>Bug'doy sotuv</b><i id="kSales">0</i></div>
+    <div class="t" style="margin-top:8px"><b>Bug'doy foyda</b><i id="kProfit">0</i></div>
+    <div class="t" style="margin-top:8px"><b>Yem ishlab chiqarildi</b><i id="kFeed">0 t</i></div>
+  </div>
+  <div class="toolbar"><button class="ghost" onclick="exportData()">Zaxira olish</button><button class="danger" onclick="wipeAll()">Tozalash</button></div>
+</section>
+
+<section class="page" id="p-transactions">
+  <div class="section">Yangi pul harakati</div>
+  <div class="box row">
+    <div><label>Kimdan</label><select id="cFrom" onchange="oth('cFrom','cFromOth')"><option>Mister X</option><option>Asosiy kassa</option><option>Boshqa</option></select><input id="cFromOth" placeholder="Kimdan — yozing" style="display:none;margin-top:6px"></div>
+    <div><label>Kimga</label><select id="cTo" onchange="oth('cTo','cToOth')"><option>Qozog'iston Baza (Bobur)</option><option>Toytepa Ferma (Xasan)</option><option>Toshkent Baza (Zuhriddin)</option><option>Yem Zavod (Akmal)</option><option>Mister X</option><option>Asosiy kassa</option><option>Boshqa</option></select><input id="cToOth" placeholder="Kimga — yozing" style="display:none;margin-top:6px"></div>
+    <div><label>Summa</label><input id="cAmount" inputmode="decimal"></div>
+    <div><label>Valyuta</label><select id="cCur"><option>USD</option><option>UZS</option></select></div>
+    <div><label>Kurs</label><input id="cRate" value="12100" inputmode="decimal"></div>
+    <div><label>Sana</label><input id="cDate" type="date"></div>
+    <div class="full"><label>Kategoriya</label><select id="cCat"><option>Investor kiritdi</option><option>Investor yechdi</option><option>Bobur avans</option><option>Ferma avans</option><option>Harajat</option><option>Boshqa</option></select></div>
+    <div class="full"><label>Izoh</label><input id="cNote"></div>
+    <button class="go full" onclick="addCash()">Saqlash</button>
+  </div>
+  <div class="section">Barcha tranzaksiyalar</div><div class="list" id="lTx"></div>
+</section>
+
+<section class="page" id="p-wheat">
+  <div class="acc" id="acc-qozo">
+    <button class="acchead" onclick="acc('qozo')"><span><b>Qozog'iston baza (Bobur)</b><em id="accn-qozo">Xarid · Toshkentga jo'natish</em></span><s>▾</s></button>
+    <div class="accbody">
+    <div class="subsec">Xarid</div>
+<div class="box row">
+    <div><label>Tonna</label><input id="wBuyT" inputmode="decimal"></div><div><label>Narx</label><input id="wBuyP" inputmode="decimal"></div>
+    <div><label>Valyuta</label><select id="wBuyC"><option>USD</option><option>UZS</option></select></div><div><label>Kurs</label><input id="wBuyK" inputmode="decimal" value="12100"></div>
+    <div><label>Kim oldi</label><select id="wBuyBy" onchange="oth('wBuyBy','wBuyByOth')"><option>Bobur</option><option>Boshqa</option></select><input id="wBuyByOth" placeholder="Yozing" style="display:none;margin-top:6px"></div><div><label>Sana</label><input id="wBuyD" type="date"></div>
+    <div class="full"><label>Bug'doy turi</label><select id="wBuySort" onchange="oth('wBuySort','wBuySortOth')"><option>2-klass</option><option selected>3-klass</option><option>4-klass</option><option>5-klass</option><option>Furaj (yem bug'doy)</option><option>Boshqa</option></select><input id="wBuySortOth" placeholder="Turini yozing" style="display:none;margin-top:6px"></div>
+    <button class="go full" onclick="addWheatBuy()">Xaridni saqlash</button>
+  </div>
+    <div class="subsec">Toshkentga jo'natish</div>
+<div class="box row">
+    <div><label>Partiya</label><select id="wShipNo"></select></div><div><label>Transport</label><select id="wShipTrType" onchange="wagToggle()"><option>Vagon</option><option>Fura</option><option>Boshqa</option></select></div>
+    <div class="full"><label>Sana</label><input id="wShipD" type="date"></div>
+    <div class="full" id="wagBox"><label>Vagonlar — nomeri va tonnasi</label><div class="wagh"><span>Vagon №</span><span>Tonna</span></div><div class="wagrow"><input id="wgN1" placeholder="1-vagon \u2116"><input id="wgT1" inputmode="decimal" placeholder="tonna" oninput="wagSum()"></div><div class="wagrow"><input id="wgN2" placeholder="2-vagon \u2116"><input id="wgT2" inputmode="decimal" placeholder="tonna" oninput="wagSum()"></div><div class="wagrow"><input id="wgN3" placeholder="3-vagon \u2116"><input id="wgT3" inputmode="decimal" placeholder="tonna" oninput="wagSum()"></div><div class="wagrow"><input id="wgN4" placeholder="4-vagon \u2116"><input id="wgT4" inputmode="decimal" placeholder="tonna" oninput="wagSum()"></div><div class="wagrow"><input id="wgN5" placeholder="5-vagon \u2116"><input id="wgT5" inputmode="decimal" placeholder="tonna" oninput="wagSum()"></div><div class="wagrow"><input id="wgN6" placeholder="6-vagon \u2116"><input id="wgT6" inputmode="decimal" placeholder="tonna" oninput="wagSum()"></div><div class="wagrow"><input id="wgN7" placeholder="7-vagon \u2116"><input id="wgT7" inputmode="decimal" placeholder="tonna" oninput="wagSum()"></div><div class="wagrow"><input id="wgN8" placeholder="8-vagon \u2116"><input id="wgT8" inputmode="decimal" placeholder="tonna" oninput="wagSum()"></div><div class="wagrow"><input id="wgN9" placeholder="9-vagon \u2116"><input id="wgT9" inputmode="decimal" placeholder="tonna" oninput="wagSum()"></div><div class="wagrow"><input id="wgN10" placeholder="10-vagon \u2116"><input id="wgT10" inputmode="decimal" placeholder="tonna" oninput="wagSum()"></div><div class="t" style="margin-top:8px"><b>Jami yuk</b><i id="wagTotal">0 t</i></div></div>
+    <div class="full" id="trOthBox" style="display:none"><label>Transport</label><input id="wShipTrOth" placeholder="Mashina / haydovchi"><label style="margin-top:8px">Tonna</label><input id="wShipT" inputmode="decimal"></div>
+    <button class="go full" onclick="addShipment()">Yo'lga chiqarish</button>
+  </div>
+    </div>
+  </div>
+    <div class="acc" id="acc-sklad">
+    <button class="acchead" onclick="acc('sklad')"><span><b>Toshkent sklad (Zuhriddin)</b><em id="accn-sklad"></em></span><s>▾</s></button>
+    <div class="accbody">
+<div class="subsec">Toshkentga kelgan bug'doy — umumiy</div>
+    <div class="box tap" id="tashSum" onclick="tashSheet()"></div>
+    <div class="subsec">Partiya tannarxi</div>
+    <div class="list" id="lPartCost" style="margin-bottom:14px"></div>
+    <div class="subsec">Partiya xarajati qo'shish</div>
+    <div class="box row">
+      <div><label>Partiya</label><select id="wcNo" onchange="wcInfo()"></select></div><div><label>Kategoriya</label><select id="wcCat" onchange="oth('wcCat','wcCatOth')"><option>Transport</option><option>Rastamojka (bojxona)</option><option>Bojxona to'lovi</option><option>Soliq / nalog</option><option>Aksiz</option><option>Sertifikat</option><option>Karantin / fitosanitar</option><option>Laboratoriya</option><option>Ekspeditor</option><option>Yuklash / tushirish</option><option>Saqlash / ombor</option><option>Sug'urta</option><option>Bank xizmati</option><option>Konvertatsiya</option><option>Vagon ijarasi</option><option>Demeraj / turib qolish</option><option>Yo'l xarajati</option><option>Xizmat haqi</option><option>Boshqa</option></select><input id="wcCatOth" placeholder="Yozing" style="display:none;margin-top:6px"></div>
+      <div><label>Summa</label><input id="wcAmt" inputmode="decimal" oninput="wcInfo()"></div><div><label>Valyuta</label><select id="wcCur" onchange="wcInfo()"><option>USD</option><option>UZS</option></select></div>
+      <div><label>Kimga</label><input id="wcTo"></div><div><label>Sana</label><input id="wcDate" type="date"></div>
+      <p class="hint full" id="wcHint"></p>
+      <p class="hint full">Transport, rastamojka, soliq, sertifikat, saqlash, bank — partiyaga tegishli har qanday xarajat. Hammasi tannarxga qo'shiladi.</p>
+      <button class="go full" onclick="addWCost()">Xarajatni saqlash</button>
+    </div>
+    <div class="subsec">Xarajatlar tarixi</div>
+    <div class="list" id="lWCost" style="margin-bottom:14px"></div>
+    <div class="subsec">Yo'lda kelayotgan</div>
+    <div class="list" id="lRoad" style="margin-bottom:14px"></div>
+    <div class="subsec">Qabul</div>
+<div class="box row">
+    <div class="full"><label>Partiya</label><select id="wRecNo" onchange="recCheck(1)"></select></div>
+    <p class="hint full" id="wRecInfo"></p>
+    <div class="full" id="recWagBox"><label>Kelgan vagonlarni belgilang</label><div id="recWagRows"></div><div class="t" style="margin-top:8px"><b>Qabul qilinadi</b><i id="recWagTotal">0 t</i></div></div>
+    <div class="full" id="recManualBox"><label>Kelgan tonna</label><input id="wRecT" inputmode="decimal" oninput="recSum()"></div>
+    <div class="full"><label>Qabul qildi</label><select id="wRecBy" onchange="oth('wRecBy','wRecByOth')"><option>Zuhriddin</option><option>Boshqa</option></select><input id="wRecByOth" placeholder="Yozing" style="display:none;margin-top:6px"></div>
+    <div><label>Namlik %</label><input id="wRecHum" inputmode="decimal"></div><div><label>Kleykovina %</label><input id="wRecGlu" inputmode="decimal"></div>
+    <div class="full"><label>Sana</label><input id="wRecD" type="date"></div>
+    <div class="full" id="shortBox" style="display:none">
+      <label>Qaysi vagondan qancha kam chiqdi</label>
+      <div id="shortRows"></div>
+      <label style="margin-top:8px">Qabul qiluvchi izohi</label>
+      <input id="wRecNote" placeholder="Masalan: 77002 vagonda plomba buzilgan">
+    </div>
+    <button class="go full" onclick="addReceipt()">Qabul qilish</button>
+  </div>
+        </div>
+  </div>
+  <div class="acc" id="acc-sotuv">
+    <button class="acchead" onclick="acc('sotuv')"><span><b>Toshkent sotuv</b><em id="accn-sotuv"></em></span><s>▾</s></button>
+    <div class="accbody">
+<div class="subsec">Sotuv</div>
+<div class="box row">
+    <div><label>Partiya</label><select id="wSaleNo"></select></div><div><label>Tonna</label><input id="wSaleT" inputmode="decimal"></div>
+    <div><label>Narx</label><input id="wSaleP" inputmode="decimal"></div><div><label>Mijoz</label><select id="wSaleCust" onchange="oth('wSaleCust','wSaleCustOth')"></select><input id="wSaleCustOth" placeholder="Yozing" style="display:none;margin-top:6px"></div>
+    <div><label>Valyuta</label><select id="wSaleCur" onchange="saleHint()"><option>UZS</option><option>USD</option></select></div><div><label>Kurs</label><input id="wSaleRate" inputmode="decimal" value="12100"></div>
+    <p class="hint full" id="wSaleHint">Narx birligi: so'm/kg</p>
+    <div><label>To'lov turi</label><select id="wSalePay"><option>Naqd</option><option>Perechislenie</option><option>Nasiya</option><option>Yem zavodga</option></select></div><div><label>Sana</label><input id="wSaleD" type="date"></div>
+    <button class="go full" onclick="addSale()">Sotuvni saqlash</button>
+  </div>
+    <div class="subsec">Mijoz to'lovi</div>
+<div class="box row">
+    <div><label>Mijoz</label><select id="wPayCust" onchange="oth('wPayCust','wPayCustOth')"></select><input id="wPayCustOth" placeholder="Yozing" style="display:none;margin-top:6px"></div><div><label>Summa</label><input id="wPayAmt" inputmode="decimal"></div>
+    <div><label>Valyuta</label><select id="wPayCur"><option>UZS</option><option>USD</option></select></div><div><label>Kurs</label><input id="wPayRate" inputmode="decimal" value="12100"></div>
+    <div class="full"><label>Sana</label><input id="wPayD" type="date"></div><button class="go full" onclick="addPayment()">To'lovni saqlash</button>
+  </div>
+        </div>
+  </div>
+<div class="section">Grafik</div>
+  <div class="box chbox" id="chWheat"></div>
+  <div class="section">Partiyalar</div><div class="list" id="lWheat"></div>
+</section>
+
+<section class="page" id="p-feed">
+  <div class="section">Zavod skladi</div>
+  <p class="hint" id="rawWarn" style="display:none"></p>
+  <div class="list" id="lRaw"></div>
+  <div class="box"><div class="t"><b>Jami siryo qiymati</b><i id="rawVal">0</i></div></div>
+  <div class="section">Xomashyo xaridi</div>
+  <div class="box row">
+    <div><label>Xomashyo</label><select id="xName" onchange="oth('xName','xNameOth')"><option>Bug'doy</option><option>Soya</option><option>Yog'</option><option>Vitamin</option><option>Ohak</option><option>Xamid</option><option>Boshqa</option></select><input id="xNameOth" placeholder="Nomini yozing" style="display:none;margin-top:6px"></div><div><label>Tonna</label><input id="xKg" inputmode="decimal"></div>
+    <div><label>Narx $/t</label><input id="xPrice" inputmode="decimal"></div><div><label>Kim sotdi</label><select id="xFrom" onchange="oth('xFrom','xFromOth')"></select><input id="xFromOth" placeholder="Yozing" style="display:none;margin-top:6px"></div>
+    <div class="full"><label>Sana</label><input id="xDate" type="date"></div>
+    <button class="go full" onclick="addRaw()">Skladga qabul qilish</button>
+  </div>
+  <div class="section">Ratsion</div>
+  <div class="box row">
+    <div class="seg full"><button id="rSegOne" onclick="rMode('one')">Bitta tur</button><button id="rSegAll" onclick="rMode('all')">Hammasi birdan</button></div>
+    <div><label>Qaysi sanadan</label><input id="rFrom" type="date" onchange="recLoad()"></div><div><label>Qaysi sanagacha</label><input id="rTo" type="date" onchange="recLoad()"></div>
+    <div class="full" id="rOne"><div class="row">
+      <div class="full"><label>Yem turi</label><select id="rType" onchange="recLoad()"><option>Start</option><option>Rost</option><option>Finish-1</option><option>Finish-2</option></select></div>
+      <div><label>Bug'doy kg/t</label><input id="rWheat" inputmode="decimal"></div><div><label>Soya kg/t</label><input id="rSoya" inputmode="decimal"></div><div><label>Yog' kg/t</label><input id="rOil" inputmode="decimal"></div>
+      <div><label>Vitamin kg/t</label><input id="rVit" inputmode="decimal"></div><div><label>Ohak kg/t</label><input id="rLime" inputmode="decimal"></div><div><label>Xamid kg/t</label><input id="rHamid" inputmode="decimal"></div>
+    </div></div>
+    <div class="full" id="rAll" style="display:none"><div class="rgw"><div class="rgrid"><b class="rgh">Xomashyo</b><b class="rgh">Start</b><b class="rgh">Rost</b><b class="rgh">Finish-1</b><b class="rgh">Finish-2</b><span class="rgn">Bug'doy</span><input id="ra0_0" inputmode="decimal" oninput="rAllSum()"><input id="ra1_0" inputmode="decimal" oninput="rAllSum()"><input id="ra2_0" inputmode="decimal" oninput="rAllSum()"><input id="ra3_0" inputmode="decimal" oninput="rAllSum()"><span class="rgn">Soya</span><input id="ra0_1" inputmode="decimal" oninput="rAllSum()"><input id="ra1_1" inputmode="decimal" oninput="rAllSum()"><input id="ra2_1" inputmode="decimal" oninput="rAllSum()"><input id="ra3_1" inputmode="decimal" oninput="rAllSum()"><span class="rgn">Yog'</span><input id="ra0_2" inputmode="decimal" oninput="rAllSum()"><input id="ra1_2" inputmode="decimal" oninput="rAllSum()"><input id="ra2_2" inputmode="decimal" oninput="rAllSum()"><input id="ra3_2" inputmode="decimal" oninput="rAllSum()"><span class="rgn">Vitamin</span><input id="ra0_3" inputmode="decimal" oninput="rAllSum()"><input id="ra1_3" inputmode="decimal" oninput="rAllSum()"><input id="ra2_3" inputmode="decimal" oninput="rAllSum()"><input id="ra3_3" inputmode="decimal" oninput="rAllSum()"><span class="rgn">Ohak</span><input id="ra0_4" inputmode="decimal" oninput="rAllSum()"><input id="ra1_4" inputmode="decimal" oninput="rAllSum()"><input id="ra2_4" inputmode="decimal" oninput="rAllSum()"><input id="ra3_4" inputmode="decimal" oninput="rAllSum()"><span class="rgn">Xamid</span><input id="ra0_5" inputmode="decimal" oninput="rAllSum()"><input id="ra1_5" inputmode="decimal" oninput="rAllSum()"><input id="ra2_5" inputmode="decimal" oninput="rAllSum()"><input id="ra3_5" inputmode="decimal" oninput="rAllSum()"><span class="rgn tot">Jami</span><i class="rgt" id="rat0">0</i><i class="rgt" id="rat1">0</i><i class="rgt" id="rat2">0</i><i class="rgt" id="rat3">0</i></div></div><p class="hint">Ustunni bo'sh qoldirsangiz, o'sha yem turi o'zgarmaydi.</p></div>
+    <p class="hint full" id="rInfo"></p>
+    <div class="toolbar full" id="rEditBar" style="display:none;margin-bottom:9px"><button class="ghost" onclick="recCancel()">Bekor qilish</button><button class="danger" onclick="recDelete()">O'chirish</button></div>
+    <button class="go full" id="rSaveBtn" onclick="saveRecipe()">Ratsionni saqlash</button>
+  </div>
+  <div class="section">Ratsion tarixi</div>
+  <div class="list" id="lRecipes"></div>
+  <div class="section">Yem chiqarish</div>
+  <div class="box row">
+    <div><label>Ferma partiyasi</label><select id="fBatch"></select></div><div><label>Yem turi</label><select id="fType" onchange="feedPreview()"><option>Start</option><option>Rost</option><option>Finish-1</option><option>Finish-2</option></select></div>
+    <div><label>Tonna</label><input id="fTons" inputmode="decimal" oninput="feedPreview()"></div><div><label>Usluga $/t</label><input id="fRate" inputmode="decimal" oninput="feedPreview()"></div>
+    <div class="full"><label>Fermaga sotish narxi $/t</label><input id="fSell" inputmode="decimal" oninput="feedPreview()"></div>
+    <p class="hint full" id="fPrev"></p>
+    <div><label>Zavod</label><select id="fPlant" onchange="oth('fPlant','fPlantOth')"><option>Bodomzor</option><option>Yangiyo'l</option><option>Boshqa</option></select><input id="fPlantOth" placeholder="Yozing" style="display:none;margin-top:6px"></div><div><label>Sana</label><input id="fDate" type="date"></div>
+    <button class="go full" onclick="addFeed()">Yemni chiqarish</button>
+  </div>
+  <div class="section">Ishlab chiqarish tarixi</div><div class="list" id="lFeed"></div>
+  <div class="section">Grafik</div>
+  <div class="box chbox" id="chFeed"></div>
+  <div class="section">Xomashyo prixodi</div><div class="list" id="lRawIn"></div>
+</section>
+
+<section class="page" id="p-farm">
+  <div class="section">Partiya ochish</div>
+  <div class="box row">
+    <div><label>Nomi</label><input id="bName"></div><div><label>Jo'ja soni</label><input id="bHead" inputmode="decimal"></div>
+    <div><label>Jo'ja jami narxi $</label><input id="bCost" inputmode="decimal"></div><div><label>Sana</label><input id="bDate" type="date"></div>
+    <button class="go full" onclick="addBatch()">Partiyani ochish</button>
+  </div>
+  <div class="section">Kunlik hisobot</div>
+  <div class="box">
+    <div class="row">
+      <div><label>Partiya</label><select id="fdBatch"></select></div><div><label>Sana</label><input id="fdDate" type="date"></div>
+    </div>
+    <p class="hint">Har sexga: padyoj (bosh) · yem sarfi (tonna) · oshxona zaboy (bosh). Faqat to'ldirilgan qatorlar saqlanadi.</p>
+    <div class="dgrid dhead"><span>Sex</span><span>Padyoj</span><span>Yem t</span><span>Oshxona</span></div>
+      <div class="dgrid"><b>1-sex</b><input id="fd1m" inputmode="decimal" oninput="fdSum()"><input id="fd1s" inputmode="decimal" oninput="fdSum()"><input id="fd1w" inputmode="decimal" oninput="fdSum()"></div>
+      <div class="dgrid"><b>2-sex</b><input id="fd2m" inputmode="decimal" oninput="fdSum()"><input id="fd2s" inputmode="decimal" oninput="fdSum()"><input id="fd2w" inputmode="decimal" oninput="fdSum()"></div>
+      <div class="dgrid"><b>3-sex</b><input id="fd3m" inputmode="decimal" oninput="fdSum()"><input id="fd3s" inputmode="decimal" oninput="fdSum()"><input id="fd3w" inputmode="decimal" oninput="fdSum()"></div>
+      <div class="dgrid"><b>4-sex</b><input id="fd4m" inputmode="decimal" oninput="fdSum()"><input id="fd4s" inputmode="decimal" oninput="fdSum()"><input id="fd4w" inputmode="decimal" oninput="fdSum()"></div>
+      <div class="dgrid"><b>5-sex</b><input id="fd5m" inputmode="decimal" oninput="fdSum()"><input id="fd5s" inputmode="decimal" oninput="fdSum()"><input id="fd5w" inputmode="decimal" oninput="fdSum()"></div>
+      <div class="dgrid"><b>6-sex</b><input id="fd6m" inputmode="decimal" oninput="fdSum()"><input id="fd6s" inputmode="decimal" oninput="fdSum()"><input id="fd6w" inputmode="decimal" oninput="fdSum()"></div>
+      <div class="dgrid"><b>7-sex</b><input id="fd7m" inputmode="decimal" oninput="fdSum()"><input id="fd7s" inputmode="decimal" oninput="fdSum()"><input id="fd7w" inputmode="decimal" oninput="fdSum()"></div>
+    <div class="t" style="margin:10px 2px"><b>Jami</b><i id="fdSum">0 padyoj · 0 t · 0 oshxona</i></div>
+    <div class="toolbar" style="margin-bottom:8px"><button class="ghost" onclick="clearDaily()">Tozalash</button></div>
+    <button class="go" style="width:100%" onclick="addFarmDaily()">Hisobotni saqlash</button>
+  </div>
+  <div class="section">Yem qabul</div>
+  <div class="box">
+    <div class="row">
+      <div><label>Partiya</label><select id="fiBatch" onchange="feedAvail()"></select></div><div><label>Yem turi</label><select id="fiType" onchange="feedAvail()"><option>Start</option><option>Rost</option><option>Finish-1</option><option>Finish-2</option></select></div>
+      <div><label>Kelgan jami tonna</label><input id="fiTotal" inputmode="decimal" oninput="sexSum()"></div><div><label>Qabul qilgan</label><select id="fiBy" onchange="oth('fiBy','fiByOth')"><option>Xasan</option><option>Boshqa</option></select><input id="fiByOth" placeholder="Yozing" style="display:none;margin-top:6px"></div>
+      <div><label>Sana</label><input id="fiDate" type="date"></div>
+    </div>
+    <p class="hint" id="fiAvail"></p>
+    <p class="hint">Kelgan yemni 7 sexga bo'ling. «Teng bo'lish» jami tonnani o'zi taqsimlaydi.</p>
+    <div class="row" id="sexBox">
+      <div><label>1-sex tonna</label><input id="fi1" inputmode="decimal" oninput="sexSum()"></div>
+      <div><label>2-sex tonna</label><input id="fi2" inputmode="decimal" oninput="sexSum()"></div>
+      <div><label>3-sex tonna</label><input id="fi3" inputmode="decimal" oninput="sexSum()"></div>
+      <div><label>4-sex tonna</label><input id="fi4" inputmode="decimal" oninput="sexSum()"></div>
+      <div><label>5-sex tonna</label><input id="fi5" inputmode="decimal" oninput="sexSum()"></div>
+      <div><label>6-sex tonna</label><input id="fi6" inputmode="decimal" oninput="sexSum()"></div>
+      <div><label>7-sex tonna</label><input id="fi7" inputmode="decimal" oninput="sexSum()"></div>
+    </div>
+    <div class="t" style="margin:10px 2px"><b>Taqsimlandi</b><i id="fiSum">0 t</i></div>
+    <div class="toolbar" style="margin-bottom:8px"><button class="ghost" onclick="splitEqual()">Teng bo'lish</button><button class="ghost" onclick="clearSplit()">Tozalash</button></div>
+    <button class="go" style="width:100%" onclick="addFeedIn()">7 sexga qabul qilish</button>
+  </div>
+  <div class="section">Partiya xarajati</div>
+  <div class="box">
+    <div class="seg"><button id="segOne" onclick="exMode('one')">Bittalab</button><button id="segMany" onclick="exMode('many')">Ko'p qatorli (tez)</button></div>
+    <div class="row">
+      <div><label>Partiya</label><select id="exBatch"></select></div><div><label>Sana (hammasiga)</label><input id="exDate" type="date"></div>
+      <div><label>To'lov turi</label><select id="exKind"><option>Naqd</option><option>Perechislenie</option></select></div><div><label>Valyuta</label><select id="exCur" onchange="exParse()"><option>UZS</option><option>USD</option></select></div>
+    </div>
+    <div id="exOne">
+      <div id="exRows"></div>
+      <button class="ghost" style="width:100%" onclick="addExRow()">+ Qator qo'shish</button>
+    </div>
+    <div id="exMany" style="display:none">
+      <p class="hint">Har bir qatorga bitta xarajat: <b>Nomi = Summa</b>. Masalan:<br>Sholiga hamma sexlarga = 30400000<br>Farmalin 1170 kg = 10530000<br>Xasan bolaga avans = 1000000<br>Nuqta yoki vergul bilan yozsang ham bo'ladi (30.400.000) — o'zi tozalab oladi. «=» belgisi yo'q qator o'tkazib yuboriladi. Kategoriyani nomiga qarab o'zi topadi.</p>
+      <label>Xarajatlar ro'yxati</label>
+      <textarea id="exText" oninput="exParse()" placeholder="Sholiga hamma sexlarga = 30400000&#10;Farmalin 1170 kg = 10530000&#10;Xasan bolaga avans = 1000000"></textarea>
+      <div class="list" id="exPrev" style="margin-top:10px"></div>
+    </div>
+    <div class="t" style="margin:11px 2px"><b>Jami xarajat</b><i id="exTotal">0</i></div>
+    <button class="go" style="width:100%" onclick="saveExpenses()">Hammasini saqlash</button>
+  </div>
+  <div class="section">Sex yem balansi</div><div class="list" id="lSexFeed"></div>
+  <div class="section">Partiya xarajatlari</div><div class="list" id="lExpenses"></div>
+  <div class="section">Grafik</div>
+  <div class="box chbox" id="chFarm"></div>
+  <div class="section">Ferma holati</div><div class="list" id="lFarm"></div>
+</section>
+
+<section class="page" id="p-slaughter">
+  <div class="section">Zaboy sotuv</div>
+  <div class="box row">
+    <div><label>Partiya</label><select id="zBatch"></select></div><div><label>Mijoz</label><select id="zBuyer" onchange="oth('zBuyer','zBuyerOth')"></select><input id="zBuyerOth" placeholder="Yozing" style="display:none;margin-top:6px"></div>
+    <div><label>Tonna</label><input id="zKg" inputmode="decimal" oninput="zPrev()"></div><div><label>Narx</label><input id="zPrice" inputmode="decimal" oninput="zPrev()"></div>
+    <div><label>Valyuta</label><select id="zCur" onchange="zHint()"><option>UZS</option><option>USD</option></select></div><div><label>Kurs</label><input id="zRate" inputmode="decimal" value="12100" oninput="zPrev()"></div>
+    <p class="hint full" id="zHintTxt">Narx birligi: so'm/kg</p>
+    <p class="hint full" id="zPrev"></p>
+    <div class="full"><label>Sana</label><input id="zDate" type="date"></div><button class="go full" onclick="addSlaughter()">Sotuvni saqlash</button>
+  </div>
+  <div class="section">To'lov</div>
+  <div class="box row">
+    <div><label>Mijoz</label><select id="zpBuyer" onchange="oth('zpBuyer','zpBuyerOth')"></select><input id="zpBuyerOth" placeholder="Yozing" style="display:none;margin-top:6px"></div><div><label>Summa</label><input id="zpAmt" inputmode="decimal" oninput="zpPrev()"></div>
+    <div><label>Valyuta</label><select id="zpCur" onchange="zpPrev()"><option>UZS</option><option>USD</option></select></div><div><label>Kurs</label><input id="zpRate" inputmode="decimal" value="12100" oninput="zpPrev()"></div>
+    <p class="hint full" id="zpPrevTxt"></p>
+    <div class="full"><label>Sana</label><input id="zpDate" type="date"></div><button class="go full" onclick="addSlaughterPay()">To'lovni saqlash</button>
+  </div>
+  <div class="section">Grafik</div>
+  <div class="box chbox" id="chZaboy"></div>
+  <div class="section">Hisobot</div><div class="list" id="lZaboy"></div>
+  <div class="box" id="zTot"></div>
+</section>
+
+<section class="page" id="p-audit">
+  <div class="section">Audit log</div><div class="list" id="lAudit"></div>
+</section>
+</main>
+<nav>
+<button class="on" data-p="dashboard">▦<small>Bosh</small></button><button data-p="transactions">↕<small>Pul</small></button><button data-p="wheat">🌾<small>Bug'doy</small></button><button data-p="feed">▤<small>Yem</small></button><button data-p="farm">◍<small>Ferma</small></button><button data-p="slaughter">🐔<small>Zaboy</small></button><button data-p="audit">☷<small>Audit</small></button>
+</nav>
+</div>
+<div class="sheet" id="sheet" onclick="if(event.target===this)closeSheet()"><div class="sheetbox">
+  <div class="sheethead"><span><b id="shTitle">—</b><small id="shSub"></small></span><button onclick="closeSheet()">←</button></div>
+  <div class="sheetbody"><div class="box" id="shStats"></div><div class="section" id="shGrpHead" style="margin-top:14px;display:none">Kim qancha qarzdor</div><div class="list" id="shGroups" style="display:none"></div><div class="section" id="shListHead" style="margin-top:14px">Harakatlar istoriyasi</div><div class="list" id="shList"></div></div>
+</div></div>
+<button class="fab" onclick="qOpen()">+</button>
+<div class="qsheet" id="qsheet" onclick="if(event.target===this)qClose()"><div class="qbox">
+  <h4>Tez amal</h4>
+  <div class="qgrid">
+    <button onclick="qGo('wheat',0)"><i>▣</i>Bug'doy xaridi</button>
+    <button onclick="qGo('wheat',1)"><i>⤓</i>Qabul qilish</button>
+    <button onclick="qGo('wheat',2)"><i>⇄</i>Sotuv</button>
+    <button onclick="qGo('feed',1)"><i>⬚</i>Xomashyo</button>
+    <button onclick="qGo('feed',4)"><i>▤</i>Yem chiqarish</button>
+    <button onclick="qGo('farm',1)"><i>◉</i>Kunlik hisobot</button>
+    <button onclick="qGo('farm',3)"><i>⊖</i>Rasxod</button>
+    <button onclick="qGo('slaughter',0)"><i>⚑</i>Zaboy sotuv</button>
+    <button onclick="qClose();changePin()"><i>⚿</i>PIN o'zgartirish</button>
+    <button onclick="doLogout()"><i>⏻</i>Chiqish</button>
+  </div>
+</div></div>
+<div id="login"><div class="lbox">
+  <img class="llogo" src="/icon-192.png" alt="">
+  <b>AgroOC</b>
+  <small>PIN kiriting</small>
+  <input id="pinIn" type="password" inputmode="numeric" placeholder="• • • •" onkeydown="if(event.key==='Enter')doLogin()">
+  <p class="lerr" id="pinErr"></p>
+  <button class="go" onclick="doLogin()">Kirish</button>
+</div></div>
+<div id="toast"></div>
+<script>
+const KEY='agroos_v3';const $=id=>document.getElementById(id);const N=v=>{const n=parseFloat(String(v??'').replace(/[^\d.\-]/g,''));return isNaN(n)?0:n};const today=()=>new Date().toISOString().slice(0,10);const fmt=n=>Math.round(N(n)).toLocaleString('ru-RU');const THEMES={
+ blue:["Ko'k",'#050A12','#0E1826','#3B82F6','#7ED957','#FFFFFF','#8A9BB2','#050A12'],
+ emerald:["Emerald",'#07110F','#101A17','#7ED957','#3B82F6','#FFFFFF','#95A39C','#07110F'],
+ aqua:["Aqua",'#04121A','#0D1D26','#46D3C9','#7ED957','#FFFFFF','#8CA3A8','#04121A'],
+ gold:["Gold",'#100D07','#1A1610','#E8B547','#7ED957','#FFFFFF','#A3998A','#100D07'],
+ violet:["Violet",'#0C0716','#160E24','#A78BFA','#7ED957','#FFFFFF','#968CA8','#0C0716'],
+ coral:["Coral",'#160A08','#231310','#FF7A5C','#E8B547','#FFFFFF','#A89089','#160A08'],
+ rose:["Rose",'#140810','#22101B','#FF6FA5','#7ED957','#FFFFFF','#A88C9A','#140810'],
+ steel:["Steel",'#0A0D0F','#151A1E','#C9D6E2','#7ED957','#FFFFFF','#93A0AA','#0A0D0F']};
+function hex2rgb(h){h=h.replace('#','');if(h.length===3)h=h.split('').map(c=>c+c).join('');return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)].join(',')}
+let THEME=localStorage.getItem('agroos_v3_theme')||'blue';
+const BGS={
+ dark:["To'q",'#050A12','#0E1826','#FFFFFF','#8A9BB2',0],
+ black:['Qora','#000000','#0C100E','#FFFFFF','#8E9A93',0],
+ slate:['Kulrang','#12161A','#1A2027','#F2F5F7','#93A0AA',0],
+ white:['Oq','#FFFFFF','#FFFFFF','#101828','#667085',1],
+ light:['Och','#F4F6F8','#FFFFFF','#101828','#667085',1],
+ paper:["Qog'oz",'#F7F3EA','#FFFDF8','#2A2620','#857D6E',1]};
+let BGK=localStorage.getItem('agroos_v3_bg')||'dark';
+function applyLook(){document.body.classList.toggle('lightbar',true);const t=THEMES[THEME]||THEMES.blue,g=BGS[BGK]||BGS.dark;
+ const a=t[3],a2=t[4],R=hex2rgb(a),r=document.documentElement.style;
+ const [,bg,pn,ink,mut,isLight]=g;
+ r.setProperty('--bg',bg);r.setProperty('--pn',pn);r.setProperty('--pn2',isLight?'rgba('+R+',.10)':'rgba('+R+',.08)');
+ r.setProperty('--a',a);r.setProperty('--a2',a2);r.setProperty('--ink',ink);r.setProperty('--ink2',ink);r.setProperty('--mut',mut);
+ const L=(function(){const [rr,gg,bb]=R.split(',').map(Number);const f=v=>{v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)};return .2126*f(rr)+.7152*f(gg)+.0722*f(bb)})();
+ r.setProperty('--btn',L>0.42?'#0B1410':'#FFFFFF');
+ const dk=(function(){const [rr,gg,bb]=R.split(',').map(Number);const m=v=>Math.round(v*0.52);return 'rgb('+m(rr)+','+m(gg)+','+m(bb)+')'})();
+ r.setProperty('--at',isLight?dk:a);r.setProperty('--accrgb',R);
+ r.setProperty('--line',isLight?'#E4E8EC':'rgba('+R+',.14)');r.setProperty('--sep',isLight?'#EEF1F4':'rgba('+R+',.10)');
+ r.setProperty('--sh',isLight?'0 2px 10px rgba(16,24,40,.06)':'0 8px 24px rgba(0,0,0,.45)');
+ r.setProperty('--fld',isLight?'#F6F8FA':'rgba(0,0,0,.30)');
+ document.body.classList.toggle('light',!!isLight);
+ PAL[0]=a;PAL[1]=a2;
+ document.querySelectorAll('#palRow button').forEach(b=>b.classList.toggle('on',b.dataset.k===THEME));
+ document.querySelectorAll('#bgRow button').forEach(b=>b.classList.toggle('on',b.dataset.k===BGK));
+ if(typeof render==='function')render();if(SHEET)openSheet(SHEET)}
+function applyTheme(k){THEME=k;localStorage.setItem('agroos_v3_theme',k);applyLook()}
+function setBG(k){BGK=k;localStorage.setItem('agroos_v3_bg',k);applyLook();toast('Fon: '+(BGS[k]||BGS.dark)[0],1800)}
+function buildPal(){const el=$('palRow');if(el&&!el.dataset.b){el.dataset.b='1';
+ el.innerHTML=Object.entries(THEMES).map(([k,t])=>`<button data-k="${k}" title="${t[0]}" onclick="applyTheme('${k}')" style="background:linear-gradient(135deg,${t[3]},${t[4]})"></button>`).join('')}
+ const bg=$('bgRow');if(bg&&!bg.dataset.b){bg.dataset.b='1';
+ bg.innerHTML=Object.entries(BGS).map(([k,t])=>`<button data-k="${k}" title="${t[0]}" onclick="setBG('${k}')" style="background:${t[1]};box-shadow:0 0 0 1px ${t[5]?'#d5dade':'rgba(255,255,255,.22)'}"></button>`).join('')}}
+const CUR='USD';let KURS=(parseFloat(localStorage.getItem('agroos_v3_kurs'))||12100);const money=n=>{const neg=N(n)<0?'\u2212':'';if(CUR!=='USD')return neg+fmt(Math.abs(N(n)))+" so'm";const v=Math.abs(N(n))/KURS;return neg+'$'+(v!==0&&v<100?v.toFixed(2):fmt(v))};const perKgS=v=>CUR==='USD'?'$'+(N(v)/KURS).toFixed(2)+'/kg':fmt(v)+" so'm/kg";const buyPrice=x=>x.cur==='USD'?'$'+fmt(x.price)+'/t':perKg(x.price);const perKg=v=>CUR==='USD'?'$'+fmt(N(v)*1000/KURS)+'/t':fmt(v)+" so'm/kg";const tn=n=>N(n).toLocaleString('ru-RU',{maximumFractionDigits:3});const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);const esc=s=>String(s??'').replace(/[<>&"]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
+const blank=()=>({cash:[],wheatPurchases:[],wheatShipments:[],wheatReceipts:[],sales:[],payments:[],recipes:[],wheatCosts:[],rawPurchases:[],feedProduction:[],farmBatches:[],farmDaily:[],feedIn:[],expenses:[],slaughter:[],slaughterPayments:[],audit:[]});let DB=blank();
+
+function seed(){
+  const R=(type,from,...kv)=>({id:uid(),type,from,items:["Bug'doy",'Soya',"Yog'",'Vitamin','Ohak','Xamid'].map((n,i)=>({name:n,kgPerTon:kv[i]})).filter(x=>x.kgPerTon>0),savedAt:from+'T09:00:00'});
+  DB.recipes=[
+    R('Start','2026-06-01',307,159.5,8.5,15,7.5,12.5),
+    R('Start','2026-07-10',312,155,9,15,7.5,12.5),
+    R('Rost','2026-06-01',341.5,128,8.5,12.5,7,17.5),
+    R('Finish-1','2026-06-01',370,102,8.5,12.5,4.5,22.5),
+    R('Finish-2','2026-06-01',397,78,8.5,12.5,4,25)
+  ];
+
+  DB.cash=[
+    {id:uid(),from:'Investor',to:'Kassa',amount:70000,cur:'USD',rate:12750,category:'Investor kiritdi',date:'2026-06-01',note:"Mavsum uchun asosiy investitsiya"},
+    {id:uid(),from:'Kassa',to:'Bobur',amount:700000000,cur:'UZS',rate:12750,category:'Bobur avans',date:'2026-06-02',note:"Qozog'iston xaridi uchun avans"},
+    {id:uid(),from:'Kassa',to:'Xasan Toshpolatov',amount:150000000,cur:'UZS',rate:12750,category:'Ferma avans',date:'2026-06-05',note:'Ferma naqd harajatlari uchun'},
+    {id:uid(),from:'Kassa',to:'Xasan Toshpolatov',amount:25000000,cur:'UZS',rate:12800,category:'Harajat',date:'2026-06-10',note:"Elektr va dori-darmon"},
+    {id:uid(),from:'Kassa',to:'Bobur',amount:550000000,cur:'UZS',rate:12800,category:'Bobur avans',date:'2026-07-01',note:'Qoshimcha avans'},
+    {id:uid(),from:'Kassa',to:'Investor',amount:12000,cur:'USD',rate:12900,category:'Investor yechdi',date:'2026-07-20',note:'Foyda ulushi'}
+  ];
+
+  DB.wheatPurchases=[
+    {id:uid(),tons:140,price:253,cur:'USD',rate:12750,buyer:'Bobur',date:'2026-06-02',sort:'3-klass'},
+    {id:uid(),tons:130,price:256,cur:'USD',rate:12770,buyer:'Bobur',date:'2026-06-20',sort:'3-klass'},
+    {id:uid(),tons:90,price:266,cur:'USD',rate:12820,buyer:'Bobur',date:'2026-07-05',sort:'2-klass'}
+  ];
+
+  DB.wheatShipments=[
+    {id:uid(),partiya:'2026-001',tons:130,transport:"2 vagon № 54127, 54128",wagons:[{no:'54127',tons:65},{no:'54128',tons:65}],date:'2026-06-05'},
+    {id:uid(),partiya:'2026-002',tons:140,transport:"2 vagon № 54210, 54211",wagons:[{no:'54210',tons:70},{no:'54211',tons:70}],date:'2026-06-22'},
+    {id:uid(),partiya:'2026-003',tons:64,transport:"3 vagon № 54330, 54331, 54332",wagons:[{no:'54330',tons:22},{no:'54331',tons:21},{no:'54332',tons:21}],date:'2026-07-26'}
+  ];
+
+  DB.wheatReceipts=[
+    {id:uid(),partiya:'2026-001',tons:128,cost:3350,by:'Zuhriddin',date:'2026-06-10',hum:13.5,glu:24},
+    {id:uid(),partiya:'2026-002',tons:139,cost:3400,by:'Zuhriddin',date:'2026-06-27',hum:14,glu:25}
+  ];
+
+  DB.sales=[
+    {id:uid(),partiya:'2026-001',tons:80,price:4100,customer:'Mr Fazliddin',payType:'Nasiya',date:'2026-06-15'},
+    {id:uid(),partiya:'2026-001',tons:48,price:4150,customer:'Jasur',payType:'Naqd',date:'2026-06-20'},
+    {id:uid(),partiya:'2026-002',tons:60,price:4200,customer:'Dilshot',payType:'Perechislenie',date:'2026-07-02'}
+  ];
+
+  DB.payments=[
+    {id:uid(),customer:'Mr Fazliddin',amount:200000000,cur:'UZS',rate:12900,date:'2026-07-10'}
+  ];
+
+  DB.farmBatches=[
+    {id:uid(),name:'36-partiya',head:42000,chickCost:130000000,date:'2026-06-01'}
+  ];
+
+  DB.wheatCosts=[
+    {id:uid(),partiya:'2026-001',category:'Transport',amount:2800,cur:'USD',rate:12100,to:'Temir yo\'l',date:'2026-06-10'},
+    {id:uid(),partiya:'2026-001',category:'Rastamojka (bojxona)',amount:1150,cur:'USD',rate:12100,to:'Bojxona',date:'2026-06-11'},
+    {id:uid(),partiya:'2026-002',category:'Transport',amount:3050,cur:'USD',rate:12100,to:'Temir yo\'l',date:'2026-06-27'},
+    {id:uid(),partiya:'2026-002',category:'Yuklash / tushirish',amount:9500000,cur:'UZS',rate:12100,to:'Brigada',date:'2026-06-28'},
+    {id:uid(),partiya:'2026-002',category:'Soliq / nalog',amount:1420,cur:'USD',rate:12100,to:'Soliq inspeksiyasi',date:'2026-06-29'},
+    {id:uid(),partiya:'2026-001',category:'Sertifikat',amount:260,cur:'USD',rate:12100,to:'Standart markazi',date:'2026-06-12'}
+  ];
+
+  DB.rawPurchases=[
+    {id:uid(),name:"Bug'doy",tons:15,cost:3400,from:'Toshkent baza',date:'2026-06-15'},
+    {id:uid(),name:'Soya',tons:6,cost:9500,from:'Sirdaryo yog\' zavodi',date:'2026-06-15'},
+    {id:uid(),name:"Yog'",tons:0.5,cost:14000,from:'Sirdaryo yog\' zavodi',date:'2026-06-15'},
+    {id:uid(),name:'Vitamin',tons:0.8,cost:22000,from:'Vetpreparat',date:'2026-06-16'},
+    {id:uid(),name:'Ohak',tons:1,cost:1200,from:'Mahalliy',date:'2026-06-16'},
+    {id:uid(),name:'Xamid',tons:1.2,cost:6500,from:'Vetpreparat',date:'2026-06-16'}
+  ];
+
+  const snap=(type,tons,d)=>{const r=recipeFor(type,d);return r?r.items.map(i=>({name:i.name,t:N(i.kgPerTon)*tons/1000})):[]};
+  DB.feedProduction=[
+    {id:uid(),batch:'36-partiya',type:'Start',tons:8,rate:500,sellPrice:3958,rawCost:24786400,plant:'Bodomzor',date:'2026-06-20',snapshot:snap('Start',8,'2026-06-20')},
+    {id:uid(),batch:'36-partiya',type:"Rost",tons:12,rate:480,sellPrice:3710,rawCost:34719000,plant:'Bodomzor',date:'2026-07-05',snapshot:snap("Rost",12,'2026-07-05')},
+    {id:uid(),batch:'36-partiya',type:'Finish-1',tons:10,rate:460,sellPrice:3556,rawCost:27726500,plant:"Yangiyo'l",date:'2026-07-20',snapshot:snap('Finish-1',10,'2026-07-20')}
+  ];
+
+  DB.feedIn=[
+    {id:uid(),batch:'36-partiya',type:'Start',cex:'1-sex',tons:2,by:'Xasan Mahmudov',date:'2026-06-21'},
+    {id:uid(),batch:'36-partiya',type:'Start',cex:'2-sex',tons:2,by:'Xasan Mahmudov',date:'2026-06-21'},
+    {id:uid(),batch:'36-partiya',type:'Start',cex:'3-sex',tons:2,by:'Mahmud Rayimkulov',date:'2026-06-21'},
+    {id:uid(),batch:'36-partiya',type:'Start',cex:'4-sex',tons:2,by:'Mahmud Rayimkulov',date:'2026-06-21'},
+    {id:uid(),batch:'36-partiya',type:"Rost",cex:'1-sex',tons:3,by:'Xasan Mahmudov',date:'2026-07-06'},
+    {id:uid(),batch:'36-partiya',type:"Rost",cex:'2-sex',tons:3,by:'Xasan Mahmudov',date:'2026-07-06'},
+    {id:uid(),batch:'36-partiya',type:"Rost",cex:'3-sex',tons:3,by:'Mahmud Rayimkulov',date:'2026-07-06'},
+    {id:uid(),batch:'36-partiya',type:"Rost",cex:'4-sex',tons:3,by:'Mahmud Rayimkulov',date:'2026-07-06'},
+    {id:uid(),batch:'36-partiya',type:'Finish-1',cex:'1-sex',tons:2.52,by:'Xasan Mahmudov',date:'2026-07-21'},
+    {id:uid(),batch:'36-partiya',type:'Finish-1',cex:'2-sex',tons:2.48,by:'Xasan Mahmudov',date:'2026-07-21'},
+    {id:uid(),batch:'36-partiya',type:'Finish-1',cex:'3-sex',tons:2.52,by:'Mahmud Rayimkulov',date:'2026-07-21'},
+    {id:uid(),batch:'36-partiya',type:'Finish-1',cex:'4-sex',tons:2.48,by:'Mahmud Rayimkulov',date:'2026-07-21'}
+  ];
+
+  DB.farmDaily=[
+    {id:uid(),batch:'36-partiya',cex:'1-sex',mort:12,tons:1.2,kitchen:2,date:'2026-06-25'},
+    {id:uid(),batch:'36-partiya',cex:'2-sex',mort:15,tons:1.28,kitchen:3,date:'2026-06-25'},
+    {id:uid(),batch:'36-partiya',cex:'1-sex',mort:8,tons:1.8,kitchen:4,date:'2026-07-15'},
+    {id:uid(),batch:'36-partiya',cex:'2-sex',mort:10,tons:1.92,kitchen:3,date:'2026-07-15'},
+    {id:uid(),batch:'36-partiya',cex:'3-sex',mort:9,tons:1.76,kitchen:2,date:'2026-07-15'},
+    {id:uid(),batch:'36-partiya',cex:'1-sex',mort:5,tons:2,kitchen:5,date:'2026-07-28'},
+    {id:uid(),batch:'36-partiya',cex:'2-sex',mort:6,tons:2.08,kitchen:4,date:'2026-07-28'}
+  ];
+
+  DB.expenses=[
+    {id:uid(),batch:'36-partiya',category:'Dori-darmon',amount:8000000,kind:'Naqd',to:'Xasan Toshpolatov',date:'2026-06-15',note:'Vitamin va vaksina'},
+    {id:uid(),batch:'36-partiya',category:'Elektr',amount:4500000,kind:'Perechislenie',to:'Elektr tarmoq',date:'2026-07-01',note:''},
+    {id:uid(),batch:'36-partiya',category:'Ish haqi',amount:12000000,kind:'Naqd',to:'Ferma ishchilari',date:'2026-07-15',note:''},
+    {id:uid(),batch:'36-partiya',category:'Transport',amount:3000000,kind:'Naqd',to:'Xasan Toshpolatov',date:'2026-07-20',note:'Yem tashish'}
+  ];
+
+  DB.slaughter=[
+    {id:uid(),batch:'36-partiya',buyer:'Jasur',tons:6,price:18000,date:'2026-07-29'},
+    {id:uid(),batch:'36-partiya',buyer:'Dilshot',tons:3,price:18000,date:'2026-07-29'},
+    {id:uid(),batch:'36-partiya',buyer:'Jasur',tons:2.5,price:18500,date:'2026-07-30'}
+  ];
+
+  DB.slaughterPayments=[
+    {id:uid(),buyer:'Jasur',amount:100000000,date:'2026-07-30'}
+  ];
+
+  DB.audit=[
+    {id:uid(),date:'2026-06-01T09:00:00',action:'Investor pul kiritdi',ref:'$70 000'},
+    {id:uid(),date:'2026-06-02T10:00:00',action:"Bug'doy xaridi",ref:'140 t'},
+    {id:uid(),date:'2026-06-05T11:00:00',action:"Partiya yo'lga chiqdi",ref:'2026-001'},
+    {id:uid(),date:'2026-06-10T14:00:00',action:'Partiya qabul qilindi',ref:'2026-001'},
+    {id:uid(),date:'2026-06-15T12:00:00',action:"Bug'doy sotildi",ref:'Dilshot · 80 t'},
+    {id:uid(),date:'2026-06-21T09:30:00',action:'Yem sexga qabul qilindi',ref:'1-sex · 2 t'},
+    {id:uid(),date:'2026-07-15T10:00:00',action:'Partiya xarajati',ref:'Ish haqi'},
+    {id:uid(),date:'2026-07-29T16:00:00',action:'Zaboy sotuv',ref:'Jasur · 6 000 kg'}
+  ];
+}
+
+let REV=0,SAVING=false,DIRTY=false,LASTWHO='';
+function mergeDoc(srv,loc){const out={},keys=new Set([...Object.keys(srv||{}),...Object.keys(loc||{})]);
+ keys.forEach(k=>{const a=srv[k],b=loc[k];
+  if(Array.isArray(a)&&Array.isArray(b)){const seen=new Set(a.filter(x=>x&&x.id).map(x=>x.id));
+   out[k]=a.concat(b.filter(x=>x&&x.id&&!seen.has(x.id)))}
+  else out[k]=(a!==undefined?a:b)});
+ return out}
+function setSync(t,cls){const e=document.getElementById('syncPill');if(e){e.textContent=t;e.className='syncpill '+(cls||'')}}
+function save(){DIRTY=true;localStorage.setItem(KEY,JSON.stringify(DB));pushSoon()}
+let pushT=null;
+function pushSoon(){clearTimeout(pushT);pushT=setTimeout(pushNow,600)}
+async function pushNow(){if(SAVING||!DIRTY)return;SAVING=true;setSync('Saqlanmoqda…','wait');
+ const snap=JSON.stringify(DB);
+ try{const r=await fetch('/api/data',{method:'POST',headers:{'Content-Type':'application/json'},
+   body:JSON.stringify({doc:JSON.parse(snap),rev:REV})});
+  const j=await r.json();
+  if(r.status===401){setSync('Kirish kerak','bad');location.reload();return}
+  if(r.status===409){const mine=JSON.parse(snap);
+   DB=Object.assign(blank(),mergeDoc(j.doc||{},mine));migrate();REV=j.rev;DIRTY=true;render();
+   setSync('Birlashtirildi \u2014 saqlanmoqda','wait');
+   toast((j.who||'Boshqa foydalanuvchi')+' ham yozdi \u2014 ikkalasi ham saqlandi',3800);
+   setTimeout(pushNow,150);return}
+  if(j.ok){REV=j.rev;DIRTY=false;setSync('Saqlandi','ok')}
+ }catch(e){setSync('Ulanish yo\u2018q \u2014 keyin saqlanadi','bad')}
+ finally{SAVING=false;if(DIRTY)pushSoon()}}
+async function pullNow(force){try{const r=await fetch('/api/rev');if(!r.ok)return;const j=await r.json();
+ if(j.rev===REV&&!force)return;
+ const d=await (await fetch('/api/data')).json();if(!d.ok)return;
+ if(DIRTY&&!force)return;
+ REV=d.rev;DB=Object.assign(blank(),d.doc);migrate();render();
+ if(d.who&&d.who!==ME.name){setSync(d.who+' yangiladi','ok');toast(d.who+' ma\u2019lumot kiritdi',2600)}
+}catch(e){}}
+setInterval(()=>{if(!document.hidden)pullNow()},12000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)pullNow()});function load(){try{DB=Object.assign(blank(),JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){DB=blank()}migrate()}
+let ME={name:'',role:'',login:''};
+async function bootServer(){
+ try{const r=await fetch('/api/me');if(!r.ok){showLogin();return false}
+  const j=await r.json();ME=j;
+  const d=await (await fetch('/api/data')).json();
+  REV=d.rev;const empty=!d.doc||Object.values(d.doc).every(a=>!a||!a.length);
+  DB=empty?blank():Object.assign(blank(),d.doc);migrate();
+  document.getElementById('login').style.display='none';
+  const av=document.querySelector('.ibtn.ava');if(av)av.textContent=(ME.name||'A').slice(0,1).toUpperCase();
+  const gr=document.querySelector('.greet b');if(gr)gr.innerHTML=esc(ME.name||'')+'<em>\ud83c\udf31</em>';
+  setSync('Saqlandi','ok');return true}
+ catch(e){showLogin();return false}}
+function showLogin(){document.getElementById('login').style.display='flex';setTimeout(()=>document.getElementById('pinIn').focus(),200)}
+async function doLogin(){const pin=document.getElementById('pinIn').value.trim();const er=document.getElementById('pinErr');
+ er.textContent='';if(pin.length<4){er.textContent='PIN kamida 4 raqam';return}
+ const r=await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pin})});
+ const j=await r.json();
+ if(!j.ok){er.textContent=j.error||'PIN noto\u2018g\u2018ri';document.getElementById('pinIn').value='';return}
+ location.reload()}
+async function doLogout(){await fetch('/api/logout',{method:'POST'});location.reload()}
+async function changePin(){const p=prompt('Yangi PIN (kamida 4 raqam):');if(!p)return;
+ const r=await fetch('/api/pin',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pin:p.trim()})});
+ const j=await r.json();toast(j.ok?'PIN yangilandi':(j.error||'Xato'),3000)}
+function migrate(){
+ if((DB.recipes||[]).some(r=>r.name!==undefined&&!r.items)){const m={};DB.recipes.forEach(r=>{if(!r.type)return;(m[r.type]=m[r.type]||[]).push({name:r.name,kgPerTon:N(r.kgPerTon)})});
+  DB.recipes=Object.entries(m).map(([type,items])=>({id:uid(),type,from:'',items,savedAt:new Date().toISOString()}))}
+ (DB.wheatShipments||[]).forEach(sh=>{const w=sh.wagons||[];if(w.length&&typeof w[0]==='string'){const per=N(sh.tons)/w.length;sh.wagons=w.map(no=>({no:String(no),tons:Math.round(per*1000)/1000}))}});
+ if(DB.wheatCosts==null)DB.wheatCosts=[];
+ (DB.wheatReceipts||[]).forEach(r=>{if(r.wagons==null){const sh=(DB.wheatShipments||[]).find(x=>x.partiya===r.partiya);r.wagons=((sh&&sh.wagons)||[]).map(w=>({no:String(w.no||w),tons:N(w.tons),short:0}))}});
+ (DB.feedProduction||[]).forEach(f=>{if(!f.recipeId){const r=recipeFor(f.type,f.date);if(r){f.recipeId=r.id;f.recipeFrom=r.from||''}}});
+
+ (DB.feedIn||[]).forEach(x=>{if(x.tons==null){x.tons=N(x.sacks)*(N(x.bagKg)||40)/1000;delete x.sacks;delete x.bagKg}});
+ (DB.farmDaily||[]).forEach(x=>{if(x.tons==null&&x.sacks!=null){x.tons=N(x.sacks)*40/1000;delete x.sacks}});
+ (DB.rawPurchases||[]).forEach(x=>{if(x.tons==null&&x.kg!=null){x.tons=N(x.kg)/1000;delete x.kg}});
+ (DB.slaughter||[]).forEach(x=>{if(x.tons==null&&x.kg!=null){x.tons=N(x.kg)/1000;delete x.kg}});
+ (DB.feedProduction||[]).forEach(f=>(f.snapshot||[]).forEach(i=>{if(i.t==null&&i.kg!=null){i.t=N(i.kg)/1000;delete i.kg}}));
+const OLD="O\u2019sish",OLD2="O'sish";['recipes','feedProduction','feedIn'].forEach(k=>(DB[k]||[]).forEach(x=>{if(x.type===OLD||x.type===OLD2)x.type='Rost'}))}let TOASTT=null;function toast(t,ms){$('toast').textContent=t;$('toast').classList.add('on');clearTimeout(TOASTT);TOASTT=setTimeout(()=>$('toast').classList.remove('on'),ms||1800)}function audit(action,ref='',coll='',ids=null){const L=coll&&DB[coll]&&DB[coll].length?DB[coll][DB[coll].length-1].id:'';DB.audit.push({id:uid(),date:new Date().toISOString(),action,ref,coll,ids:ids||(L?[L]:[])})}
+const ING=["Bug'doy",'Soya',"Yog'",'Vitamin','Ohak','Xamid'];
+function rawAgg(){const m={};const add=(n)=>m[n]=m[n]||{in:0,out:0,val:0};
+ DB.rawPurchases.forEach(x=>{add(x.name);m[x.name].in+=N(x.tons);m[x.name].val+=N(x.tons)*1000*N(x.cost)});
+ DB.feedProduction.forEach(f=>(f.snapshot||[]).forEach(i=>{add(i.name);m[i.name].out+=N(i.t)}));
+ ING.forEach(add);
+ Object.entries(m).forEach(([k,v])=>{v.left=v.in-v.out;v.avg=v.in?v.val/(v.in*1000):0;v.leftVal=v.left*1000*v.avg});
+ return m}
+const RING=[["Bug'doy",'rWheat'],['Soya','rSoya'],["Yog'",'rOil'],['Vitamin','rVit'],['Ohak','rLime'],['Xamid','rHamid']];
+function recVersions(type){return DB.recipes.filter(r=>!type||r.type===type).sort((a,b)=>String(a.from||'').localeCompare(String(b.from||'')))}
+function recipeFor(type,date){const all=recVersions(type);if(!all.length)return null;const d=String(date||today());
+ const ok=all.filter(r=>(!r.from||String(r.from)<=d)&&(!r.to||d<=String(r.to)));
+ return ok.length?ok[ok.length-1]:null}
+function dayBefore(d){const t=Date.parse(d);return t?new Date(t-864e5).toISOString().slice(0,10):''}
+function recPeriod(r){if(r.to)return{from:r.from||'boshidan',to:r.to};
+ const all=recVersions(r.type).filter(x=>!x.to||x.id===r.id),i=all.findIndex(x=>x.id===r.id),nx=all[i+1];
+ return{from:r.from||'boshidan',to:nx?dayBefore(nx.from):'hozirgacha'}}
+function recText(r){return (r.items||[]).map(i=>esc(i.name)+' '+tn(i.kgPerTon)).join(' \u00b7 ')+' kg/t'}
+let REDIT=null,RMODE='one';
+const FTYPES=["Start", "Rost", "Finish-1", "Finish-2"];
+function rCell(ti,gi){return $('ra'+ti+'_'+gi)}
+function rAllSum(){FTYPES.forEach((t,ti)=>{let s=0;for(let g=0;g<RING.length;g++)s+=N(rCell(ti,g).value);$('rat'+ti).textContent=s?tn(s):'0'})}
+function rMode(m){if(REDIT&&m==='all')return toast('Tahrirlash rejimida bitta tur o\'zgartiriladi');
+ RMODE=m;$('rSegOne').classList.toggle('on',m==='one');$('rSegAll').classList.toggle('on',m==='all');
+ $('rOne').style.display=m==='one'?'block':'none';$('rAll').style.display=m==='all'?'block':'none';recLoad();
+}
+function rAllLoad(){const from=$('rFrom').value||today();
+ FTYPES.forEach((t,ti)=>{const r=recipeFor(t,from);RING.forEach(([nm],gi)=>{const it=r&&(r.items||[]).find(x=>x.name===nm);rCell(ti,gi).value=it?it.kgPerTon:''})});rAllSum()}
+function saveAllRecipes(){const from=$('rFrom').value||today(),to=$('rTo').value||'';
+ if(to&&to<from)return toast('Tugash sanasi boshlanish sanasidan oldin bo\'lmaydi');
+ const done=[];
+ FTYPES.forEach((type,ti)=>{const items=RING.map(([nm],gi)=>({name:nm,kgPerTon:N(rCell(ti,gi).value)})).filter(x=>x.kgPerTon>0);
+  if(!items.length)return;
+  const ex=DB.recipes.find(r=>r.type===type&&(r.from||'')===from);
+  if(ex){ex.items=items;ex.to=to;ex.savedAt=new Date().toISOString()}
+  else DB.recipes.push({id:uid(),type,from,to,items,savedAt:new Date().toISOString()});
+  done.push(type)});
+ if(!done.length)return toast('Kamida bitta ustunni to\'ldiring');
+ audit('Ratsion saqlandi',done.join(', ')+' \u00b7 '+from+(to?' \u2014 '+to:' dan'),'recipes');
+ save();render();recLoad();toast(done.length+' ta ratsion saqlandi: '+done.join(', '),3500)}
+function recSetEdit(on){$('rEditBar').style.display=on?'grid':'none';$('rSegAll').style.opacity=on?'.45':'1';$('rSaveBtn').textContent=on?"O'zgarishni saqlash":'Ratsionni saqlash'}
+function recCancel(){REDIT=null;$('rTo').value='';recSetEdit(false);recLoad();toast('Bekor qilindi')}
+function recEdit(id){const r=DB.recipes.find(x=>x.id===id);if(!r)return;REDIT=id;closeSheet();RMODE='one';$('rSegOne').classList.add('on');$('rSegAll').classList.remove('on');$('rOne').style.display='block';$('rAll').style.display='none';
+ $('rType').value=r.type;$('rFrom').value=r.from||'';$('rTo').value=r.to||'';
+ RING.forEach(([name,i])=>{const it=(r.items||[]).find(x=>x.name===name);$(i).value=it?it.kgPerTon:''});
+ recSetEdit(true);recLoad();
+ paneByTitle('p-feed',/^Ratsion(\s|$)/);
+ setTimeout(()=>$('rFrom').scrollIntoView({behavior:'smooth',block:'center'}),90)}
+function recDelete(){if(!REDIT)return;const r=DB.recipes.find(x=>x.id===REDIT);if(!r)return;
+ const used=DB.feedProduction.filter(f=>f.recipeId===REDIT).length;
+ if(used)return toast('Bu ratsion bo\'yicha '+used+' ta yem chiqarilgan \u2014 o\'chirib bo\'lmaydi',4000);
+ DB.recipes=DB.recipes.filter(x=>x.id!==REDIT);audit('Ratsion o\'chirildi',r.type+' \u00b7 '+(r.from||''),'recipes');
+ REDIT=null;recSetEdit(false);save();render();recLoad();toast('Ratsion o\'chirildi')}
+function recLoad(){const type=$('rType').value,from=$('rFrom').value||today(),to=$('rTo').value,el=$('rInfo');
+ if(RMODE==='all'&&!REDIT){rAllLoad();if(el)el.innerHTML=`<b>${esc(from)}</b>${to?' \u2014 <b>'+esc(to)+'</b>':' dan'} \u2014 to'ldirilgan ustunlar shu davr bilan saqlanadi.`;return}
+ if(REDIT){const r=DB.recipes.find(x=>x.id===REDIT);
+  if(el)el.innerHTML=r?`<b>Tahrirlash</b> \u2014 ${esc(r.type)} \u00b7 amaldagi davri <b>${esc(recPeriod(r).from)} \u2014 ${esc(recPeriod(r).to)}</b>. Sanani va miqdorlarni o'zgartiring.`:'';
+  return}
+ const cur=recipeFor(type,from);
+ const ex=DB.recipes.find(r=>r.type===type&&(r.from||'')===from),src=ex||cur;
+ RING.forEach(([name,id])=>{const it=src&&(src.items||[]).find(x=>x.name===name);$(id).value=it?it.kgPerTon:''});
+ if(!el)return;
+ if(ex)el.innerHTML=`<b>${esc(from)}</b> sanasi uchun ratsion bor \u2014 saqlasangiz ustiga yoziladi.`;
+ else if(cur){const pr=recPeriod(cur);el.innerHTML=`Hozir amalda: <b>${esc(pr.from)} \u2014 ${esc(pr.to)}</b>. Yangi sana bilan saqlasangiz, eskisi shu kunda tugaydi.`}
+ else el.innerHTML="Bu yem turiga hali ratsion yo'q.";
+ if(to)el.innerHTML+=`<br>Yangi ratsion <b>${esc(from)} \u2014 ${esc(to)}</b> oralig'ida amal qiladi.`}
+function feedCost(x){return N(x.rawCost)+N(x.tons)*1000*N(x.rate)}
+function feedSale(x){return N(x.sellPrice)>0?N(x.tons)*1000*N(x.sellPrice):feedCost(x)}
+function rawCostOf(snapshot){const m=rawAgg();return (snapshot||[]).reduce((a,i)=>a+N(i.t)*1000*(m[i.name]?.avg||0),0)}
+function saleCost(x){return N(x.tons)*1000*partCost(x.partiya)}
+function isCredit(x){return x.payType==='Nasiya'}
+function saleSom(x){return x.cur==='USD'?N(x.price)*N(x.rate)/1000:N(x.price)}function saleP(x){return x.cur==='USD'?'$'+fmt(x.price)+'/t':fmt(x.price)+" so'm/kg"}function both(n){return money(n)+' \u00b7 '+fmt(Math.round(N(n)))+" so'm"}
+function slSom(x){return x.cur==='USD'?N(x.price)*N(x.rate):N(x.price)}function slP(x){return x.cur==='USD'?'$'+N(x.price).toFixed(2)+'/kg':fmt(x.price)+" so'm/kg"}function cashSom(x){return x.cur==='USD'?N(x.amount)*N(x.rate):N(x.amount)}function purchaseSom(x){return x.cur==='USD'?N(x.price)*N(x.rate)/1000:N(x.price)}
+function calc(){const invIn=DB.cash.filter(x=>x.category==='Investor kiritdi').reduce((s,x)=>s+cashSom(x),0);const invOut=DB.cash.filter(x=>x.category==='Investor yechdi').reduce((s,x)=>s+cashSom(x),0);const bobSent=DB.cash.filter(x=>x.category==='Bobur avans').reduce((s,x)=>s+cashSom(x),0);const buyValue=DB.wheatPurchases.reduce((s,x)=>s+N(x.tons)*1000*purchaseSom(x),0);const bought=DB.wheatPurchases.reduce((s,x)=>s+N(x.tons),0);const shipped=DB.wheatShipments.reduce((s,x)=>s+N(x.tons),0);const received=DB.wheatReceipts.reduce((s,x)=>s+N(x.tons),0);const sold=DB.sales.reduce((s,x)=>s+N(x.tons),0);const salesValue=DB.sales.reduce((s,x)=>s+N(x.tons)*1000*saleSom(x),0);const payValue=DB.payments.reduce((s,x)=>s+cashSom(x),0);const creditValue=DB.sales.filter(isCredit).reduce((s,x)=>s+N(x.tons)*1000*saleSom(x),0);const debt=Math.max(0,creditValue-payValue);let costSold=0;DB.sales.forEach(s=>{const r=DB.wheatReceipts.find(x=>x.partiya===s.partiya);costSold+=N(s.tons)*1000*N(r?.cost||0)});const mort=DB.farmDaily.reduce((s,x)=>s+N(x.mort),0);const kitchen=DB.farmDaily.reduce((s,x)=>s+N(x.kitchen),0);const heads=DB.farmBatches.reduce((s,x)=>s+N(x.head),0);const farmExpenses=DB.expenses.reduce((s,x)=>s+N(x.amount),0);const feedReceived=DB.feedIn.reduce((s,x)=>s+N(x.tons),0);const zRev=DB.slaughter.reduce((s,x)=>s+N(x.tons)*1000*slSom(x),0);const zPaid=DB.slaughterPayments.reduce((s,x)=>s+N(x.amount),0);return{inv:invIn-invOut,bob:bobSent-buyValue,qStock:bought-shipped,road:DB.wheatShipments.reduce((a,sh)=>a+pendTons(sh),0),tStock:received-sold,debt,salesValue,profit:salesValue-costSold,alive:Math.max(0,heads-mort-kitchen),mort,kitchen,feed:DB.feedProduction.reduce((s,x)=>s+N(x.tons),0),feedReceived,farmExpenses,zDebt:Math.max(0,zRev-zPaid),zRev,zPaid,costSold,creditValue,payValue}}
+const HIST={
+ inv:()=>({title:"Mister X qoldig'i",sub:'Tikilgan va yechilgan pul',unit:'som',rows:DB.cash.filter(x=>x.category==='Investor kiritdi'||x.category==='Investor yechdi').map(x=>({date:x.date,text:(x.category==='Investor kiritdi'?'Tikdi':'Yechdi')+(x.cur==='USD'?' \u00b7 $'+fmt(x.amount)+' kurs '+fmt(x.rate):'')+(x.note?' \u00b7 '+x.note:''),d:cashSom(x)*(x.category==='Investor kiritdi'?1:-1)}))}),
+ bob:()=>({title:"Bobur qoldig'i",sub:'Yuborilgan avans va qilingan xarid',unit:'som',rows:[...DB.cash.filter(x=>x.category==='Bobur avans').map(x=>({date:x.date,text:'Avans yuborildi'+(x.note?' \u00b7 '+x.note:''),d:cashSom(x)})),...DB.wheatPurchases.map(x=>({date:x.date,text:'Xarid \u00b7 '+tn(x.tons)+' t \u00b7 '+buyPrice(x)+(x.sort?' \u00b7 '+x.sort:''),d:-N(x.tons)*1000*purchaseSom(x)}))]}),
+ qstock:()=>({title:"Qozog'iston baza (Bobur)",sub:"Xarid va Toshkentga jo'natish",unit:'ton',rows:[...DB.wheatPurchases.map(x=>({date:x.date,text:'Xarid'+(x.sort?' \u00b7 '+x.sort:'')+' \u00b7 tannarx '+buyPrice(x),d:N(x.tons)})),...DB.wheatShipments.map(x=>({date:x.date,text:"Jo'natildi \u00b7 "+x.partiya+(x.transport?' \u00b7 '+x.transport:''),d:-N(x.tons)}))]}),
+ road:()=>({title:"Yo'ldagi bug'doy",sub:"Jo'nagan va yetib borgan partiyalar",unit:'ton',rows:[...DB.wheatShipments.map(x=>({date:x.date,text:"Jo'nadi \u00b7 "+x.partiya,d:N(x.tons)})),...DB.wheatReceipts.map(r=>{const sh=DB.wheatShipments.find(y=>y.partiya===r.partiya),sent=sh?N(sh.tons):N(r.tons),km=sent-N(r.tons);return{date:r.date,text:'Yetib bordi \u00b7 '+r.partiya+' \u00b7 kelgan '+tn(r.tons)+' t'+(Math.abs(km)>0.001?' \u00b7 kamomad '+tn(km)+' t':''),d:-sent}})]}),
+ tstock:()=>({title:'Toshkent skladi (Zuhriddin)',sub:'Qabul va sotuv',unit:'ton',rows:[...DB.wheatReceipts.map(x=>({date:x.date,text:'Qabul \u00b7 '+x.partiya+' \u00b7 tannarx '+perKg(x.cost),d:N(x.tons)})),...DB.sales.map(x=>({date:x.date,text:'Sotildi \u00b7 '+x.customer+' \u00b7 '+saleP(x)+' \u00b7 '+x.payType,d:-N(x.tons)}))]}),
+ debt:()=>({title:"Bug'doy qarzi",sub:"Nasiya sotuv va mijoz to'lovlari",unit:'som',rows:[...DB.sales.filter(isCredit).map(x=>({date:x.date,text:'Sotuv \u00b7 '+x.customer+' \u00b7 '+tn(x.tons)+' t \u00d7 '+saleP(x),d:N(x.tons)*1000*saleSom(x)})),...DB.payments.map(x=>({date:x.date,text:"To'lov \u00b7 "+x.customer+(x.cur==='USD'?' \u00b7 $'+fmt(x.amount)+' kurs '+fmt(x.rate):''),d:-cashSom(x)}))]}),
+ zdebt:()=>({title:'Zaboy qarzi',sub:"Tovuq sotuvi va to'lovlar",unit:'som',rows:[...DB.slaughter.map(x=>({date:x.date,text:'Sotuv \u00b7 '+x.buyer+' \u00b7 '+tn(x.tons)+' t \u00d7 '+slP(x),d:N(x.tons)*1000*slSom(x)})),...DB.slaughterPayments.map(x=>({date:x.date,text:"To'lov \u00b7 "+x.buyer,d:-N(x.amount)}))]}),
+ alive:()=>({title:'Ferma tirik bosh',sub:'Partiya ochilishi, padyoj va oshxona',unit:'bosh',rows:[...DB.farmBatches.map(b=>({date:b.date,text:'Partiya ochildi \u00b7 '+b.name,d:N(b.head)})),...DB.farmDaily.filter(x=>N(x.mort)>0).map(x=>({date:x.date,text:'Padyoj \u00b7 '+x.batch+' \u00b7 '+x.cex,d:-N(x.mort)})),...DB.farmDaily.filter(x=>N(x.kitchen)>0).map(x=>({date:x.date,text:'Oshxona zaboy \u00b7 '+x.batch+' \u00b7 '+x.cex,d:-N(x.kitchen)}))]}),
+ mort:()=>({title:'Jami padyoj',sub:'Kunlik padyoj yozuvlari',unit:'bosh',rows:DB.farmDaily.filter(x=>N(x.mort)>0).map(x=>({date:x.date,text:x.batch+' \u00b7 '+x.cex,d:N(x.mort)}))}),
+ kitchen:()=>({title:'Oshxona zaboy',sub:'Kunlik oshxona yozuvlari',unit:'bosh',rows:DB.farmDaily.filter(x=>N(x.kitchen)>0).map(x=>({date:x.date,text:x.batch+' \u00b7 '+x.cex,d:N(x.kitchen)}))})
+};
+function debtorsFor(key){const m={};const add=n=>{m[n]=m[n]||{qty:0,sold:0,paid:0}};
+ if(key==='debt'){DB.sales.filter(isCredit).forEach(x=>{const n=x.customer||'\u2014';add(n);m[n].qty+=N(x.tons);m[n].sold+=N(x.tons)*1000*saleSom(x)});DB.payments.forEach(x=>{const n=x.customer||'\u2014';add(n);m[n].paid+=cashSom(x)});}
+ else if(key==='zdebt'){DB.slaughter.forEach(x=>{const n=x.buyer||'\u2014';add(n);m[n].qty+=N(x.tons);m[n].sold+=N(x.tons)*1000*slSom(x)});DB.slaughterPayments.forEach(x=>{const n=x.buyer||'\u2014';add(n);m[n].paid+=N(x.amount)});}
+ else return [];
+ return Object.entries(m).map(([name,v])=>({name,qty:v.qty,sold:v.sold,paid:v.paid,debt:v.sold-v.paid})).sort((a,b)=>b.debt-a.debt)}
+function statsFor(key){const c=calc(),sd=stockDetail();const T=n=>tn(n)+' t';const B=n=>fmt(n)+' bosh';
+ const bought=DB.wheatPurchases.reduce((a,x)=>a+N(x.tons),0),buyVal=DB.wheatPurchases.reduce((a,x)=>a+N(x.tons)*1000*purchaseSom(x),0);
+ const shipped=DB.wheatShipments.reduce((a,x)=>a+N(x.tons),0),received=DB.wheatReceipts.reduce((a,x)=>a+N(x.tons),0),sold=DB.sales.reduce((a,x)=>a+N(x.tons),0);
+ const arrivedSent=DB.wheatReceipts.reduce((a,r)=>{const sh=DB.wheatShipments.find(y=>y.partiya===r.partiya);return a+(sh?N(sh.tons):N(r.tons))},0);
+ const heads=DB.farmBatches.reduce((a,x)=>a+N(x.head),0),pc=v=>heads?' \u00b7 '+(v/heads*100).toFixed(2)+'%':'';
+ const M={
+  inv:(function(){const R=capRows()[0];return[["Jami tikkan pul",money(DB.cash.filter(x=>x.category==='Investor kiritdi').reduce((a,x)=>a+cashSom(x),0))],["Jami yechgan pul",money(DB.cash.filter(x=>x.category==='Investor yechdi').reduce((a,x)=>a+cashSom(x),0))],["Kassadagi qoldiq",money(R.cash)],["Qo\u2018shilgan foyda",money(R.extra)],["Jami kapital",money(R.total)]]})(),
+  bob:[["Jami olgan avans",money(DB.cash.filter(x=>x.category==='Bobur avans').reduce((a,x)=>a+cashSom(x),0))],["Jami xarid qilgan",T(bought)+' \u00b7 '+money(buyVal)],["Toshkentga jo'natgan",T(shipped)+' \u00b7 '+money(sd.shipVal)]],
+  qstock:[["Jami xarid qilingan",T(bought)+' \u00b7 '+money(buyVal)],["Toshkentga jo'natilgan",T(shipped)+' \u00b7 '+money(sd.shipVal)],["Ostatok qiymati",money(sd.vQ)]],
+  road:[["Jami jo'natilgan",T(shipped)],["Yetib borgan",T(received)],["Yo'lda kamomad",T(Math.max(0,arrivedSent-received))],["Yo'ldagi yuk qiymati",money(sd.vR)]],
+  tstock:[["Jami tushgan bug'doy",T(received)],["Jami sotilgan",T(sold)+' \u00b7 '+money(c.salesValue)],["Ostatok qiymati",money(sd.vT)],["Bug'doy foydasi",money(c.profit)]],
+  debt:[["Nasiyaga sotilgan",money(c.creditValue)],["Jami to'langan",money(DB.payments.reduce((a,x)=>a+cashSom(x),0))],["Qarzdorlar soni",debtorsFor('debt').filter(d=>d.debt>0.5).length+' ta mijoz']],
+  zdebt:[["Jami sotilgan tovuq",tn(DB.slaughter.reduce((a,x)=>a+N(x.tons),0))+' t'],["Sotuv summasi",both(DB.slaughter.reduce((a,x)=>a+N(x.tons)*1000*slSom(x),0))],["Jami to'langan",both(DB.slaughterPayments.reduce((a,x)=>a+N(x.amount),0))],["Qarzdorlar soni",debtorsFor('zdebt').filter(d=>d.debt>0.5).length+' ta mijoz']],
+  alive:[["Jami olingan jo'ja",B(heads)],["Padyoj",B(c.mort)+pc(c.mort)],["Oshxona zaboy",B(c.kitchen)+pc(c.kitchen)]],
+  mort:[["Jami olingan jo'ja",B(heads)],["Padyoj foizi",heads?(c.mort/heads*100).toFixed(2)+'%':'\u2014'],["Hozir tirik",B(c.alive)]],
+  kitchen:[["Jami olingan jo'ja",B(heads)],["Oshxona foizi",heads?(c.kitchen/heads*100).toFixed(2)+'%':'\u2014'],["Hozir tirik",B(c.alive)]]};
+ return M[key]||[]}
+function unitFmt(u,v){return u==='som'?money(v):u==='ton'?tn(v)+' t':fmt(v)+' bosh'}
+function signFmt(u,v){return (v>0?'+':v<0?'\u2212':'')+unitFmt(u,Math.abs(v))}
+let SHEET=null;
+function openSheet(key){SHEET=key;qClose();$('shListHead').textContent='Harakatlar istoriyasi';const h=HIST[key]();const rows=[...h.rows].sort((a,b)=>String(a.date||'').localeCompare(String(b.date||'')));let bal=0;rows.forEach(r=>{bal+=r.d;r.bal=bal});$('shTitle').textContent=h.title;$('shSub').textContent=h.sub;const nowLbl=h.unit==='som'?'Hozirgi qoldiq':h.unit==='ton'?'Hozirgi ostatok':'Hozirgi son';const nowTxt=key==='zdebt'?both(bal):unitFmt(h.unit,bal);$('shStats').innerHTML=statsFor(key).map(([l,v])=>`<div class="t" style="margin-bottom:9px"><b>${esc(l)}</b><i>${esc(v)}</i></div>`).join('')+`<div class="t" style="margin-top:11px;padding-top:10px;border-top:1px solid var(--line)"><b>${nowLbl}</b><i>${nowTxt}</i></div>`;const grp=debtorsFor(key),unit=' t';$('shGrpHead').style.display=grp.length?'block':'none';$('shGroups').style.display=grp.length?'block':'none';
+ $('shGroups').innerHTML=grp.map(r=>`<div class="it"><div class="t"><b>${esc(r.name)}</b><i class="${r.debt>0.5?'neg':'pos'}">${money(r.debt)}</i></div><p>${tn(r.qty)}${unit} \u00b7 sotildi ${key==='zdebt'?both(r.sold):money(r.sold)} \u00b7 to'ladi ${key==='zdebt'?both(r.paid):money(r.paid)}</p></div>`).join('');
+ $('shList').innerHTML=rows.length?[...rows].reverse().map(r=>`<div class="it"><div class="t"><b>${esc(r.text)}</b><i class="${r.d>=0?'pos':'neg'}">${signFmt(h.unit,r.d)}</i></div><p>${esc(r.date||'\u2014')} \u00b7 qoldiq ${unitFmt(h.unit,r.bal)}</p></div>`).join(''):'<div class="it"><p>Yozuv yo\'q</p></div>';$('sheet').classList.add('on');$('sheet').querySelector('.sheetbody').scrollTop=0}
+function openStockSheet(){SHEET='stock';const sd=stockDetail();const rows=[...sd.qozo.map(x=>stockRow("Qozog'iston baza",x)),...sd.transit.map(x=>stockRow("Yo'lda",x)),...sd.tash.map(x=>stockRow('Toshkent skladi',x))];
+ $('shTitle').textContent="Skladdagi ostatok bug'doy";$('shSub').textContent='Har bir partiya o\'z tannarxida';
+ const st=[["Qozog'iston baza (Bobur)",money(sd.vQ)],["Yo'lda",money(sd.vR)],['Toshkent skladi (Zuhriddin)',money(sd.vT)]];
+ $('shStats').innerHTML=st.map(([l,v])=>`<div class="t" style="margin-bottom:9px"><b>${esc(l)}</b><i>${esc(v)}</i></div>`).join('')+`<div class="t" style="margin-top:11px;padding-top:10px;border-top:1px solid var(--line)"><b>Jami ostatok qiymati</b><i>${money(sd.vQ+sd.vR+sd.vT)}</i></div>`;
+ $('shGrpHead').style.display='none';$('shGroups').style.display='none';
+ $('shList').innerHTML=rows.length?rows.join(''):'<div class="it"><p>Ostatok yo\'q</p></div>';
+ $('shListHead').textContent='Partiyalar bo\'yicha';$('sheet').classList.add('on');$('sheet').querySelector('.sheetbody').scrollTop=0}
+function closeSheet(){$('sheet').classList.remove('on');SHEET=null}
+function setKurs(v){KURS=N(v)||12100;localStorage.setItem('agroos_v3_kurs',KURS);$('kursIn').value=KURS;render();if(SHEET&&SHEET!=='stock')openSheet(SHEET)}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSheet();qClose()}});
+const NASIYA=['Mr Fazliddin','Mr Abdulaziz'];
+function fillSel(id,arr,noOther){const el=$(id);if(!el)return;const cur=el.value;const list=[...new Set(arr.filter(Boolean))];el.innerHTML=list.map(o=>`<option>${esc(o)}</option>`).join('')+(noOther?'':'<option>Boshqa</option>');if(cur&&[...el.options].some(o=>o.value===cur))el.value=cur;else if(!list.length)el.value='Boshqa';oth(id,id+'Oth')}
+function nextBatchName(){let mx=0;DB.farmBatches.forEach(b=>{const m=/^(\d+)/.exec(String(b.name||''));if(m)mx=Math.max(mx,+m[1])});return (mx+1)+'-partiya'}
+function nextPartiyas(n){const yr=new Date().getFullYear();let mx=0;DB.wheatShipments.forEach(sh=>{const m=/^(\d{4})-(\d+)$/.exec(String(sh.partiya||''));if(m&&+m[1]===yr)mx=Math.max(mx,+m[2])});return Array.from({length:n||6},(_,i)=>yr+'-'+String(mx+1+i).padStart(3,'0'))}
+function wagToggle(){const t=$('wShipTrType').value;$('wagBox').style.display=t==='Vagon'?'block':'none';$('trOthBox').style.display=t==='Vagon'?'none':'block'}
+function wagList(){return Array.from({length:10},(_,i)=>$('wg'+(i+1)).value.trim()).filter(Boolean)}
+function clearWagons(){for(let i=1;i<=10;i++)$('wg'+i).value=''}
+function saleHint(){$('wSaleHint').textContent='Narx birligi: '+($('wSaleCur').value==='USD'?'$/t':"so'm/kg")}
+function zpPrev(){const el=$('zpPrevTxt');if(!el)return;const a=N($('zpAmt').value);if(!a){el.textContent='';return}
+ const som=$('zpCur').value==='USD'?a*(N($('zpRate').value)||KURS):a;el.innerHTML=`To'lov: <b>${both(som)}</b>`}
+function zHint(){$('zHintTxt').textContent='Narx birligi: '+($('zCur').value==='USD'?'$/kg':"so'm/kg");zPrev()}
+function zPrev(){const el=$('zPrev');if(!el)return;const t=N($('zKg').value),pr=N($('zPrice').value),cur=$('zCur').value,rt=N($('zRate').value)||KURS;
+ if(!t||!pr){el.textContent='';return}
+ const som=cur==='USD'?pr*rt:pr,tot=t*1000*som;
+ el.innerHTML=`${tn(t)} t \u00d7 ${cur==='USD'?'$'+fmt(pr)+'/kg':fmt(pr)+" so'm/kg"} = <b>${both(tot)}</b>`}
+function stockDetail(){const lots=DB.wheatPurchases.map(p=>({date:p.date||'',sort:p.sort||"bug'doy",cost:purchaseSom(p),left:N(p.tons)})).sort((a,b)=>a.date.localeCompare(b.date));const ships=[...DB.wheatShipments].sort((a,b)=>String(a.date||'').localeCompare(String(b.date||'')));const transit=[];let shipVal=0;ships.forEach(sh=>{let need=N(sh.tons),val=0,taken=0;for(const l of lots){if(need<=1e-6)break;const take=Math.min(l.left,need);if(take<=0)continue;l.left-=take;val+=take*l.cost;taken+=take;need-=take}shipVal+=val*1000;const pt=pendTons(sh);if(pt>0.001)transit.push({name:sh.partiya,tons:pt,cost:taken?val/taken:0,date:sh.date})});const qozo=lots.filter(l=>l.left>0.001).map(l=>({name:l.sort,tons:l.left,cost:l.cost,date:l.date}));const gp={};DB.wheatReceipts.forEach(r=>{const g=gp[r.partiya]=gp[r.partiya]||{t:0,date:r.date};g.t+=N(r.tons);g.date=r.date});const tash=Object.entries(gp).map(([pt,g])=>{const sold=DB.sales.filter(x=>x.partiya===pt).reduce((a,x)=>a+N(x.tons),0);return{name:pt,tons:g.t-sold,cost:partCost(pt),date:g.date}}).filter(x=>x.tons>0.001);const V=a=>a.reduce((s,x)=>s+x.tons*1000*x.cost,0);return{qozo,transit,tash,shipVal,vQ:V(qozo),vR:V(transit),vT:V(tash)}}
+function stockRow(loc,x){return `<div class="it"><div class="t"><b>${esc(loc)} · ${esc(x.name)}</b><i>${tn(x.tons)} t</i></div><p>Tannarx ${perKg(x.cost)} · ${money(x.tons*1000*x.cost)}${x.date?' · '+x.date:''}</p></div>`}
+function list(el,rows,fn){$(el).innerHTML=rows.length?rows.map(fn).join(''):'<div class="it"><p>Yozuv yo\'q</p></div>'}
+const PAL=['#3B82F6','#7ED957','#E8B547','#FF5757','#A78BFA'];
+function niceMax(v){if(v<=0)return 1;const e=Math.pow(10,Math.floor(Math.log10(v)));const f=v/e;return (([1,1.5,2,2.5,3,4,5,6,8,10].find(x=>f<=x+1e-9))||10)*e}
+function monthsOf(dates,n){return [...new Set(dates.filter(Boolean).map(d=>String(d).slice(0,7)))].sort().slice(-(n||7))}
+function mlab(m){return m.slice(5)+'.'+m.slice(2,4)}
+function bucket(rows,months,f){return months.map(m=>rows.filter(r=>String(r.date||'').slice(0,7)===m).reduce((a,r)=>a+f(r),0))}
+function svgBars(series,labels,fv){
+ const W=320,H=168,PL=40,PR=6,PT=10,PB=22,IH=H-PT-PB;
+ const mx=niceMax(Math.max(0,...series.flatMap(s=>s.values)));
+ const cw=(W-PL-PR)/Math.max(1,labels.length),bw=Math.min(15,Math.max(3,(cw-7)/series.length));
+ let g='';
+ for(let i=0;i<=4;i++){const y=PT+IH*i/4;
+  g+=`<line x1="${PL}" y1="${y}" x2="${W-PR}" y2="${y}" stroke="var(--sep)"/>`;
+  g+=`<text x="${PL-5}" y="${y+3}" text-anchor="end" font-size="7.5" fill="var(--mut)">${esc(fv(mx*(1-i/4)))}</text>`}
+ labels.forEach((lb,i)=>{const x0=PL+cw*i+(cw-bw*series.length)/2;
+  series.forEach((sr,j)=>{const v=sr.values[i]||0,h=IH*Math.max(0,v)/mx;
+   if(h>0.4)g+=`<rect x="${(x0+bw*j).toFixed(1)}" y="${(H-PB-h).toFixed(1)}" width="${(bw-1).toFixed(1)}" height="${h.toFixed(1)}" fill="${sr.color}" rx="1.5"/>`});
+  g+=`<text x="${(PL+cw*i+cw/2).toFixed(1)}" y="${H-PB+11}" text-anchor="middle" font-size="7.5" fill="var(--mut)">${esc(lb)}</text>`});
+ return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block">${g}</svg>`}
+function drawChart(id,title,series,months,fv){
+ const el=$(id);if(!el)return;
+ series.forEach((s,i)=>s.color=s.color||PAL[i%PAL.length]);
+ if(!months.length||!series.some(s=>s.values.some(v=>v>0))){el.innerHTML=`<p class="hint" style="margin:4px 2px">${esc(title)} \u2014 hali ma'lumot yo'q</p>`;return}
+ el.innerHTML=`<div class="t" style="margin-bottom:9px"><b>${esc(title)}</b></div>`
+  +`<div class="lg">${series.map(s=>`<span><i style="background:${s.color}"></i>${esc(s.name)}</span>`).join('')}</div>`
+  +svgBars(series,months.map(m=>/^\d{4}-\d{2}$/.test(m)?mlab(m):m),fv)}
+function prevMonth(){const a=thisMonth().split('-');const y=+a[0],m=+a[1];return m===1?(y-1)+'-12':y+'-'+String(m-1).padStart(2,'0')}
+function inMonth(rows,m,f){return rows.filter(x=>String(x.date||'').startsWith(m)).reduce((a,x)=>a+f(x),0)}
+function grow(a,b){return b>0.5?(a-b)/b*100:(a>0.5?100:0)}
+function dirs(){
+ const c=calc(),sd=stockDetail(),rm=rawAgg(),M=thisMonth(),P=prevMonth();
+ const wSale=x=>N(x.tons)*1000*saleSom(x), zSale=x=>N(x.tons)*1000*slSom(x);
+ // 1-2. Bug'doy — naxt va nasiya alohida
+ const wIn=DB.wheatPurchases.reduce((a,x)=>a+N(x.tons)*1000*purchaseSom(x),0);
+ const stockVal=sd.vQ+sd.vR+sd.vT;
+ const cash=DB.sales.filter(x=>!isCredit(x)),cred=DB.sales.filter(isCredit);
+ const cashRev=cash.reduce((a,x)=>a+wSale(x),0),credRev=cred.reduce((a,x)=>a+wSale(x),0);
+ const cashCost=cash.reduce((a,x)=>a+saleCost(x),0),credCost=cred.reduce((a,x)=>a+saleCost(x),0);
+ const cashT=cash.reduce((a,x)=>a+N(x.tons),0),credT=cred.reduce((a,x)=>a+N(x.tons),0),allT=cashT+credT;
+ const shC=allT>0?cashT/allT:1,shN=1-shC;
+ const cashP=cashRev-cashCost,credP=credRev-credCost;
+ const cashR=cashCost>0?cashP/cashCost*100:0,credR=credCost>0?credP/credCost*100:0;
+ const cashG=grow(inMonth(cash,M,wSale),inMonth(cash,P,wSale)),credG=grow(inMonth(cred,M,wSale),inMonth(cred,P,wSale));
+ const toMill=DB.sales.filter(x=>x.payType==='Yem zavodga').reduce((a,x)=>a+wSale(x),0);
+ // 2. Yem zavodi (xarajat markazi)
+ const fRaw=DB.rawPurchases.reduce((a,x)=>a+N(x.tons)*1000*N(x.cost),0);
+ const fUsl=DB.feedProduction.reduce((a,x)=>a+N(x.tons)*1000*N(x.rate),0);
+ const fCost=DB.feedProduction.reduce((a,x)=>a+feedCost(x),0);
+ const fOut=DB.feedProduction.reduce((a,x)=>a+feedSale(x),0);
+ const fProfit=fOut-fCost,fRent=fCost>0?fProfit/fCost*100:0;
+ const fStock=Object.values(rm).reduce((a,v)=>a+v.leftVal,0);
+ const fG=grow(inMonth(DB.feedProduction,M,x=>N(x.tons)),inMonth(DB.feedProduction,P,x=>N(x.tons)));
+ // 3. Ferma + zaboy
+ const chick=DB.farmBatches.reduce((a,x)=>a+N(x.chickCost),0);
+ const gIn=chick+c.farmExpenses+fOut;const gChick=chick,gFeed=fOut,gExp=c.farmExpenses;
+ const gBack=c.zPaid, gSold=c.zRev, gCover=gIn>0?gSold/gIn*100:0;
+ const gG=grow(inMonth(DB.slaughter,M,zSale),inMonth(DB.slaughter,P,zSale));
+ const perHead=c.alive?gIn/c.alive:0;
+ const open=DB.farmBatches.length&&c.alive>0;
+ return[
+  {key:'cash',name:"Bug'doy naxt",wCogs:cashCost,stock:stockVal*shC,dbt:0,inv:wIn*shC,back:cashRev,rev:cashRev,profit:cashP,rent:cashR,locked:stockVal*shC,g:cashG,toMill,tons:cashT,
+   sub:`Sotuv ${money(cashRev)} (${tn(cashT)} t) \u00b7 tannarx ${money(cashCost)} \u00b7 foyda ${money(cashP)}`,
+   sub2:`Rentabellik ${cashR.toFixed(1)}% \u00b7 pul qaytgan \u00b7 ostatokdan ulush ${money(stockVal*shC)}${toMill>0?' \u00b7 shundan yem zavodga '+money(toMill):''}`},
+  {key:'credit',name:"Bug'doy nasiya",wCogs:credCost,stock:stockVal*shN,dbt:c.debt,inv:wIn*shN,back:DB.payments.reduce((a,x)=>a+cashSom(x),0),rev:credRev,profit:credP,rent:credR,locked:c.debt+stockVal*shN,g:credG,tons:credT,
+   sub:`Sotuv ${money(credRev)} (${tn(credT)} t) \u00b7 tannarx ${money(credCost)} \u00b7 foyda ${money(credP)}`,
+   sub2:`Rentabellik ${credR.toFixed(1)}% \u00b7 mijoz qarzi ${money(c.debt)} \u00b7 ostatokdan ulush ${money(stockVal*shN)}`},
+  {key:'feed',name:'Yem zavodi',inv:fRaw+fUsl,back:fOut,rev:fOut,profit:fProfit,rent:fRent,locked:fStock,g:fG,fRaw,fUsl,fCost,
+   sub:`Xomashyo ${money(fRaw)}${toMill>0?' (shundan bug\'doy '+money(toMill)+')':''} + usluga ${money(fUsl)} \u00b7 fermaga sotildi ${money(fOut)}`,
+   sub2:`Tannarx ${money(fCost)} \u00b7 foyda ${money(fProfit)} \u00b7 rentabellik ${fRent.toFixed(1)}% \u00b7 skladda ${money(fStock)}`},
+  {key:'farm',name:'Ferma + zaboy',inv:gIn,back:gBack,rev:gSold,profit:open?null:gSold-gIn,rent:open?null:(gIn>0?(gSold-gIn)/gIn*100:0),locked:gIn-gSold,g:gG,cover:gCover,open,gChick,gFeed,gExp,perHead,
+   sub:`Kiritilgan ${money(gIn)} (jo'ja ${money(chick)} + yem ${money(fOut)} + xarajat ${money(c.farmExpenses)})`,
+   sub2:open?`Zaboydan ${money(gSold)} qaytdi (${gCover.toFixed(0)}%) \u00b7 ${fmt(c.alive)} bosh tirik \u00b7 1 bosh ${money(perHead)}`:`Foyda ${money(gSold-gIn)}`}]}
+function dirTag(d){
+ if(d.open)return['wait',`Partiya davom etmoqda \u00b7 ${d.cover.toFixed(0)}% qoplandi`];
+ if(d.rent==null)return['keep','Baholash uchun ma\'lumot kam'];
+ if(d.rent<0)return['down','Qisqartirish \u2014 zarar'];
+ if(d.rent>=15&&d.g>=0)return['up','Investitsiyani ko\'paytirish'];
+ if(d.rent>=15)return['keep','Rentabelli, lekin sotuv pasaygan'];
+ if(d.rent>=5)return['keep','Saqlab turish'];
+ return['down','Qisqartirish \u2014 rentabellik past'];}
+function roadSheet(partiya){const sh=shipOf(partiya);if(!sh)return;SHEET=null;
+ const wag=shipWagons(sh),got=gotWagons(partiya),pend=pendWagons(sh);
+ $('shTitle').textContent=partiya;$('shSub').textContent="Yo'ldagi yuk \u2014 vagon bo'yicha";
+ $('shStats').innerHTML=`<div class="t" style="margin-bottom:9px"><b>Jo'natilgan</b><i>${tn(shipTons(sh))} t \u00b7 ${wag.length||1} vagon</i></div>`
+  +`<div class="t" style="margin-bottom:9px"><b>Qabul qilingan</b><i>${tn(recTons(partiya))} t \u00b7 ${got.size} vagon</i></div>`
+  +`<div class="t" style="margin-top:10px;padding-top:9px;border-top:1px solid var(--line)"><b class="${pend.length?'neg':''}">Hali kelmadi</b><i class="${pend.length?'neg':''}">${tn(pendTons(sh))} t \u00b7 ${pend.length} vagon</i></div>`;
+ $('shGrpHead').style.display='none';$('shGroups').style.display='none';
+ $('shListHead').textContent='Vagonlar';
+ $('shList').innerHTML=wag.length?wag.map(w=>{const ok=got.has(w.no);const rr=recOf(partiya).flatMap(r=>r.wagons||[]).find(x=>String(x.no)===w.no);
+  return `<div class="it"><div class="t"><b>\u2116 ${esc(w.no)}</b><i class="${ok?'pos':'neg'}">${ok?'keldi '+tn(rr?rr.tons:w.tons)+' t':'yo\'lda '+tn(w.tons)+' t'}</i></div>${ok&&rr&&N(rr.short)>0.001?`<p class="neg">Kamomad ${tn(rr.short)} t</p>`:''}</div>`}).join(''):`<div class="it"><p>${esc(sh.transport||'')} \u00b7 ${tn(shipTons(sh))} t</p></div>`;
+ $('sheet').classList.add('on');$('sheet').querySelector('.sheetbody').scrollTop=0}
+function recSheet(id){const r=DB.recipes.find(x=>x.id===id);if(!r)return;SHEET=null;const pr=recPeriod(r);
+ $('shTitle').textContent=r.type+' ratsioni';$('shSub').textContent=pr.from+' \u2014 '+pr.to;
+ const prods=DB.feedProduction.filter(f=>f.recipeId===r.id),tons=prods.reduce((a,f)=>a+N(f.tons),0);
+ $('shStats').innerHTML=(r.items||[]).map(i=>`<div class="t" style="margin-bottom:8px"><b>${esc(i.name)}</b><i>${tn(i.kgPerTon)} kg/t</i></div>`).join('')
+  +`<div class="t" style="margin-top:11px;padding-top:10px;border-top:1px solid var(--line)"><b>1 t yemga jami</b><i>${tn((r.items||[]).reduce((a,i)=>a+N(i.kgPerTon),0))} kg</i></div>`
+  +`<div class="t" style="margin-top:9px"><b>Shu ratsionda chiqarilgan</b><i>${tn(tons)} t</i></div>`
+  +(r.savedAt?`<div class="t" style="margin-top:9px"><b>Saqlangan</b><i>${new Date(r.savedAt).toLocaleString('uz-UZ')}</i></div>`:'');
+ $('shGrpHead').style.display='none';$('shGroups').style.display='none';
+ $('shStats').innerHTML+=`<button class="go" style="width:100%;margin-top:13px" onclick="recEdit('${r.id}')">Tahrirlash \u00b7 sanani o'zgartirish</button>`;
+ $('shListHead').textContent='Shu ratsion bilan chiqarilgan yem';
+ $('shList').innerHTML=prods.length?prods.slice().reverse().map(f=>`<div class="it"><div class="t"><b>${esc(f.batch)} \u00b7 ${esc(f.date)}</b><i>${tn(f.tons)} t</i></div><p>Siryo ${money(f.rawCost)} \u00b7 tannarx ${money(feedCost(f))}</p></div>`).join(''):'<div class="it"><p>Hali yem chiqarilmagan</p></div>';
+ $('sheet').classList.add('on');$('sheet').querySelector('.sheetbody').scrollTop=0}
+function dirSheet(key){const d=dirs().find(x=>x.key===key);if(!d)return;SHEET=null;
+ $('shTitle').textContent=d.name;$('shSub').textContent="Investitsiya va daromad";
+ const R=[];
+ if(key==='cash'){R.push(['Sotilgan tonna',tn(d.tons)+' t'],['Sotuv summasi',money(d.rev)],['Sotilganning tannarxi',money(d.wCogs)],['Foyda',money(d.profit)],['Rentabellik',d.rent.toFixed(1)+'%'],['Shundan yem zavodga',money(d.toMill)],['Ostatokdan ulush',money(d.stock)])}
+ if(key==='credit'){R.push(['Sotilgan tonna',tn(d.tons)+' t'],['Sotuv summasi',money(d.rev)],['Sotilganning tannarxi',money(d.wCogs)],['Foyda',money(d.profit)],['Rentabellik',d.rent.toFixed(1)+'%'],['Mijoz qarzi',money(d.dbt)],['Mijozlardan qaytgan',money(d.back)],['Ostatokdan ulush',money(d.stock)])}
+ if(key==='feed'){R.push(['Xomashyo xaridi',money(d.fRaw)],['Usluga to\'lovi',money(d.fUsl)],['Ishlab chiqarilgan yem tannarxi',money(d.fCost)],['Fermaga sotildi',money(d.rev)],['Foyda',money(d.profit)],['Rentabellik',d.rent.toFixed(1)+'%'],['Skladdagi xomashyo',money(d.locked)])}
+ if(key==='farm'){R.push(['Jo\'ja',money(d.gChick)],['Yem (zavoddan sotib olingan)',money(d.gFeed)],['Ferma xarajatlari',money(d.gExp)],['Jami kiritilgan',money(d.inv)],['Zaboy sotuvi',money(d.rev)],['Zaboydan qaytgan pul',money(d.back)],['Qoplandi',d.cover.toFixed(0)+'%'],['1 bosh tannarxi',money(d.perHead)])}
+ R.push(["O'sish (o'tgan oyga nisbatan)",(d.g>0?'+':'')+d.g.toFixed(0)+'%']);
+ const[t,txt]=dirTag(d);
+ $('shStats').innerHTML=R.map(([l,v],i)=>`<div class="t" style="margin-bottom:${i===R.length-1?0:9}px"><b>${esc(l)}</b><i>${v}</i></div>`).join('')+`<div style="margin-top:11px;padding-top:10px;border-top:1px solid var(--line)"><span class="tag ${t}" style="margin:0">${txt}</span></div>`;
+ $('shGrpHead').style.display='none';$('shGroups').style.display='none';
+ $('shListHead').textContent='Oylik dinamika';
+ const M=v=>CUR==='USD'?'$'+fmt(Math.round(v/KURS)):fmt(Math.round(v));
+ const src=key==='cash'?DB.sales.filter(x=>!isCredit(x)):key==='credit'?DB.sales.filter(isCredit):key==='feed'?DB.feedProduction:DB.slaughter;
+ const f=(key==='cash'||key==='credit')?(x=>N(x.tons)*1000*saleSom(x)):key==='feed'?(x=>feedSale(x)):(x=>N(x.tons)*1000*slSom(x));
+ const ms=monthsOf(src.map(x=>x.date));
+ $('shList').innerHTML=ms.length?ms.slice().reverse().map(m=>`<div class="it"><div class="t"><b>${esc(gname(m))}</b><i>${M(inMonth(src,m,f))}</i></div></div>`).join(''):'<div class="it"><p>Ma\'lumot yo\'q</p></div>';
+ $('sheet').classList.add('on');$('sheet').querySelector('.sheetbody').scrollTop=0}
+function drawDirs(){
+ const D=dirs();
+ $('lDirs').innerHTML=D.map(d=>{const[t,txt]=dirTag(d);
+  const gs=d.g>0.5?`<em class="pos">+${d.g.toFixed(0)}%</em>`:d.g<-0.5?`<em class="neg">${d.g.toFixed(0)}%</em>`:'<em style="color:#8a949e">0%</em>';
+  return `<div class="dir tap" onclick="dirSheet('${d.key}')"><div class="h"><b>${esc(d.name)}</b>${gs}</div><p>${d.sub}</p><p>${d.sub2}</p><span class="tag ${t}">${txt}</span></div>`}).join('');
+ const inv=D.reduce((a,d)=>a+d.inv,0),lock=D.reduce((a,d)=>a+Math.max(0,d.locked),0),prof=D.reduce((a,d)=>a+(d.profit||0),0);
+ $('dirSum').innerHTML=`<div class="t" style="margin-bottom:9px"><b>Jami kiritilgan</b><i>${money(inv)}</i></div>`
+  +`<div class="t" style="margin-bottom:9px"><b>Hozir aylanmada</b><i>${money(lock)}</i></div>`
+  +`<div class="t" style="margin-top:10px;padding-top:9px;border-top:1px solid var(--line)"><b>Yopilgan foyda</b><i class="${prof>=0?'pos':'neg'}">${money(prof)}</i></div>`;
+ const M=v=>CUR==='USD'?'$'+fmt(Math.round(v/KURS)):fmt(Math.round(v));
+ drawChart('chDirs','Kiritilgan \u2014 qaytgan \u2014 aylanmada',[
+  {name:'Kiritilgan',values:D.map(d=>d.inv)},
+  {name:'Sotuv/qaytgan',color:'#2f9e44',values:D.map(d=>d.rev)},
+  {name:'Aylanmada',color:'#d9a000',values:D.map(d=>Math.max(0,d.locked))}],D.map(d=>d.key==='cash'?'Naxt':d.key==='credit'?'Nasiya':d.key==='feed'?'Yem':'Ferma'),M);
+ const rr=D.filter(d=>d.rent!=null);
+ const best=rr.sort((a,b)=>b.rent-a.rent)[0];
+ $('dirHint').innerHTML=best?`Eng rentabelli yo'nalish \u2014 <b>${esc(best.name)}</b> (${best.rent.toFixed(1)}%). Tavsiyalar shu raqamlardan chiqarilgan: rentabellik 15%dan yuqori va sotuv o'sayotgan bo'lsa \u2014 ko'paytirish, 5\u201315% \u2014 saqlash, manfiy bo'lsa \u2014 qisqartirish.`:'';}
+function drawAllCharts(){
+ const T=v=>tn(v),B=v=>fmt(Math.round(v)),M=v=>CUR==='USD'?'$'+fmt(Math.round(v/KURS)):fmt(Math.round(v));
+ // Bug'doy — tonna oqimi
+ let ms=monthsOf([...DB.wheatPurchases,...DB.wheatShipments,...DB.wheatReceipts,...DB.sales].map(x=>x.date));
+ drawChart('chWheat','Bug\'doy \u2014 oylik harakat, tonna',[
+  {name:'Xarid',values:bucket(DB.wheatPurchases,ms,x=>N(x.tons))},
+  {name:"Jo'natildi",values:bucket(DB.wheatShipments,ms,x=>N(x.tons))},
+  {name:'Qabul',values:bucket(DB.wheatReceipts,ms,x=>N(x.tons))},
+  {name:'Sotildi',values:bucket(DB.sales,ms,x=>N(x.tons))}],ms,T);
+ // Yem zavodi
+ ms=monthsOf([...DB.feedProduction,...DB.rawPurchases,...DB.feedIn].map(x=>x.date));
+ drawChart('chFeed','Yem zavodi \u2014 oylik, tonna',[
+  {name:'Xomashyo prixod',values:bucket(DB.rawPurchases,ms,x=>N(x.tons))},
+  {name:'Yem chiqarildi',values:bucket(DB.feedProduction,ms,x=>N(x.tons))},
+  {name:'Sexlarga berildi',values:bucket(DB.feedIn,ms,x=>N(x.tons))}],ms,T);
+ // Ferma
+ ms=monthsOf(DB.farmDaily.map(x=>x.date));
+ drawChart('chFarm','Ferma \u2014 oylik padyoj va oshxona, bosh',[
+  {name:'Padyoj',color:'#e8590c',values:bucket(DB.farmDaily,ms,x=>N(x.mort))},
+  {name:'Oshxona zaboy',color:'#7048e8',values:bucket(DB.farmDaily,ms,x=>N(x.kitchen))}],ms,B);
+ // Zaboy
+ ms=monthsOf([...DB.slaughter,...DB.slaughterPayments].map(x=>x.date));
+ drawChart('chZaboy','Zaboy \u2014 oylik sotuv va to\'lov',[
+  {name:'Sotuv',values:bucket(DB.slaughter,ms,x=>N(x.tons)*1000*slSom(x))},
+  {name:"To'lov",color:'#2f9e44',values:bucket(DB.slaughterPayments,ms,x=>N(x.amount))}],ms,M);
+ // Umumiy
+ ms=monthsOf([...DB.sales,...DB.slaughter,...DB.expenses,...DB.wheatPurchases].map(x=>x.date));
+ drawChart('chAll','Umumiy \u2014 oylik pul oqimi',[
+  {name:"Bug'doy sotuv",values:bucket(DB.sales,ms,x=>N(x.tons)*1000*saleSom(x))},
+  {name:'Zaboy sotuv',color:'#2f9e44',values:bucket(DB.slaughter,ms,x=>N(x.tons)*1000*slSom(x))},
+  {name:'Xomashyo/xarid',color:'#d9a000',values:bucket(DB.wheatPurchases,ms,x=>N(x.tons)*1000*purchaseSom(x))},
+  {name:'Ferma xarajat',color:'#e8590c',values:bucket(DB.expenses,ms,x=>N(x.amount))}],ms,M)}
+const MN=['Yanvar','Fevral','Mart','Aprel','May','Iyun','Iyul','Avgust','Sentabr','Oktabr','Noyabr','Dekabr'];
+const LPO={},LPD={},LPS={};
+function lps(id){return LPS[id]||(LPS[id]={q:'',chip:0,open:{},more:{}})}
+function lpSet(id,k,v){const st=lps(id);st[k]=v;if(k==='q'||k==='chip'){st.more={}}lpDraw(id)}
+function lpOpen(id,g){const st=lps(id);return (g in st.open)?st.open[g]:(g===LPD[id]?.first)}
+function lpToggle(id,g){const st=lps(id);st.open[g]=!lpOpen(id,g);lpDraw(id)}
+function lpMore(id,g){const st=lps(id);st.more[g]=(st.more[g]||0)+10;lpDraw(id)}
+function gname(g){if(g==='\u2014')return 'Sanasiz';const a=g.split('-');return (MN[+a[1]-1]||g)+' '+a[0]}
+function mountPanel(id){const el=$(id);if(!el||el.dataset.lp)return;el.dataset.lp='1';const o=LPO[id]||{};
+ const bar=document.createElement('div');bar.className='lpbar';
+ bar.innerHTML=`<input class="lpq" placeholder="${esc(o.ph||'Qidirish\u2026')}" oninput="lpSet('${id}','q',this.value)">`+((o.chips&&o.chips.length)?`<div class="chips" id="chips-${id}"></div>`:'');
+ el.parentNode.insertBefore(bar,el)}
+function panelList(id,items,opts){if(opts)LPO[id]=opts;mountPanel(id);LPD[id]={items,first:LPD[id]?.first};lpDraw(id)}
+function lpDraw(id){const el=$(id);if(!el||!LPD[id])return;const o=LPO[id]||{},st=lps(id);const chips=o.chips||[];
+ let items=LPD[id].items;
+ const cb=$('chips-'+id);if(cb)cb.innerHTML=chips.map((c,i)=>`<button class="chip${i===st.chip?' on':''}" onclick="lpSet('${id}','chip',${i})">${esc(c.label)}</button>`).join('');
+ if(chips[st.chip]&&chips[st.chip].test)items=items.filter(x=>chips[st.chip].test(x.raw,x));
+ const q=st.q.trim().toLowerCase();
+ if(q)items=items.filter(x=>String(x.search||'').toLowerCase().includes(q));
+ if(!items.length){el.innerHTML=`<div class="it"><p>${q||st.chip?'Topilmadi':"Yozuv yo'q"}</p></div>`;return}
+ const LIM=o.limit||5;
+ if(o.group===false){const n=LIM+(st.more._||0);
+  el.innerHTML=items.slice(0,n).map(x=>x.html).join('')+(items.length>n?`<button class="more" onclick="lpMore('${id}','_')">Yana ${items.length-n} ta ko'rsatish</button>`:'');return}
+ const map={},groups=[];
+ items.forEach(x=>{const g=String(x.date||'').slice(0,7)||'\u2014';if(!map[g]){map[g]={g,rows:[]};groups.push(map[g])}map[g].rows.push(x)});
+ groups.sort((a,b)=>b.g.localeCompare(a.g));LPD[id].first=groups[0]&&groups[0].g;
+ el.innerHTML=groups.map(gr=>{const open=q?true:lpOpen(id,gr.g),n=LIM+(st.more[gr.g]||0);
+  const head=`<div class="grp" onclick="lpToggle('${id}','${gr.g}')"><b>${esc(gname(gr.g))}</b><i>${gr.rows.length} ta ${open?'\u2303':'\u2304'}</i></div>`;
+  if(!open)return head;
+  return head+gr.rows.slice(0,n).map(x=>x.html).join('')+(gr.rows.length>n?`<button class="more" onclick="lpMore('${id}','${gr.g}')">Yana ${gr.rows.length-n} ta ko'rsatish</button>`:'')}).join('')}
+const thisMonth=()=>today().slice(0,7);
+const FLAB={tons:'Tonna',price:'Narx',cost:'Tannarx',amount:'Summa',cur:'Valyuta',rate:'Kurs',date:'Sana',partiya:'Partiya',batch:'Partiya',customer:'Mijoz',buyer:'Kim oldi / xaridor',from:'Kimdan',to:'Kimga',category:'Kategoriya',note:'Izoh',kind:"To'lov turi",payType:"To'lov turi",cex:'Sex',type:'Turi',plant:'Zavod',by:'Kim qabul qildi',mort:'Padyoj',kitchen:'Oshxona zaboy',head:"Jo'ja soni",chickCost:"Jo'ja jami narxi",name:'Nomi',sort:"Bug'doy turi",transport:'Transport',wagons:'Vagon nomerlari',hum:'Namlik %',glu:'Kleykovina %',category:'Kategoriya',short:'Kamomad',shortRows:'Kam chiqqan vagonlar',shortNote:'Qabul qiluvchi izohi',sellPrice:'Fermaga narx',rawCost:'Siryo qiymati',snapshot:'Siryo rasxodi',kgPerTon:'kg/t',items:'Ratsion',from:'Qaysi sanadan',to:'Qaysi sanagacha',recipeFrom:'Ratsion sanasi',source:'Manba'};
+function fval(k,v,r,coll){
+ if(v==null||v==='')return '\u2014';
+ if(k==='snapshot')return v.map(i=>i.name+' '+tn(i.t)+' t').join(' \u00b7 ');
+ if(k==='wagons')return Array.isArray(v)?v.join(', '):String(v);
+ if(k==='tons'||k==='short')return tn(v)+' t';
+ if(k==='items')return v.map(i=>i.name+' '+tn(i.kgPerTon)).join(' \u00b7 ')+' kg/t';
+ if(k==='shortRows')return v.length?v.map(r=>'\u2116'+r.wagon+' '+tn(r.tons)+' t').join(', '):'\u2014';
+ if(k==='sellPrice')return perKg(v);
+ if(k==='rawCost'||k==='chickCost')return money(v);
+ if(k==='amount')return money(r&&r.cur==='USD'?N(v)*N(r.rate):v);
+ if(k==='cost')return perKg(v);
+ if(k==='price'){const perKgSale=coll==='slaughter';if(r&&r.cur==='USD')return perKgSale?'$'+N(v).toFixed(2)+'/kg':'$'+fmt(v)+'/t';return perKgSale?fmt(v)+" so'm/kg":perKg(v)}
+ if(k==='head'||k==='mort'||k==='kitchen')return fmt(v)+' bosh';
+ if(k==='rate')return fmt(v);
+ return typeof v==='number'?fmt(v):esc(String(v))}
+function auditDetail(id){const a=DB.audit.find(x=>x.id===id);if(!a)return;SHEET=null;
+ $('shTitle').textContent=a.action;$('shSub').textContent=new Date(a.date).toLocaleString('uz-UZ');
+ const recs=(a.coll&&a.ids?a.ids:[]).map(rid=>(DB[a.coll]||[]).find(r=>r.id===rid)).filter(Boolean);
+ $('shStats').innerHTML=`<div class="t"><b>Izoh</b><i>${esc(a.ref||'\u2014')}</i></div>`+(recs.length?'':`<div class="t" style="margin-top:9px"><b>Yozuv</b><i>${a.coll?"o'chirilgan yoki topilmadi":'saqlanmagan'}</i></div>`);
+ $('shGrpHead').style.display='none';$('shGroups').style.display='none';
+ $('shListHead').textContent=recs.length>1?`To'liq ma'lumot \u2014 ${recs.length} ta yozuv`:"To'liq ma'lumot";
+ $('shList').innerHTML=recs.length?recs.map(r=>`<div class="it">`+Object.keys(r).filter(k=>k!=='id'&&FLAB[k]).map(k=>`<div class="t" style="margin-bottom:6px"><b style="font-weight:600;color:var(--mut);font-size:12.5px">${esc(FLAB[k])}</b><i style="font-size:13.5px">${fval(k,r[k],r,a.coll)}</i></div>`).join('')+`</div>`).join(''):'<div class="it"><p>Bu yozuvning tafsilotlari saqlanmagan (eski yozuv).</p></div>';
+ $('sheet').classList.add('on');$('sheet').querySelector('.sheetbody').scrollTop=0}
+function accOpen(a){if(!a)return;const b=a.querySelector('.accbody');a.classList.add('on');if(!b)return;
+ b.style.maxHeight=b.scrollHeight+'px';clearTimeout(b._t);b._t=setTimeout(()=>{if(a.classList.contains('on'))b.style.maxHeight='none'},360)}
+function accClose(a){const b=a.querySelector('.accbody');if(!b){a.classList.remove('on');return}
+ clearTimeout(b._t);b.style.maxHeight=b.scrollHeight+'px';b.offsetHeight;a.classList.remove('on');requestAnimationFrame(()=>{b.style.maxHeight='0px'})}
+function goTo(pg,i){document.querySelector('nav button[data-p="'+pg+'"]').click();setTimeout(()=>showTab('p-'+pg,i),40)}
+function userMenu(){qOpen()}
+function qOpen(){$('qsheet').classList.add('on')}
+function qClose(){$('qsheet').classList.remove('on')}
+function qGo(pg,i){qClose();goTo(pg,i)}
+function heroSpark(vals){const w=300,h=58;if(!vals.length)vals=[0];
+ const mx=Math.max(...vals,1),mn=Math.min(...vals,0),rg=(mx-mn)||1;
+ const n=vals.length,st=n>1?w/(n-1):w;
+ const pts=vals.map((v,i)=>`${(i*st).toFixed(1)},${(h-4-((v-mn)/rg)*(h-12)).toFixed(1)}`).join(' ');
+ const last=vals.length-1,lx=(last*st).toFixed(1),ly=(h-4-((vals[last]-mn)/rg)*(h-12)).toFixed(1);
+ return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none"><defs>
+ <linearGradient id="hg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--a)" stop-opacity=".42"/><stop offset="1" stop-color="var(--a)" stop-opacity="0"/></linearGradient></defs>
+ <polygon points="0,${h} ${pts} ${w},${h}" fill="url(#hg)"/>
+ <polyline points="${pts}" fill="none" stroke="var(--a)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+ <circle cx="${lx}" cy="${ly}" r="3.8" fill="var(--a)"/></svg>`}
+function miniSpark(vals,color){const w=160,h=34;if(!vals||vals.length<2)vals=[0,0];
+ const mx=Math.max(...vals),mn=Math.min(...vals),rg=(mx-mn)||1,st=w/(vals.length-1);
+ const pts=vals.map((v,i)=>`${(i*st).toFixed(1)},${(h-4-((v-mn)/rg)*(h-10)).toFixed(1)}`).join(' ');
+ const id='g'+Math.random().toString(36).slice(2,7);
+ return `<svg class="sp" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none"><defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1">
+ <stop offset="0" stop-color="${color}" stop-opacity=".35"/><stop offset="1" stop-color="${color}" stop-opacity="0"/></linearGradient></defs>
+ <polygon points="0,${h} ${pts} ${w},${h}" fill="url(#${id})"/><polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.8" stroke-linejoin="round"/></svg>`}
+function arrow(el,up){const e=$(el);if(!e)return;e.textContent=up?'\u2191':'\u2193';e.className='ar'+(up?'':' dn')}
+function drawTiles(){const c=calc(),sd=stockDetail();
+ $('tlAlive').textContent=fmt(c.alive);
+ $('tlWheat').textContent=tn(c.qStock+c.road+c.tStock)+' t';
+ $('tlFeed').textContent=tn(c.feed)+' t';
+ $('tlCash').textContent=money(c.inv);
+ const n=DB.audit.filter(x=>String(x.date).slice(0,10)===today()).length;
+ $('bellN').textContent=n>99?'99':n;$('bellN').style.display=n?'flex':'none';
+ const ms=monthsOf([...DB.sales,...DB.feedProduction,...DB.slaughter,...DB.farmDaily,...DB.wheatReceipts,...DB.cash].map(x=>x.date));
+ const P=getComputedStyle(document.documentElement).getPropertyValue('--a').trim()||'#3B82F6';
+ const sAlive=ms.map(m=>inMonth(DB.farmBatches,m,x=>N(x.heads))-inMonth(DB.farmDaily,m,x=>N(x.mort)+N(x.kitchen)));
+ const sWheat=ms.map(m=>inMonth(DB.wheatReceipts,m,x=>N(x.tons)));
+ const sFeed=ms.map(m=>inMonth(DB.feedProduction,m,x=>N(x.tons)));
+ const sCash=ms.map(m=>inMonth(DB.cash.filter(x=>/Investor/.test(x.category)),m,x=>(x.category==='Investor kiritdi'?1:-1)*cashSom(x)));
+ const cum=a=>{let t=0;return a.map(v=>t+=v)};
+ const put=(id,vals,col)=>{const e=$(id);if(e)e.innerHTML=miniSpark(vals,col)};
+ put('spAlive',cum(sAlive),'#7ED957');put('spWheat',sWheat,'#7ED957');put('spFeed',sFeed,P);put('spCash',cum(sCash),'#E8B547');
+ const up=a=>a.length<2||a[a.length-1]>=a[a.length-2];
+ arrow('arAlive',up(cum(sAlive)));arrow('arWheat',up(sWheat));arrow('arFeed',up(sFeed));arrow('arCash',up(cum(sCash)));
+ const d=new Date(),MN=['yanvar','fevral','mart','aprel','may','iyun','iyul','avgust','sentabr','oktabr','noyabr','dekabr'];
+ const dc=$('dateChip');if(dc)dc.textContent='\u{1F5D3} '+d.getDate()+'-'+MN[d.getMonth()]+', '+d.getFullYear()}
+function drawDonut(){const D=dirs().filter(d=>d.profit>0);
+ const tot=D.reduce((a,d)=>a+d.profit,0);
+ if(!tot){$('dnut').style.background='conic-gradient(rgba(255,255,255,.08) 0 100%)';$('dnTot').textContent=money(0);
+  $('dnLeg').innerHTML='<span style="color:var(--mut)">Hali yopilgan foyda yo\'q</span>';return}
+ let acc=0;const seg=D.map((d,i)=>{const from=acc/tot*100;acc+=d.profit;const to=acc/tot*100;
+  return{name:d.name,v:d.profit,c:PAL[i%PAL.length],from,to}});
+ $('dnut').style.background='conic-gradient('+seg.map(x=>`${x.c} ${x.from.toFixed(1)}% ${x.to.toFixed(1)}%`).join(',')+')';
+ $('dnTot').textContent=money(tot);
+ $('dnLeg').innerHTML=seg.map(x=>`<span><i style="background:${x.c}"></i>${esc(x.name)}<u>${(x.v/tot*100).toFixed(0)}%</u></span>`).join('')}
+const PDIR=[['cash',"Bug'doy naxt"],['credit',"Bug'doy nasiya"],['feed','Yem zavodi'],['farm','Ferma + zaboy']];
+function profOf(from,to){ // from/to = 'YYYY-MM-DD' chegaralari (bo'sh = cheksiz)
+ const inR=d=>{const x=String(d||'');return (!from||x>=from)&&(!to||x<=to)};
+ const ws=DB.sales.filter(x=>inR(x.date));
+ const cash=ws.filter(x=>!isCredit(x)),cred=ws.filter(isCredit);
+ const val=x=>N(x.tons)*1000*saleSom(x);
+ const R={};
+ R.cash={rev:cash.reduce((a,x)=>a+val(x),0),cost:cash.reduce((a,x)=>a+saleCost(x),0),qty:cash.reduce((a,x)=>a+N(x.tons),0)};
+ R.credit={rev:cred.reduce((a,x)=>a+val(x),0),cost:cred.reduce((a,x)=>a+saleCost(x),0),qty:cred.reduce((a,x)=>a+N(x.tons),0)};
+ const fp=DB.feedProduction.filter(x=>inR(x.date));
+ R.feed={rev:fp.reduce((a,x)=>a+feedSale(x),0),cost:fp.reduce((a,x)=>a+feedCost(x),0),qty:fp.reduce((a,x)=>a+N(x.tons),0)};
+ const zs=DB.slaughter.filter(x=>inR(x.date));
+ const zrev=zs.reduce((a,x)=>a+N(x.tons)*1000*slSom(x),0);
+ const fcost=DB.farmBatches.filter(x=>inR(x.date)).reduce((a,x)=>a+N(x.chickCost),0)
+  +DB.expenses.filter(x=>inR(x.date)).reduce((a,x)=>a+N(x.amount),0)
+  +fp.reduce((a,x)=>a+feedSale(x),0);
+ R.farm={rev:zrev,cost:fcost,qty:zs.reduce((a,x)=>a+N(x.tons),0)};
+ PDIR.forEach(([k])=>{R[k].profit=R[k].rev-R[k].cost;R[k].rent=R[k].cost>0?R[k].profit/R[k].cost*100:0});
+ R.total={rev:PDIR.reduce((a,[k])=>a+R[k].rev,0),cost:PDIR.reduce((a,[k])=>a+R[k].cost,0)};
+ R.total.profit=R.total.rev-R.total.cost;R.total.rent=R.total.cost>0?R.total.profit/R.total.cost*100:0;
+ return R}
+function allDates(){return [...DB.sales,...DB.feedProduction,...DB.slaughter,...DB.expenses,...DB.farmBatches].map(x=>String(x.date||'')).filter(Boolean)}
+function profPeriods(mode){const ds=allDates();if(!ds.length)return[];
+ if(mode==='all')return[{label:'Umumiy',from:'',to:''}];
+ if(mode==='year'){const ys=[...new Set(ds.map(d=>d.slice(0,4)))].sort();
+  return ys.map(y=>({label:y+'-yil',from:y+'-01-01',to:y+'-12-31'}))}
+ const ms=[...new Set(ds.map(d=>d.slice(0,7)))].sort();
+ return ms.map(m=>({label:gname(m),from:m+'-01',to:m+'-31'}))}
+function drawProfCard(){const R=profOf('',''),el=$('profCard');if(!el)return;
+ const M=profOf(thisMonth()+'-01',thisMonth()+'-31');
+ el.innerHTML=`<div class="t" style="margin-bottom:9px"><b>Bu oy</b><i class="${M.total.profit>=0?'pos':'neg'}">${money(M.total.profit)}</i></div>`
+  +`<div class="t" style="margin-bottom:9px"><b>${new Date().getFullYear()}-yil</b><i class="${R.total.profit>=0?'pos':'neg'}">${money(profOf(new Date().getFullYear()+'-01-01',new Date().getFullYear()+'-12-31').total.profit)}</i></div>`
+  +`<div class="t" style="margin-top:10px;padding-top:9px;border-top:1px solid var(--sep)"><b>Umumiy foyda</b><i class="${R.total.profit>=0?'pos':'neg'}">${money(R.total.profit)}</i></div>`}
+function profSheet(mode){SHEET=null;PMODE=mode||'month';
+ const P=profPeriods(PMODE),A=profOf('','');
+ $('shTitle').textContent='Foyda hisoboti';$('shSub').textContent=PMODE==='month'?'Oyma-oy':PMODE==='year'?'Yillik':'Umumiy';
+ const seg=`<div class="seg" style="margin-bottom:13px">
+  <button class="${PMODE==='month'?'on':''}" onclick="profSheet('month')">Oylik</button>
+  <button class="${PMODE==='year'?'on':''}" onclick="profSheet('year')">Yillik</button>
+  <button class="${PMODE==='all'?'on':''}" onclick="profSheet('all')">Umumiy</button></div>`;
+ const line=(l,v,cls)=>`<div class="t" style="margin-bottom:9px"><b>${l}</b><i class="${cls||''}">${v}</i></div>`;
+ $('shStats').innerHTML=seg+line('Jami sotuv',money(A.total.rev))+line('Jami tannarx',money(A.total.cost))
+  +`<div class="t" style="margin-top:11px;padding-top:10px;border-top:1px solid var(--sep)"><b>Umumiy foyda</b><i class="${A.total.profit>=0?'pos':'neg'}">${money(A.total.profit)} · ${A.total.rent.toFixed(1)}%</i></div>`;
+ $('shGrpHead').style.display='none';$('shGroups').style.display='none';
+ $('shListHead').textContent=PMODE==='month'?'Oylar bo\u2018yicha':PMODE==='year'?'Yillar bo\u2018yicha':'Yo\u2018nalishlar bo\u2018yicha';
+ if(PMODE==='all'){
+  $('shList').innerHTML=PDIR.map(([k,nm])=>{const d=A[k];
+   return `<div class="it"><div class="t"><b>${esc(nm)}</b><i class="${d.profit>=0?'pos':'neg'}">${money(d.profit)}</i></div>
+   <p>Sotuv ${money(d.rev)} \u00b7 tannarx ${money(d.cost)} \u00b7 rentabellik ${d.rent.toFixed(1)}%</p>
+   ${k==='farm'&&calc().alive>0?`<p class="hint" style="margin:6px 0 0">Partiya hali yopilmagan \u2014 ${fmt(calc().alive)} bosh tirik, ularning qiymati hali sotuvga chiqmagan.</p>`:''}</div>`}).join('')
+   +`<div class="it"><div class="t"><b>JAMI</b><i class="${A.total.profit>=0?'pos':'neg'}">${money(A.total.profit)}</i></div><p>Rentabellik ${A.total.rent.toFixed(1)}%</p></div>`;}
+ else{
+  $('shList').innerHTML=P.slice().reverse().map(pr=>{const R=profOf(pr.from,pr.to);
+   return `<div class="it"><div class="t"><b>${esc(pr.label)}</b><i class="${R.total.profit>=0?'pos':'neg'}">${money(R.total.profit)}</i></div>
+   <p>${PDIR.map(([k,nm])=>esc(nm.replace("Bug'doy ","").replace(' + zaboy',''))+' '+money(R[k].profit)).join(' \u00b7 ')}</p>
+   <p>Sotuv ${money(R.total.rev)} \u00b7 tannarx ${money(R.total.cost)} \u00b7 ${R.total.rent.toFixed(1)}%</p></div>`}).join('')
+   ||'<div class="it"><p>Yozuv yo\'q</p></div>';}
+ $('sheet').classList.add('on');$('sheet').querySelector('.sheetbody').scrollTop=0}
+let PMODE='month';
+function dirLabel(t){const s=String(t||'').trim();
+ const inParen=(s.match(/\(([^)]*)\)/)||[])[1];
+ const bare=s.replace(/\([^)]*\)/,'').trim();
+ const person=p=>inParen||(/baza|zavod|ferma|kassa|sklad/i.test(bare)?p:(bare||p));
+ if(/bobur|qozog/i.test(s))return "Qozog'iston baza ("+person('Bobur')+")";
+ if(/zuhriddin|toshkent/i.test(s))return 'Toshkent baza ('+person('Zuhriddin')+')';
+ if(/akmal|yem/i.test(s))return 'Yem zavodi ('+person('Akmal')+')';
+ if(/xasan|mahmud|ferma|toytepa|tuytepa/i.test(s))return 'Ferma ('+person('Xasan')+')';
+ if(/nasiya|fazliddin|abdulaziz/i.test(s))return 'Nasiya baza ('+person('mijoz')+')';
+ return s||'Boshqa'}
+function wheatDebtors(){const m={};
+ DB.sales.filter(isCredit).forEach(x=>{const k=x.customer||'Nomsiz';(m[k]=m[k]||{sold:0,paid:0,t:0});m[k].sold+=N(x.tons)*1000*saleSom(x);m[k].t+=N(x.tons)});
+ DB.payments.forEach(x=>{const k=x.customer||'Nomsiz';(m[k]=m[k]||{sold:0,paid:0,t:0});m[k].paid+=N(x.amount)});
+ return Object.entries(m).map(([name,v])=>({name,amount:v.sold-v.paid,sold:v.sold,paid:v.paid,t:v.t})).filter(x=>Math.abs(x.amount)>0.5).sort((a,b)=>b.amount-a.amount)}
+function zaboyDebtors(){const m={};
+ DB.slaughter.forEach(x=>{const k=x.buyer||'Nomsiz';(m[k]=m[k]||{sold:0,paid:0,t:0});m[k].sold+=N(x.tons)*1000*slSom(x);m[k].t+=N(x.tons)});
+ DB.slaughterPayments.forEach(x=>{const k=x.buyer||'Nomsiz';(m[k]=m[k]||{sold:0,paid:0,t:0});m[k].paid+=N(x.amount)});
+ return Object.entries(m).map(([name,v])=>({name,amount:v.sold-v.paid,sold:v.sold,paid:v.paid,t:v.t})).filter(x=>Math.abs(x.amount)>0.5).sort((a,b)=>b.amount-a.amount)}
+function debtSides(key){const R=capRows(),row=R.find(x=>x.key===key)||{};const them=[],us=[];
+ const push=(arr,name,amount,note)=>{if(amount>0.5)arr.push({name,amount,note})};
+ if(key==='nasiya')wheatDebtors().forEach(d=>{if(d.amount>0)push(them,d.name,d.amount,tn(d.t)+' t olgan \u00b7 to\u2018lagan '+money(d.paid));else push(us,d.name,-d.amount,'ortiqcha to\u2018lagan')});
+ if(key==='ferma')zaboyDebtors().forEach(d=>{if(d.amount>0)push(them,d.name,d.amount,tn(d.t)+' t olgan \u00b7 to\u2018lagan '+money(d.paid));else push(us,d.name,-d.amount,'ortiqcha to\u2018lagan')});
+ if(key==='qozo'){const b=calc().bob;if(b>0)push(them,'Bobur (bizning avansimiz)',b,'hali bug\u2018doyga aylanmagan');else push(us,'Bobur',-b,'o\u2018z pulidan xarid qilgan')}
+ if(key==='tosh'&&row.cash<0)push(us,'Toshkent baza (Zuhriddin)',-row.cash,'sarflagani tushganidan ko\u2018p');
+ if(key==='tosh'&&row.cash>0)push(them,'Toshkent baza (Zuhriddin)',row.cash,'qo\u2018lida turgan pul');
+ if(key==='zavod'&&row.cash<0)push(us,'Yem zavodi (Akmal)',-row.cash,'xomashyoga o\u2018z pulini sarflagan');
+ if(key==='zavod'&&row.cash>0)push(them,'Yem zavodi (Akmal)',row.cash,'qo\u2018lida turgan pul');
+ if(key==='ferma'&&row.cash<0)push(us,'Ferma (Xasan)',-row.cash,'o\u2018z pulidan sarflagan');
+ return{them,us,themTot:them.reduce((a,x)=>a+x.amount,0),usTot:us.reduce((a,x)=>a+x.amount,0)}}
+function debtBlock(key){const d=debtSides(key);if(!d.them.length&&!d.us.length)return '';
+ const grp=(title,arr,cls)=>arr.length?`<div style="margin-top:13px;padding-top:11px;border-top:1px solid var(--sep)">
+  <div class="t" style="margin-bottom:8px"><b>${title}</b><i class="${cls}">${money(arr.reduce((a,x)=>a+x.amount,0))}</i></div>
+  ${arr.map(x=>`<div class="t" style="margin-bottom:7px"><b style="font-weight:600;color:var(--mut)">\u00b7 ${esc(x.name)}${x.note?'<br><span style="font-size:11.5px">'+esc(x.note)+'</span>':''}</b><i class="${cls}">${money(x.amount)}</i></div>`).join('')}</div>`:'';
+ return grp('Bizga qarzdor',d.them,'pos')+grp('Biz qarzdormiz',d.us,'neg')}
+function capRows(){const c=calc(),sd=stockDetail(),rm=rawAgg();
+ const fStock=Object.values(rm).reduce((a,v)=>a+v.leftVal,0);
+ const D=dirs(),dm={};D.forEach(d=>dm[d.key]=d);
+ const closed=(dm.cash?dm.cash.profit:0)+(dm.credit?dm.credit.profit:0)+(dm.feed?dm.feed.profit:0);
+ const chick=DB.farmBatches.reduce((a,x)=>a+N(x.chickCost),0);
+ const feedToFarm=DB.feedProduction.reduce((a,x)=>a+feedSale(x),0);
+ const fRaw=DB.rawPurchases.reduce((a,x)=>a+N(x.tons)*1000*N(x.cost),0);
+ const fUsl=DB.feedProduction.reduce((a,x)=>a+N(x.tons)*1000*N(x.rate),0);
+ const farmIn=chick+c.farmExpenses+feedToFarm;
+ const farmGoods=Math.max(0,farmIn-c.zRev);
+ const to=re=>DB.cash.filter(x=>re.test(String(x.to||''))).reduce((a,x)=>a+cashSom(x),0);
+ const invIn=DB.cash.filter(x=>x.category==='Investor kiritdi').reduce((a,x)=>a+cashSom(x),0);
+ const invOut=DB.cash.filter(x=>x.category==='Investor yechdi').reduce((a,x)=>a+cashSom(x),0);
+ const shC=(function(){const t=DB.sales.reduce((a,x)=>a+N(x.tons),0);const ct=DB.sales.filter(x=>!isCredit(x)).reduce((a,x)=>a+N(x.tons),0);return t?ct/t:1})();
+ const stockT=sd.vT;
+ const naxtRev=DB.sales.filter(x=>!isCredit(x)).reduce((a,x)=>a+N(x.tons)*1000*saleSom(x),0);
+ const wcAll=DB.wheatCosts.reduce((a,x)=>a+wcSom(x),0);
+ const cashTosh=to(/Toshkent/)+naxtRev-wcAll;
+ const cashNasiya=c.payValue;
+ const cashZavod=to(/Yem/)+feedToFarm-fRaw-fUsl;
+ const cashFerma=to(/Ferma|Xasan|Toytepa/)+c.zPaid-farmIn;
+ const chips=(cash,goods,debt,tot,gl)=>[['Bo\u2018sh pul',money(cash)],[gl||'Tovarda',money(goods)],['Qarzdorlarda',money(debt)],['Jami',money(tot)]];
+ return[
+  {key:'inv',name:'Mister X (investor)',cash:0,goods:0,debt:0,total:c.inv+closed,extra:closed,
+   d:[['Kiritgan',money(invIn)],['Yechgan',money(invOut)],['Sof kiritgan',money(c.inv)],['+ Foyda = kapital',money(c.inv+closed)]]},
+  {key:'qozo',name:"Qozog'iston baza (Bobur)",cash:c.bob,goods:sd.vQ+sd.vR,debt:0,total:c.bob+sd.vQ+sd.vR,
+   d:chips(c.bob,sd.vQ+sd.vR,0,c.bob+sd.vQ+sd.vR)},
+  {key:'tosh',name:'Toshkent baza (naxt)',cash:cashTosh,goods:stockT*shC,debt:0,total:cashTosh+stockT*shC,
+   d:chips(cashTosh,stockT*shC,0,cashTosh+stockT*shC)},
+  {key:'nasiya',name:'Nasiya baza',cash:cashNasiya,goods:stockT*(1-shC),debt:c.debt,total:cashNasiya+stockT*(1-shC)+c.debt,
+   d:chips(cashNasiya,stockT*(1-shC),c.debt,cashNasiya+stockT*(1-shC)+c.debt)},
+  {key:'zavod',name:'Yem zavodi',cash:cashZavod,goods:fStock,debt:0,total:cashZavod+fStock,
+   d:chips(cashZavod,fStock,0,cashZavod+fStock,'Skladda')},
+  {key:'ferma',name:'Ferma + zaboy',cash:cashFerma,goods:farmGoods,debt:c.zDebt,total:cashFerma+farmGoods+c.zDebt,
+   d:chips(cashFerma,farmGoods,c.zDebt,cashFerma+farmGoods+c.zDebt,'Tovarda (tirik)')}]}
+function tashStats(){const rr=DB.wheatReceipts,sd=stockDetail();
+ const recT=rr.reduce((a,x)=>a+N(x.tons),0);
+ const recV=[...new Set(rr.map(x=>x.partiya))].reduce((a,pt)=>a+recTons(pt)*1000*partCost(pt),0);
+ const soldT=DB.sales.reduce((a,x)=>a+N(x.tons),0);
+ const soldC=DB.sales.reduce((a,x)=>a+saleCost(x),0);
+ const soldV=DB.sales.reduce((a,x)=>a+N(x.tons)*1000*saleSom(x),0);
+ const shortT=rr.reduce((a,x)=>a+N(x.short),0);
+ const wag=rr.reduce((a,x)=>a+((x.wagons||[]).length),0);
+ const shipT=DB.wheatShipments.reduce((a,x)=>a+shipTons(x),0);
+ return{recT,recV,soldT,soldC,soldV,shortT,wag,shipT,restT:recT-soldT,restV:sd.vT,
+  parts:[...new Set(rr.map(x=>x.partiya))].length,profit:soldV-soldC,
+  avg:recT?recV/(recT*1000):0}}
+function drawTash(){const t=tashStats(),el=$('tashSum');if(!el)return;
+ const L=(a,b,c)=>`<div class="t" style="margin-bottom:9px"><b>${a}</b><i class="${c||''}">${b}</i></div>`;
+ el.innerHTML=L('Jami qabul qilingan',tn(t.recT)+' t')
+  +L('Qiymati (tannarx bilan)',money(t.recV))
+  +L("O'rtacha tannarx",perKg(t.avg))
+  +L('Sotilgan',tn(t.soldT)+' t \u00b7 '+money(t.soldV))
+  +(t.shortT>0.001?L('Kamomad',tn(t.shortT)+' t','neg'):'')
+  +`<div class="t" style="margin-top:10px;padding-top:9px;border-top:1px solid var(--sep)"><b>Ostatok</b><i>${tn(t.restT)} t \u00b7 ${money(t.restV)}</i></div>`}
+function tashSheet(){SHEET=null;const t=tashStats();
+ $('shTitle').textContent='Toshkentga kelgan bug\u2018doy';$('shSub').textContent=t.parts+' ta partiya \u00b7 '+t.wag+' vagon';
+ const L=(a,b,c,sep)=>`<div class="t" style="${sep?'margin-top:11px;padding-top:10px;border-top:1px solid var(--sep)':'margin-bottom:9px'}"><b>${a}</b><i class="${c||''}">${b}</i></div>`;
+ $('shStats').innerHTML=L("Qozog'istondan jo'natilgan",tn(t.shipT)+' t')
+  +L('Toshkentda qabul qilingan',tn(t.recT)+' t')
+  +(t.shortT>0.001?L('Shundan kamomad',tn(t.shortT)+' t','neg'):L('Kamomad','0 t','pos'))
+  +L('Qabul qiymati (bug\u2018doy + xarajat)',money(t.recV))
+  +L("1 t o'rtacha tannarx",perKg(t.avg))
+  +L('Sotilgan',tn(t.soldT)+' t \u00b7 '+money(t.soldV),null,1)
+  +L('Sotilganning tannarxi',money(t.soldC))
+  +L('Foyda',money(t.profit),t.profit>=0?'pos':'neg')
+  +L('Ostatok',tn(t.restT)+' t \u00b7 '+money(t.restV),null,1);
+ $('shGrpHead').style.display='none';$('shGroups').style.display='none';
+ $('shListHead').textContent='Har bir qabul';
+ const rows=[...DB.wheatReceipts].sort((a,b)=>String(b.date).localeCompare(String(a.date)));
+ $('shList').innerHTML=rows.length?rows.map(r=>`<div class="it"><div class="t"><b>${esc(r.partiya)}</b><i>${tn(r.tons)} t</i></div>
+  <p>${esc(r.date||'')}${r.by?' \u00b7 '+esc(r.by):''}${(r.wagons||[]).length?' \u00b7 '+r.wagons.length+' vagon: '+r.wagons.map(w=>'\u2116'+esc(w.no)+' '+tn(w.tons)+' t').join(', '):''}</p>
+  ${N(r.short)>0.001?`<p class="neg">Kamomad ${tn(r.short)} t${r.shortNote?' \u00b7 '+esc(r.shortNote):''}</p>`:''}
+  ${N(r.hum)||N(r.glu)?`<p>Namlik ${tn(r.hum)}% \u00b7 kleykovina ${tn(r.glu)}%</p>`:''}</div>`).join('')
+  :'<div class="it"><p>Hali qabul yo\'q</p></div>';
+ $('sheet').classList.add('on');$('sheet').querySelector('.sheetbody').scrollTop=0}
+function drawCap(){const R=capRows();
+ $('lCap').innerHTML=R.map(x=>`<div class="cap" onclick="capSheet('${x.key}')"><span class="n">${esc(x.name)}</span><span class="v">${money(x.total)}</span>
+  <div class="d">${x.d.map(([l,v])=>`<span><small>${esc(l)}</small><b>${v}</b></span>`).join('')}</div></div>`).join('');
+ const biz=R.filter(x=>x.key!=='inv');
+ const cash=biz.reduce((a,x)=>a+x.cash,0),goods=biz.reduce((a,x)=>a+x.goods,0),debt=biz.reduce((a,x)=>a+x.debt,0);
+ $('capSum').innerHTML=`<div class="t" style="margin-bottom:9px"><b>Tovar aylanmasida</b><i>${money(goods)}</i></div>`
+  +`<div class="t" style="margin-bottom:9px"><b>Qarzdorlarda</b><i class="neg">${money(debt)}</i></div>`
+  +`<div class="t" style="margin-bottom:9px"><b>Bo\u2018sh pul</b><i class="pos">${money(cash)}</i></div>`
+  +`<div class="t" style="margin-top:10px;padding-top:9px;border-top:1px solid var(--sep)"><b>Jami investitsiya</b><i>${money(cash+goods+debt)}</i></div>`}
+function capSheet(key){SHEET=null;const R=capRows(),D=dirs(),dm={};D.forEach(d=>dm[d.key]=d);
+ const line=(l,v,cls)=>`<div class="t" style="margin-bottom:9px"><b>${l}</b><i class="${cls||''}">${v}</i></div>`;
+ const sep=(l,v,cls)=>`<div class="t" style="margin-top:11px;padding-top:10px;border-top:1px solid var(--sep)"><b>${l}</b><i class="${cls||''}">${v}</i></div>`;
+ if(key==='all'){$('shTitle').textContent='Kapital taqsimoti';$('shSub').textContent='Qaysi yo\u2018nalishda qancha pul va qancha foyda';
+  const biz=R.filter(x=>x.key!=='inv');
+  const cash=biz.reduce((a,x)=>a+x.cash,0),goods=biz.reduce((a,x)=>a+x.goods,0),debt=biz.reduce((a,x)=>a+x.debt,0);
+  const prof=D.reduce((a,d)=>a+(d.profit||0),0);
+  const SD=['qozo','tosh','nasiya','zavod','ferma'].map(k=>({k,d:debtSides(k)}));
+  const themT=SD.reduce((a,x)=>a+x.d.themTot,0),usT=SD.reduce((a,x)=>a+x.d.usTot,0);
+  $('shStats').innerHTML=line('Bo\u2018sh pul',money(cash),'pos')+line('Tovar aylanmasida',money(goods))+line('Qarzdorlarda',money(debt),'neg')
+   +line('Jami investitsiya',money(cash+goods+debt))+sep('Jami foyda',money(prof),'pos')+line('Mister X kapitali',money(R[0].total))
+   +`<div style="margin-top:13px;padding-top:11px;border-top:1px solid var(--sep)"></div>`
+   +line('Bizga qarzdor',money(themT),'pos')+line('Biz qarzdormiz',money(usT),'neg');
+  $('shGrpHead').style.display='none';$('shGroups').style.display='none';
+  $('shListHead').textContent='Yo\u2018nalishlar bo\u2018yicha';
+  $('shList').innerHTML=R.map(x=>{const d=CAPD[x.key]?dm[CAPD[x.key]]:null;
+   return `<div class="it tap" onclick="capSheet('${x.key}')"><div class="t"><b>${esc(x.name)}</b><i>${money(x.total)}</i></div>
+   <p>${x.d.map(([l,v])=>esc(l)+' '+v).join(' \u00b7 ')}</p>${d&&d.profit!=null?`<p class="pos">Foyda ${money(d.profit)}${d.rent!=null?' \u00b7 rentabellik '+d.rent.toFixed(1)+'%':''}</p>`:''}</div>`}).join('');
+  $('sheet').classList.add('on');$('sheet').querySelector('.sheetbody').scrollTop=0;return}
+ const row=R.find(x=>x.key===key);if(!row)return;
+ const d=CAPD[key]?dm[CAPD[key]]:null;
+ $('shTitle').textContent=row.name;$('shSub').textContent='Kapital va foyda';
+ let st=row.d.map(([l,v])=>line(l,v)).join('');
+ if(key==='inv'){const M=capRows()[0];
+  const iIn=DB.cash.filter(x=>x.category==='Investor kiritdi').reduce((a,x)=>a+cashSom(x),0);
+  const iOut=DB.cash.filter(x=>x.category==='Investor yechdi').reduce((a,x)=>a+cashSom(x),0);
+  const trs=DB.cash.filter(x=>!/Investor/.test(x.category));
+  const byTo={};trs.forEach(x=>{const k=dirLabel(x.to);byTo[k]=(byTo[k]||0)+cashSom(x)});
+  const trTot=trs.reduce((a,x)=>a+cashSom(x),0);
+  st=line('Jami tikkan pul',money(iIn),'pos')+line('Jami yechgan pul',money(iOut),'neg')
+   +line('Sof kiritgan',money(iIn-iOut))+line('Qo\u2018shilgan foyda',money(M.extra),'pos')+sep('Jami kapital',money(M.total))
+   +`<div style="margin-top:14px;padding-top:11px;border-top:1px solid var(--sep)"></div>`
+   +line('Yo\u2018nalishlarga yuborilgan',money(trTot))
+   +Object.entries(byTo).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<div class="t" style="margin-bottom:9px"><b style="font-weight:600;color:var(--mut)">\u00b7 ${esc(k)}</b><i>${money(v)}</i></div>`).join('')
+   +`<p class="hint" style="margin:9px 2px 0">Investorning puli kassada turmaydi \u2014 hammasi yo\u2018nalishlarga kiritilgan. Yuborilgan summa sof kiritgandan ko\u2018p bo\u2018lsa, bu sotuvdan tushgan pul qayta aylanganini bildiradi (${money(Math.max(0,trTot-(iIn-iOut)))} aylanma pul).</p>`;}
+ else if(d){
+  st+=sep('Sotuv summasi',money(d.rev));
+  if(d.wCogs!=null)st+=line('Sotilganning tannarxi',money(d.wCogs));
+  if(d.fCost!=null)st+=line('Ishlab chiqarish tannarxi',money(d.fCost));
+  if(d.profit!=null)st+=line('Foyda',money(d.profit),d.profit>=0?'pos':'neg');
+  if(d.rent!=null)st+=line('Rentabellik',d.rent.toFixed(1)+'%',d.rent>=0?'pos':'neg');
+  if(d.cover!=null)st+=line('Qoplandi',d.cover.toFixed(0)+'%');
+  st+=line('O\u2018sish (o\u2018tgan oyga)',(d.g>0?'+':'')+d.g.toFixed(0)+'%',d.g>=0?'pos':'neg');
+  const[t,txt]=dirTag(d);st+=`<div style="margin-top:11px;padding-top:10px;border-top:1px solid var(--sep)"><span class="tag ${t}" style="margin:0">${txt}</span></div>`;}
+ else if(key==='qozo')st+=sep('Xarid summasi',money(DB.wheatPurchases.reduce((a,x)=>a+N(x.tons)*1000*purchaseSom(x),0)))
+   +`<p class="hint" style="margin:9px 2px 0">Bu bosqichda foyda hisoblanmaydi \u2014 foyda Toshkentda sotilganda chiqadi.</p>`;
+ $('shStats').innerHTML=st+debtBlock(key);
+ $('shGrpHead').style.display='none';$('shGroups').style.display='none';
+ const M=v=>money(v);
+ let rows=[],head='Harakatlar';
+ if(key==='inv'){head='Pul harakatlari';
+  rows=[...DB.cash].filter(x=>/Investor/.test(x.category)).sort((a,b)=>String(b.date).localeCompare(String(a.date)))
+   .map(x=>`<div class="it"><div class="t"><b>${x.category==='Investor kiritdi'?'Tikdi':'Yechdi'}</b><i class="${x.category==='Investor kiritdi'?'pos':'neg'}">${x.category==='Investor kiritdi'?'+':'\u2212'}${money(cashSom(x))}</i></div><p>${x.date}${x.note?' \u00b7 '+esc(x.note):''}${x.cur==='USD'?' \u00b7 $'+fmt(x.amount)+' kurs '+fmt(x.rate):''}</p></div>`);}
+ else if(d){head='Oylik dinamika';
+  const src=key==='tosh'?DB.sales.filter(x=>!isCredit(x)):key==='nasiya'?DB.sales.filter(isCredit):key==='zavod'?DB.feedProduction:DB.slaughter;
+  const f=(key==='tosh'||key==='nasiya')?(x=>N(x.tons)*1000*saleSom(x)):key==='zavod'?(x=>feedSale(x)):(x=>N(x.tons)*1000*slSom(x));
+  const ms=monthsOf(src.map(x=>x.date));
+  rows=ms.slice().reverse().map(m=>`<div class="it"><div class="t"><b>${esc(gname(m))}</b><i>${M(inMonth(src,m,f))}</i></div></div>`);}
+ else if(key==='qozo'){head='Xaridlar';
+  rows=[...DB.wheatPurchases].sort((a,b)=>String(b.date).localeCompare(String(a.date)))
+   .map(x=>`<div class="it"><div class="t"><b>${esc(x.sort||"Bug'doy")} \u00b7 ${tn(x.tons)} t</b><i>${money(N(x.tons)*1000*purchaseSom(x))}</i></div><p>${x.date} \u00b7 ${buyPrice(x)}</p></div>`);}
+ $('shListHead').textContent=head;
+ $('shList').innerHTML=rows.length?rows.join(''):'<div class="it"><p>Yozuv yo\'q</p></div>';
+ $('sheet').classList.add('on');$('sheet').querySelector('.sheetbody').scrollTop=0}
+const CAPD={tosh:'cash',nasiya:'credit',zavod:'feed',ferma:'farm'};
+function drawHero(){const c=calc();
+ const flow=x=>N(x.tons)*1000*saleSom(x);
+ const ms=monthsOf([...DB.sales,...DB.slaughter,...DB.wheatPurchases].map(x=>x.date));
+ const vals=ms.map(m=>inMonth(DB.sales,m,flow)+inMonth(DB.slaughter,m,x=>N(x.tons)*1000*slSom(x)));
+ const tot=c.salesValue+c.zRev;
+ const cur=vals.length?vals[vals.length-1]:0,prev=vals.length>1?vals[vals.length-2]:0;
+ const g=prev>0.5?(cur-prev)/prev*100:(cur>0.5?100:0);
+ $('hrVal').innerHTML=money(tot);
+ const bd=$('hrBadge');bd.className='badge'+(g<0?' dn':'');bd.textContent=(g>0?'\u2191 +':g<0?'\u2193 ':'')+g.toFixed(1)+'%';
+ $('hrSpark').innerHTML=heroSpark(vals.length?vals:[0,0]);
+ const R=capRows().filter(x=>x.key!=='inv');
+ const gd=R.reduce((a,x)=>a+x.goods,0),cap=R.reduce((a,x)=>a+x.cash+x.goods+x.debt,0);
+ const pct=cap>0?Math.round(gd/cap*100):0;
+ const rg=$('hrRing');if(rg){rg.style.background=`conic-gradient(var(--a2) 0 ${pct}%, var(--a) ${pct}% 100%)`;$('hrPct').textContent=pct+'%'}
+ const nt=$('hrNote');if(nt)nt.textContent="o'tgan oyga nisbatan";}
+const KEEP={'p-transactions':[/Yangi pul/],'p-wheat':[/Qozog'iston/,/Toshkent sklad/,/Toshkent sotuv/],
+ 'p-feed':[/Xomashyo xaridi/,/^Yem chiqarish/],'p-farm':[/Kunlik hisobot/,/Yem qabul/,/Partiya xarajati$/,/Ferma holati/],
+ 'p-slaughter':[/Zaboy sotuv/,/^To'lov/,/Hisobot/],'p-audit':[/Audit/]};
+let SIMPLE=localStorage.getItem('agroos_v3_simple')!=='0';
+function applyMode(){document.body.classList.toggle('simple',SIMPLE);
+ $('mdSimple').classList.toggle('on',SIMPLE);$('mdFull').classList.toggle('on',!SIMPLE);
+ $('simpleBar').style.display=SIMPLE?'flex':'none';
+ document.querySelectorAll('.page').forEach(pg=>{const keep=KEEP[pg.id];if(!keep)return;
+  const bs=[...pg.querySelectorAll(':scope > .tabbar > button')];if(!bs.length)return;
+  bs.forEach(b=>{const ok=!SIMPLE||keep.some(re=>re.test(b.textContent));b.style.display=ok?'':'none'});
+  const on=bs.findIndex(b=>b.classList.contains('on'));
+  if(on<0||bs[on].style.display==='none'){const first=bs.findIndex(b=>b.style.display!=='none');if(first>=0)showTab(pg.id,first)}});
+ accCounts()}
+function setMode(v){SIMPLE=!!v;localStorage.setItem('agroos_v3_simple',v?'1':'0');applyMode();
+ toast(v?"Oddiy rejim \u2014 faqat kundalik ish":"To'liq rejim \u2014 hamma hisobotlar",2600)}
+function buildTabs(){document.querySelectorAll('.page').forEach(pg=>{
+ if(pg.id==='p-dashboard'||pg.dataset.tb)return;pg.dataset.tb='1';
+ const kids=[...pg.children],groups=[];
+ kids.forEach(el=>{
+  if(el.classList.contains('acc')){
+   const t=el.querySelector('.acchead b'),body=el.querySelector('.accbody'),st=el.querySelector('.acchead em');
+   if(t&&body){if(st){const ph=document.createElement('p');ph.className='panehead';ph.appendChild(st);body.insertBefore(ph,body.firstChild)}
+    groups.push({title:t.textContent.trim(),body,id:el.id,src:el})}}
+  else if(el.classList.contains('section')){
+   const body=document.createElement('div');body.className='panebody';
+   let n=el.nextElementSibling;
+   while(n&&!n.classList.contains('section')&&!n.classList.contains('acc')){const nx=n.nextElementSibling;body.appendChild(n);n=nx}
+   groups.push({title:el.textContent.trim(),body,src:el})}});
+ if(!groups.length)return;
+ const bar=document.createElement('div');bar.className='tabbar';
+ const holder=document.createElement('div');
+ groups.forEach((g,i)=>{
+  const b=document.createElement('button');b.type='button';b.dataset.i=i;
+  b.innerHTML=`${esc(g.title)}<em></em>`;b.onclick=()=>showTab(pg.id,i);bar.appendChild(b);
+  const pane=document.createElement('div');pane.className='pane';if(g.id)pane.id=g.id;
+  pane.appendChild(g.body);holder.appendChild(pane)});
+ groups.forEach(g=>g.src.remove());
+ pg.insertBefore(holder,pg.firstChild);pg.insertBefore(bar,pg.firstChild);
+ showTab(pg.id,0)});accCounts()}
+function showTab(pgId,i){const pg=$(pgId);if(!pg)return;
+ pg.querySelectorAll(':scope > .tabbar > button').forEach((b,j)=>b.classList.toggle('on',j===i));
+ pg.querySelectorAll(':scope > div > .pane').forEach((x,j)=>x.classList.toggle('on',j===i));
+ accCounts();window.scrollTo({top:0,behavior:'smooth'})}
+function showPane(el){if(!el)return;const pg=el.closest('.page');if(!pg)return;
+ const panes=[...pg.querySelectorAll(':scope > div > .pane')],i=panes.indexOf(el);if(i>=0)showTab(pg.id,i)}
+function accOpen(el){showPane(el&&el.classList&&el.classList.contains('pane')?el:(el&&el.closest?el.closest('.pane'):null))}
+function paneByTitle(pgId,re){const pg=$(pgId);if(!pg)return null;
+ const bs=[...pg.querySelectorAll(':scope > .tabbar > button')],i=bs.findIndex(b=>re.test(b.textContent));
+ if(i<0)return null;showTab(pgId,i);return i}
+function accCounts(){document.querySelectorAll('.tabbar button em').forEach(em=>{
+ const pg=em.closest('.page'),i=+em.closest('button').dataset.i;
+ const pane=pg.querySelectorAll(':scope > div > .pane')[i];if(!pane){em.textContent='';return}
+ const lst=pane.querySelector('.list');
+ if(!lst||[...pane.querySelectorAll('input,select,textarea')].some(e=>!e.closest('.lpbar'))){em.textContent='';return}
+ const c=LPD[lst.id]?LPD[lst.id].items.length:lst.querySelectorAll('.it').length;
+ em.textContent=c?'\u00b7 '+c:''})}
+function acc(k){showPane($('acc-'+k))}
+function render(){setTimeout(accCounts,0);if($('kursIn')!==document.activeElement)$('kursIn').value=KURS;const c=calc();$('kInv').textContent=money(c.inv);$('kBob').textContent=money(c.bob);$('kQStock').textContent=tn(c.qStock)+' t';$('kRoad').textContent=tn(c.road)+' t';$('kTStock').textContent=tn(c.tStock)+' t';$('kDebt').textContent=money(c.debt);$('kZDebt').textContent=money(c.zDebt);$('kAlive').textContent=fmt(c.alive)+' bosh';$('kMort').textContent=fmt(c.mort)+' bosh';$('kKitchen').textContent=fmt(c.kitchen)+' bosh';$('kSales').textContent=money(c.salesValue);$('kProfit').textContent=money(c.profit);$('kProfit').className=c.profit>=0?'pos':'neg';$('kFeed').textContent=tn(c.feed)+' t';
+drawHero();drawTiles();drawDonut();drawCap();drawProfCard();drawTash();const sd=stockDetail();$('accn-qozo').textContent=tn(c.qStock)+' t ostatok \u00b7 '+tn(c.road)+" t yo'lda \u00b7 "+money(sd.vQ+sd.vR);{const pw=inTransit().reduce((a,sh)=>a+pendWagons(sh).length,0);$('accn-sklad').innerHTML=tn(c.tStock)+' t ostatok \u00b7 '+money(sd.vT)+(pw?' \u00b7 <b class="neg">'+pw+' vagon yo\'lda</b>':'');}$('accn-sotuv').textContent='Sotuv \u00b7 mijoz qarzi '+money(c.debt);$('sAll').textContent=money(sd.vQ+sd.vR+sd.vT);drawDirs();drawAllCharts();if(SHEET==='stock')openStockSheet();
+panelList('lTx',[...DB.cash].sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))).map(x=>({date:x.date,raw:x,search:[x.from,x.to,x.category,x.note,x.amount].join(' '),html:`<div class="it"><div class="t"><b>${esc(x.from)} → ${esc(x.to)}</b><i>${money(cashSom(x))}</i></div><p>${esc(x.category)} · ${x.date}${x.note?' · '+esc(x.note):''}</p></div>`})));
+list('lPartCost',partRows().reverse(),x=>`<div class="it"><div class="t"><b>${esc(x.partiya)}</b><i>${perKg(x.perKg)}</i></div><p>${tn(x.tons)} t · bug'doy ${money(x.base)} + xarajat ${money(x.ex)} = ${money(x.total)}</p>${x.ex>0?`<p>${wcOf(x.partiya).map(c=>esc(c.category)+' '+money(wcSom(c))).join(' · ')}</p>`:''}</div>`);
+ fillSel('wcNo',[...new Set(DB.wheatReceipts.map(r=>r.partiya))],1);
+ panelList('lWCost',[...DB.wheatCosts].sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))).map(x=>({date:x.date,raw:x,search:[x.partiya,x.category,x.to].join(' '),html:`<div class="it"><div class="t"><b>${esc(x.partiya)} · ${esc(x.category)}</b><i>${money(wcSom(x))}</i></div><p>${x.date}${x.to?' · '+esc(x.to):''}${x.cur==='USD'?' · $'+fmt(x.amount):''}</p></div>`})),{ph:'Partiya, kategoriya…',chips:[{label:'Hammasi'},{label:'Bu oy',test:x=>String(x.date||'').startsWith(thisMonth())},{label:'Transport',test:x=>/^(Transport|Vagon ijarasi|Ekspeditor|Demeraj)/i.test(x.category||'')},{label:'Bojxona / soliq',test:x=>/Bojxona|Rastamojka|Soliq|Aksiz/i.test(x.category||'')},{label:'Hujjat',test:x=>/Sertifikat|Karantin|Laborator/i.test(x.category||'')},{label:'Boshqa',test:x=>!/^(Transport|Vagon ijarasi|Ekspeditor|Demeraj|Bojxona|Rastamojka|Soliq|Aksiz|Sertifikat|Karantin|Laborator)/i.test(x.category||'')}]});
+ const road=inTransit().sort((a,b)=>String(a.date||'').localeCompare(String(b.date||'')));list('lRoad',road,x=>{const d=Math.floor((Date.parse(today())-Date.parse(x.date||today()))/864e5);const pw=pendWagons(x),got=gotWagons(x.partiya).size,all=shipWagons(x).length;return `<div class="it"><div class="t tap" onclick="roadSheet('${esc(x.partiya)}')"><b>${esc(x.partiya)}</b><i>${tn(pendTons(x))} t</i></div><p>${esc(x.transport||'—')}<br>Jo'nadi ${esc(x.date||'')}${d>0?' · <b>'+d+' kun yo\'lda</b>':d===0?' · bugun':''}</p>${all?`<p class="${got?'neg':''}">${got?got+' vagon qabul qilindi · <b>'+pw.length+' vagon hali kelmadi</b>':pw.length+' vagon yo\'lda'}: ${pw.map(w=>'№'+esc(w.no)+' '+tn(w.tons)+' t').join(', ')}</p>`:''}<button class="ghost" style="width:100%;margin-top:9px" onclick="startReceive('${esc(x.partiya)}')">Qabul qildim</button></div>`});const shipOpts=inTransit().map(s=>`<option>${esc(s.partiya)}</option>`).join('');$('wShipNo').innerHTML=nextPartiyas(6).map(x=>`<option>${x}</option>`).join('');
+ fillSel('wSaleCust',[...NASIYA,...DB.sales.map(x=>x.customer),...DB.payments.map(x=>x.customer)]);
+ fillSel('wPayCust',[...NASIYA,...DB.sales.map(x=>x.customer),...DB.payments.map(x=>x.customer)]);
+ fillSel('zBuyer',[...DB.slaughter.map(x=>x.buyer),...DB.slaughterPayments.map(x=>x.buyer)]);
+ fillSel('zpBuyer',[...DB.slaughter.map(x=>x.buyer),...DB.slaughterPayments.map(x=>x.buyer)]);
+ fillSel('xFrom',DB.rawPurchases.map(x=>x.from));
+ if($('bName')!==document.activeElement&&!$('bName').value)$('bName').placeholder=nextBatchName();
+ $('wRecNo').innerHTML=shipOpts||'<option value="">Yo\'lda partiya yo\'q</option>';const saleOpts=[...new Set(DB.wheatReceipts.map(r=>r.partiya))].map(pt=>{const sold=DB.sales.filter(s=>s.partiya===pt).reduce((a,b)=>a+N(b.tons),0),rest=recTons(pt)-sold;return rest>0.001?`<option value="${esc(pt)}">${esc(pt)} — ${tn(rest)} t</option>`:''}).join('');$('wSaleNo').innerHTML=saleOpts||'<option value="">Omborda bug\'doy yo\'q</option>';
+const partMap={};DB.wheatShipments.forEach(s=>{const rr=recOf(s.partiya);partMap[s.partiya]={ship:s,rec:rr.length?{tons:rr.reduce((a,r)=>a+N(r.tons),0),short:rr.reduce((a,r)=>a+N(r.short),0),shortRows:[],shortNote:rr.map(r=>r.shortNote).filter(Boolean).join('; ')}:null,pend:pendWagons(s),sales:DB.sales.filter(x=>x.partiya===s.partiya)}});panelList('lWheat',Object.values(partMap).reverse().map(x=>{const sold=x.sales.reduce((a,b)=>a+N(b.tons),0),rest=N(x.rec?.tons)-sold;return{date:x.ship.date,raw:{rest,rec:x.rec},search:[x.ship.partiya,x.ship.transport,...x.sales.map(s=>s.customer)].join(' '),html:`<div class="it"><div class="t"><b>${esc(x.ship.partiya)}</b><i>${tn(rest||0)} t qoldi</i></div><p>Jo'nadi ${tn(x.ship.tons)} t · keldi ${tn(x.rec?.tons||0)} t · sotildi ${tn(sold)} t${N(x.rec?.short)>0.001?' · <b class="neg">kamomad '+tn(x.rec.short)+' t</b>':''}</p>${N(x.rec?.short)>0.001&&(x.rec.shortRows?.length||x.rec.shortNote)?`<p class="neg">${(x.rec.shortRows||[]).map(r=>'№'+esc(r.wagon)+' '+tn(r.tons)+' t').join(', ')}${x.rec.shortNote?' · '+esc(x.rec.shortNote):''}</p>`:''}</div>`}}));
+const rm=rawAgg();list('lRaw',Object.entries(rm).sort((a,b)=>(a[1].left<0?-1:0)-(b[1].left<0?-1:0)||b[1].left-a[1].left),([k,v])=>`<div class="it"><div class="t"><b>${esc(k)}</b><i class="${v.left<-0.001?'neg':''}">${tn(v.left)} t${v.left<-0.001?' qarz':''}</i></div><p>Prixod ${tn(v.in)} t · rasxod ${tn(v.out)} t · o'rtacha ${perKg(v.avg)} · qiymati ${money(v.leftVal)}</p><div class="prog"><u style="width:${v.in>0?Math.max(0,Math.min(100,v.left/v.in*100)).toFixed(0):0}%"></u></div></div>`);$('rawVal').textContent=money(Object.values(rm).reduce((a,v)=>a+v.leftVal,0));{const dm=Object.entries(rm).filter(([k,v])=>v.left<-0.001);$('rawWarn').style.display=dm.length?'block':'none';$('rawWarn').innerHTML=dm.length?'\u26a0\ufe0f Qarzga kirgan xomashyo: '+dm.map(([k,v])=>'<b>'+esc(k)+' '+tn(-v.left)+' t</b>').join(', ')+' \u2014 xarid qilib skladga kiriting.':''}panelList('lRawIn',[...DB.rawPurchases].sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))).map(x=>({date:x.date,raw:x,search:[x.name,x.from].join(' '),html:`<div class="it"><div class="t"><b>${esc(x.name)}</b><i class="pos">+${tn(x.tons)} t</i></div><p>${x.date} · ${perKg(x.cost)} · ${money(N(x.tons)*1000*N(x.cost))}${x.from?' · '+esc(x.from):''}</p></div>`})));panelList('lRecipes',recVersions().slice().reverse().map(r=>{const pr=recPeriod(r);const used=DB.feedProduction.filter(f=>f.recipeId===r.id).reduce((a,f)=>a+N(f.tons),0);return{date:r.from||'',raw:r,search:[r.type,r.from,...(r.items||[]).map(i=>i.name)].join(' '),html:`<div class="it tap" onclick="recSheet('${r.id}')"><div class="t"><b>${esc(r.type)}</b><i>${esc(pr.from)} — ${esc(pr.to)}</i></div><p>${recText(r)}</p><p>Shu ratsion bo'yicha ${tn(used)} t yem chiqarilgan</p></div>`}}),{ph:'Yem turi, sana…',group:false,limit:6,chips:[{label:'Hammasi'},{label:'Start',test:x=>x.type==='Start'},{label:'Rost',test:x=>x.type==='Rost'},{label:'Finish',test:x=>/Finish/.test(x.type)}]});panelList('lFeed',[...DB.feedProduction].sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))).map(x=>{const usl=N(x.tons)*1000*N(x.rate),sir=N(x.rawCost);return{date:x.date,raw:x,search:[x.batch,x.type,x.plant].join(' '),html:`<div class="it"><div class="t"><b>${esc(x.batch)} · ${esc(x.type)}</b><i>${tn(x.tons)} t</i></div><p>${x.date} · ${esc(x.plant)} · siryo ${money(sir)} · usluga ${money(usl)} · tannarx ${money(sir+usl)}${x.tons?' ('+money((sir+usl)/N(x.tons))+'/t)':''}</p><p>Fermaga ${money(feedSale(x))}${x.tons?' ('+money(feedSale(x)/N(x.tons))+'/t)':''} · foyda <b class="${feedSale(x)-sir-usl>=0?'pos':'neg'}">${money(feedSale(x)-sir-usl)}</b></p><p>Rasxod: ${x.snapshot.map(i=>esc(i.name)+' '+tn(i.t)+' t').join(' · ')}</p></div>`}}));
+const batches=DB.farmBatches.map(b=>`<option>${esc(b.name)}</option>`).join('');['fdBatch','fiBatch','exBatch','zBatch','fBatch'].forEach(id=>$(id).innerHTML=batches||'<option value="">Avval partiya oching</option>');const sexAgg={};['1-sex','2-sex','3-sex','4-sex','5-sex','6-sex','7-sex'].forEach(c=>sexAgg[c]={in:0,out:0});DB.feedIn.forEach(x=>{if(sexAgg[x.cex])sexAgg[x.cex].in+=N(x.tons)});DB.farmDaily.forEach(x=>{if(sexAgg[x.cex])sexAgg[x.cex].out+=N(x.tons)});feedAvail();list('lSexFeed',Object.entries(sexAgg),([cex,v])=>`<div class="it"><div class="t"><b>${cex}</b><i>${tn(v.in-v.out)} t qoldi</i></div><p>Qabul ${tn(v.in)} t · yedirildi ${tn(v.out)} t</p><div class="prog"><u style="width:${v.in>0?Math.max(0,Math.min(100,(v.in-v.out)/v.in*100)).toFixed(0):0}%"></u></div></div>`);panelList('lExpenses',[...DB.expenses].sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))).map(x=>({date:x.date,raw:x,search:[x.batch,x.category,x.to,x.kind,x.note,x.amount].join(' '),html:`<div class="it"><div class="t"><b>${esc(x.batch)} · ${esc(x.category)}</b><i>${money(x.amount)}</i></div><p>${x.date} · ${esc(x.to||'—')} · ${esc(x.kind)}${x.note?' · '+esc(x.note):''}</p></div>`})));list('lFarm',[...DB.farmBatches].reverse(),b=>{const d=DB.farmDaily.filter(x=>x.batch===b.name),mort=d.reduce((s,x)=>s+N(x.mort),0),kit=d.reduce((s,x)=>s+N(x.kitchen),0),alive=Math.max(0,N(b.head)-mort-kit),feedIn=DB.feedIn.filter(x=>x.batch===b.name).reduce((s,x)=>s+N(x.tons),0),feedUsed=d.reduce((s,x)=>s+N(x.tons),0),expenses=DB.expenses.filter(x=>x.batch===b.name).reduce((s,x)=>s+N(x.amount),0),prod=DB.feedProduction.filter(x=>x.batch===b.name).reduce((s,x)=>s+feedSale(x),0),total=N(b.chickCost)+expenses+prod,per=alive?total/alive:0;return `<div class="it"><div class="t"><b>${esc(b.name)}</b><i>${fmt(alive)} bosh</i></div><p>Padyoj ${fmt(mort)} · oshxona ${fmt(kit)} · yem qabul ${tn(feedIn)} t · yedirildi ${tn(feedUsed)} t</p><p>Xarajat ${money(expenses)} · jo'ja ${money(b.chickCost)} · yem ${money(prod)} · jami ${money(total)} · 1 bosh ${money(per)}</p></div>`});
+const zAgg={};DB.slaughter.forEach(x=>{zAgg[x.buyer]=zAgg[x.buyer]||{kg:0,rev:0,paid:0};zAgg[x.buyer].kg+=N(x.tons);zAgg[x.buyer].rev+=N(x.tons)*1000*slSom(x)});DB.slaughterPayments.forEach(x=>{zAgg[x.buyer]=zAgg[x.buyer]||{kg:0,rev:0,paid:0};zAgg[x.buyer].paid+=N(x.amount)});{const zr=DB.slaughter.reduce((a,x)=>a+N(x.tons)*1000*slSom(x),0),zp=DB.slaughterPayments.reduce((a,x)=>a+N(x.amount),0),zt=DB.slaughter.reduce((a,x)=>a+N(x.tons),0);$('zTot').innerHTML=`<div class="t" style="margin-bottom:9px"><b>Jami sotilgan</b><i>${tn(zt)} t</i></div>`+`<div class="t" style="margin-bottom:9px"><b>Sotuv summasi</b><i>${both(zr)}</i></div>`+`<div class="t" style="margin-bottom:9px"><b>To'langan</b><i>${both(zp)}</i></div>`+`<div class="t" style="margin-top:10px;padding-top:9px;border-top:1px solid var(--sep)"><b>Qoldiq qarz</b><i class="${zr-zp>0.5?'neg':'pos'}">${both(Math.max(0,zr-zp))}</i></div>`}
+ panelList('lZaboy',Object.entries(zAgg).map(([k,v])=>({date:'',raw:v,search:k,html:`<div class="it"><div class="t"><b>${esc(k)}</b><i class="${v.rev-v.paid>0?'neg':'pos'}">${money(v.rev-v.paid)}</i></div><p>${fmt(Math.round(v.rev-v.paid))} so'm · qarz</p><p>${tn(v.kg)} t · sotildi ${both(v.rev)}<br>To'lagan ${both(v.paid)}</p></div>`})));panelList('lAudit',[...DB.audit].reverse().map(x=>({date:String(x.date).slice(0,10),raw:x,search:[x.action,x.ref].join(' '),html:`<div class="it tap" onclick="auditDetail('${x.id}')"><div class="t"><b>${esc(x.action)}</b><span class="pill">${new Date(x.date).toLocaleString('uz-UZ')}</span></div><p>${esc(x.ref)}</p></div>`})))}
+function oth(sel,inp){const a=$(sel),b=$(inp);if(!a||!b)return;const on=a.value==='Boshqa';b.style.display=on?'block':'none';if(on)b.focus()}
+function pick(sel,inp){const v=$(sel).value;return v==='Boshqa'?($(inp).value.trim()||'Boshqa'):v}
+function addCash(){const amount=N($('cAmount').value);if(!amount)return toast('Summani kiriting');const from=pick('cFrom','cFromOth'),to=pick('cTo','cToOth');DB.cash.push({id:uid(),from,to,amount,cur:$('cCur').value,rate:N($('cRate').value)||KURS,category:$('cCat').value,date:$('cDate').value||today(),note:$('cNote').value});audit('Pul harakati qo\'shildi',from+' → '+to,'cash');save();render();toast('Saqlandi')}
+function addWheatBuy(){const tons=N($('wBuyT').value),price=N($('wBuyP').value);if(!tons||!price)return toast('Tonna va narxni kiriting');DB.wheatPurchases.push({id:uid(),tons,price,cur:$('wBuyC').value,rate:N($('wBuyK').value)||KURS,buyer:pick('wBuyBy','wBuyByOth'),date:$('wBuyD').value||today(),sort:pick('wBuySort','wBuySortOth')});audit("Bug'doy xaridi",tn(tons)+' t','wheatPurchases');save();render();toast('Xarid saqlandi')}
+function addShipment(){const partiya=$('wShipNo').value.trim();if(!partiya)return toast('Partiya tanlang');
+ const tt=$('wShipTrType').value;let wagons=[],tons=0,transport='';
+ if(tt==='Vagon'){wagons=wagList();if(!wagons.length)return toast('Kamida bitta vagon nomerini kiriting');
+  if(wagons.some(w=>!(w.tons>0)))return toast('Har bir vagonning tonnasini yozing');
+  tons=wagons.reduce((a,w)=>a+w.tons,0);transport=wagons.length+' vagon \u2116 '+wagons.map(w=>w.no).join(', ')}
+ else{tons=N($('wShipT').value);if(!tons)return toast('Tonnani kiriting');transport=tt+($('wShipTrOth').value.trim()?' \u00b7 '+$('wShipTrOth').value.trim():'')}
+ DB.wheatShipments.push({id:uid(),partiya,tons,transport,wagons,date:$('wShipD').value||today()});
+ audit("Partiya yo'lga chiqdi",partiya+' \u00b7 '+tn(tons)+' t \u00b7 '+transport,'wheatShipments');
+ save();render();clearWagons();$('wShipT').value='';toast("Yo'lga chiqarildi")}
+function shipOf(p){return DB.wheatShipments.find(x=>x.partiya===p)}
+function shipCostMap(){const lots=DB.wheatPurchases.map(p=>({date:p.date||'',cost:purchaseSom(p),left:N(p.tons)})).sort((a,b)=>a.date.localeCompare(b.date));
+ const m={};[...DB.wheatShipments].sort((a,b)=>String(a.date||'').localeCompare(String(b.date||''))).forEach(sh=>{
+  let need=N(sh.tons),val=0,taken=0;
+  for(const l of lots){if(need<=1e-6)break;const t=Math.min(l.left,need);if(t<=0)continue;l.left-=t;val+=t*l.cost;taken+=t;need-=t}
+  m[sh.partiya]=taken?val/taken:0});return m}
+function wcOf(p){return DB.wheatCosts.filter(x=>x.partiya===p)}
+function wcSom(x){return x.cur==='USD'?N(x.amount)*(N(x.rate)||KURS):N(x.amount)}
+function wcSum(p){return wcOf(p).reduce((a,x)=>a+wcSom(x),0)}
+function partCost(p){const rr=recOf(p),t=rr.reduce((a,r)=>a+N(r.tons),0);if(!t)return 0;
+ const base=rr.reduce((a,r)=>a+N(r.tons)*1000*N(r.cost),0);return (base+wcSum(p))/(t*1000)}
+function partRows(){return [...new Set(DB.wheatReceipts.map(r=>r.partiya))].map(p=>{
+ const rr=recOf(p),t=rr.reduce((a,x)=>a+N(x.tons),0);
+ const base=rr.reduce((a,x)=>a+N(x.tons)*1000*N(x.cost),0),ex=wcSum(p);
+ return{partiya:p,tons:t,base,ex,total:base+ex,perKg:t?(base+ex)/(t*1000):0,date:rr[rr.length-1]?.date||''}})}
+function shipWagons(sh){return ((sh&&sh.wagons)||[]).map(w=>typeof w==='string'?{no:w,tons:0}:{no:String(w.no),tons:N(w.tons)})}
+function shipTons(sh){const w=shipWagons(sh),t=w.reduce((a,x)=>a+x.tons,0);return t>0.001?t:N(sh&&sh.tons)}
+function recOf(p){return DB.wheatReceipts.filter(r=>r.partiya===p)}
+function recTons(p){return recOf(p).reduce((a,r)=>a+N(r.tons),0)}
+function gotWagons(p){const g=new Set();recOf(p).forEach(r=>(r.wagons||[]).forEach(w=>g.add(String(w.no))));return g}
+function pendWagons(sh){const w=shipWagons(sh);if(!w.length)return recOf(sh.partiya).length?[]:[{no:'',tons:shipTons(sh)}];const g=gotWagons(sh.partiya);return w.filter(x=>!g.has(x.no))}
+function pendTons(sh){return pendWagons(sh).reduce((a,w)=>a+w.tons,0)}
+function inTransit(){return DB.wheatShipments.filter(sh=>pendTons(sh)>0.001)}
+function wagList(){return Array.from({length:10},(_,i)=>({no:$('wgN'+(i+1)).value.trim(),tons:N($('wgT'+(i+1)).value)})).filter(w=>w.no)}
+function wagSum(){const t=wagList().reduce((a,w)=>a+w.tons,0);$('wagTotal').textContent=tn(t)+' t';return t}
+function clearWagons(){for(let i=1;i<=10;i++){$('wgN'+i).value='';$('wgT'+i).value=''}wagSum()}
+function recSum(){const sh=shipOf($('wRecNo').value),wag=shipWagons(sh);
+ if(!wag.length){const got=N($('wRecT').value),sent=shipTons(sh);return{tons:got,short:Math.max(0,sent-got),pend:[],rows:[]}}
+ const rows=[...document.querySelectorAll('#recWagRows .recwag')].map(r=>({el:r,no:r.dataset.no,sent:N(r.dataset.sent),on:r.querySelector('.rwC').checked,got:N(r.querySelector('.rwT').value)}));
+ const on=rows.filter(r=>r.on);
+ const tons=on.reduce((a,r)=>a+r.got,0),short=on.reduce((a,r)=>a+Math.max(0,r.sent-r.got),0);
+ const pend=rows.filter(r=>!r.on);
+ if($('recWagTotal'))$('recWagTotal').textContent=tn(tons)+' t';
+ recInfo(sh,{tons,short,pend,rows});return{tons,short,pend,rows}}
+function buildShortRows(sh){const el=$('shortRows'),w=sh.wagons||[];if(el.dataset.p===sh.partiya)return;el.dataset.p=sh.partiya;
+ el.innerHTML=w.length?w.map(n=>`<div class="wg2"><b>\u2116 ${esc(n)}</b><input class="swg" data-w="${esc(n)}" inputmode="decimal" placeholder="kam chiqqan t"></div>`).join(''):'<p class="hint">Vagon nomeri yozilmagan \u2014 izohda tushuntiring.</p>'}
+function recInfo(sh,r){const el=$('wRecInfo');if(!el||!sh)return;
+ const wag=shipWagons(sh);
+ let t=`Jo'natilgan <b>${tn(shipTons(sh))} t</b>${wag.length?' \u00b7 '+wag.length+' vagon':''} \u00b7 jo'nagan ${esc(sh.date||'')}`;
+ if(r.short>0.001)t+=`<br><b class="neg">\u26a0\ufe0f Kamomad ${tn(r.short)} t</b> \u2014 izoh yozing.`;
+ if(r.pend&&r.pend.length)t+=`<br><b class="neg">\u26a0\ufe0f ${r.pend.length} vagon (${tn(r.pend.reduce((a,x)=>a+x.sent,0))} t) hali kelmadi</b> \u2014 Qozog'istonga signal.`;
+ el.innerHTML=t;
+ $('shortBox').style.display=r.short>0.001?'block':'none'}
+function recCheck(reset){const sh=shipOf($('wRecNo').value);
+ if(!sh){$('wRecInfo').textContent='';$('shortBox').style.display='none';$('recWagBox').style.display='none';$('recManualBox').style.display='none';return}
+ const wag=shipWagons(sh),pend=pendWagons(sh);
+ $('recWagBox').style.display=wag.length?'block':'none';
+ $('recManualBox').style.display=wag.length?'none':'block';
+ if(wag.length){const box=$('recWagRows');
+  if(reset||box.dataset.p!==sh.partiya){box.dataset.p=sh.partiya;
+   box.innerHTML=pend.map(w=>`<div class="recwag" data-no="${esc(w.no)}" data-sent="${w.tons}"><label><input type="checkbox" class="rwC" checked onchange="recSum()"> \u2116 ${esc(w.no)}</label><span>${tn(w.tons)} t</span><input class="rwT" inputmode="decimal" value="${w.tons}" oninput="recSum()"></div>`).join('')||'<p class="hint">Hamma vagon qabul qilingan.</p>'}}
+ else if(reset)$('wRecT').value='';
+ recSum()}
+function startReceive(p){
+ acc('sklad');$('wRecNo').value=p;recCheck(1);setTimeout(()=>{$('wRecNo').scrollIntoView({behavior:'smooth',block:'center'});$('wRecT').focus()},80)}
+function addReceipt(){const partiya=$('wRecNo').value,cost=shipCostMap()[partiya]||0;
+ if(!partiya)return toast('Partiyani tanlang');
+ const sh=shipOf(partiya),r=recSum();
+ if(!(r.tons>0.001))return toast('Kelgan vagon yoki tonnani kiriting');
+ const wagons=(r.rows||[]).filter(x=>x.on).map(x=>({no:x.no,tons:x.got,short:Math.max(0,x.sent-x.got)}));
+ const note=($('wRecNote').value||'').trim();
+ if(r.short>0.001&&!note)return toast('Kamomad '+tn(r.short)+" t \u2014 izoh yozing",4000);
+ DB.wheatReceipts.push({id:uid(),partiya,tons:r.tons,cost,by:pick('wRecBy','wRecByOth'),date:$('wRecD').value||today(),hum:N($('wRecHum').value),glu:N($('wRecGlu').value),wagons,short:r.short,shortNote:note});
+ const pendTxt=(r.pend||[]).length?' \u00b7 '+r.pend.length+' vagon kelmadi ('+tn(r.pend.reduce((a,x)=>a+x.sent,0))+' t)':'';
+ audit('Partiya qabul qilindi',partiya+' \u00b7 '+tn(r.tons)+' t'+(r.short>0.001?' \u00b7 kamomad '+tn(r.short)+' t':'')+pendTxt,'wheatReceipts');
+ $('wRecNote').value='';save();render();recCheck(1);
+ if(r.short>0.001||pendTxt)toast('Qabul qilindi. \u26a0\ufe0f'+(r.short>0.001?' Kamomad '+tn(r.short)+' t.':'')+pendTxt,5000);else toast('Qabul qilindi')}
+function addSale(){const partiya=$('wSaleNo').value,tons=N($('wSaleT').value),price=N($('wSaleP').value),customer=pick('wSaleCust','wSaleCustOth').trim();if(!partiya||!tons||!price||!customer)return toast('Hamma maydonni kiriting');const sold=DB.sales.filter(x=>x.partiya===partiya).reduce((s,x)=>s+N(x.tons),0);if(tons>recTons(partiya)-sold+0.001)return toast('Omborda yetarli qoldiq yo\'q');const pt=$('wSalePay').value,sRec={id:uid(),partiya,tons,price,cur:$('wSaleCur').value,rate:N($('wSaleRate').value)||KURS,customer,payType:pt,date:$('wSaleD').value||today()};DB.sales.push(sRec);
+ if(pt==='Yem zavodga')DB.rawPurchases.push({id:uid(),name:"Bug'doy",tons,cost:saleSom(sRec),from:'Toshkent baza',date:sRec.date,fromSale:sRec.id});audit("Bug'doy sotildi",customer+' · '+tn(tons)+' t','sales');save();render();toast('Sotuv saqlandi')}
+function addPayment(){const customer=pick('wPayCust','wPayCustOth').trim(),amount=N($('wPayAmt').value);if(!customer||!amount)return toast('Mijoz va summani kiriting');DB.payments.push({id:uid(),customer,amount,cur:$('wPayCur').value,rate:N($('wPayRate').value)||KURS,date:$('wPayD').value||today()});audit("Mijoz to'lovi",customer,'payments');save();render();toast('To\'lov saqlandi')}
+function saveRecipe(){if(RMODE==='all'&&!REDIT)return saveAllRecipes();const type=$('rType').value,from=$('rFrom').value||today(),to=$('rTo').value||'';
+ const items=RING.map(([name,id])=>({name,kgPerTon:N($(id).value)})).filter(x=>x.kgPerTon>0);
+ if(!items.length)return toast('Kamida bitta xomashyo kiriting');
+ if(to&&to<from)return toast('Tugash sanasi boshlanish sanasidan oldin bo\'lmaydi');
+ if(REDIT){const r=DB.recipes.find(x=>x.id===REDIT);if(!r)return toast('Ratsion topilmadi');
+  r.type=type;r.from=from;r.to=to;r.items=items;r.savedAt=new Date().toISOString();
+  audit('Ratsion tahrirlandi',type+' \u00b7 '+from+(to?' \u2014 '+to:' dan'),'recipes');
+  REDIT=null;$('rTo').value='';recSetEdit(false);save();render();recLoad();return toast('O\'zgarish saqlandi')}
+ const ex=DB.recipes.find(r=>r.type===type&&(r.from||'')===from);
+ if(ex){ex.items=items;ex.to=to;ex.savedAt=new Date().toISOString()}
+ else DB.recipes.push({id:uid(),type,from,to,items,savedAt:new Date().toISOString()});
+ audit('Ratsion saqlandi',type+' \u00b7 '+from+(to?' \u2014 '+to:' dan'),'recipes');
+ $('rTo').value='';save();render();recLoad();toast('Ratsion saqlandi')}
+function wcInfo(){const el=$('wcHint');if(!el)return;const p=$('wcNo').value;
+ if(!p){el.textContent='Avval partiya qabul qilinishi kerak.';return}
+ const rr=recOf(p),t=rr.reduce((a,x)=>a+N(x.tons),0);
+ const base=rr.reduce((a,x)=>a+N(x.tons)*1000*N(x.cost),0),ex=wcSum(p);
+ const add=N($('wcAmt').value)*($('wcCur').value==='USD'?KURS:1);
+ const now=t?(base+ex)/(t*1000):0,nxt=t?(base+ex+add)/(t*1000):0;
+ el.innerHTML=`<b>${esc(p)}</b> \u00b7 ${tn(t)} t \u00b7 bug'doy ${money(base)} + xarajat ${money(ex)} = tannarx <b>${perKg(now)}</b>`+
+  (add>0?`<br>Qo'shilgach: <b>${perKg(nxt)}</b> (+${perKg(nxt-now)})`:'')}
+function addWCost(){const partiya=$('wcNo').value,amount=N($('wcAmt').value);
+ if(!partiya||!amount)return toast('Partiya va summani kiriting');
+ DB.wheatCosts.push({id:uid(),partiya,category:pick('wcCat','wcCatOth'),amount,cur:$('wcCur').value,rate:KURS,to:$('wcTo').value,date:$('wcDate').value||today()});
+ audit('Bug\'doy partiya xarajati',partiya+' \u00b7 '+pick('wcCat','wcCatOth')+' \u00b7 '+money(wcSom({amount,cur:$('wcCur').value,rate:KURS})),'wheatCosts');
+ $('wcAmt').value='';$('wcTo').value='';save();render();wcInfo();toast('Xarajat saqlandi \u00b7 tannarx yangilandi',3500)}
+function addRaw(){const name=pick('xName','xNameOth'),tons=N($('xKg').value),price=N($('xPrice').value);if(!name||!tons||!price)return toast('Xomashyo, tonna va narxni ($/t) kiriting');DB.rawPurchases.push({id:uid(),name,tons,cost:price*KURS/1000,from:pick('xFrom','xFromOth'),date:$('xDate').value||today()});audit('Xomashyo skladga olindi',name+' \u00b7 '+tn(tons)+' t','rawPurchases');save();render();$('xKg').value='';$('xPrice').value='';toast('Skladga qabul qilindi')}
+function feedPreview(){const el=$('fPrev');if(!el)return;const type=$('fType').value,tons=N($('fTons').value),rate=N($('fRate').value),sell=N($('fSell').value);
+ const rec=recipeFor(type,$('fDate').value||today());
+ if(!tons||!rec){el.textContent=rec?'':$('fDate').value+' sanasi uchun '+type+' ratsioni yo\'q \u2014 Ratsion bo\'limida davrini kiriting.';return}
+ const snap=rec.items.map(x=>({name:x.name,t:N(x.kgPerTon)*tons/1000}));
+ const rawSom=rawCostOf(snap),uslSom=tons*rate*KURS,costSom=rawSom+uslSom,cpt=costSom/tons;
+ let t=`Tannarx <b>${money(cpt)}/t</b> (siryo ${money(rawSom/tons)} + usluga ${money(uslSom/tons)})`;
+ if(sell>0){const pSom=sell*KURS-cpt;t+=` \u00b7 sotish <b>$${fmt(sell)}/t</b> \u00b7 foyda <b>${money(pSom)}/t</b> (${cpt>0?(pSom/cpt*100).toFixed(1):0}%) \u00b7 jami foyda <b>${money(pSom*tons)}</b>`}
+ else t+=" \u00b7 sotish narxi yozilmasa, fermaga tannarxda beriladi.";
+ el.innerHTML=t}
+function addFeed(){const type=$('fType').value,tons=N($('fTons').value),fdate=$('fDate').value||today();if(!tons)return toast('Tonnani kiriting');const rec=recipeFor(type,fdate);if(!rec)return toast(fdate+' sanasi uchun '+type+' ratsioni yo\'q');const snapshot=rec.items.map(x=>({name:x.name,t:N(x.kgPerTon)*tons/1000}));const m=rawAgg();const short=snapshot.map(i=>({name:i.name,need:N(i.t)-(m[i.name]?.left||0)})).filter(x=>x.need>0.001);const rawCost=rawCostOf(snapshot);DB.feedProduction.push({id:uid(),batch:$('fBatch').value||'—',type,tons,rate:N($('fRate').value)*KURS/1000,sellPrice:N($('fSell').value)*KURS/1000,rawCost,recipeId:rec.id,recipeFrom:rec.from||'',plant:pick('fPlant','fPlantOth'),date:fdate,snapshot});audit('Yem ishlab chiqarildi',type+' · '+tn(tons)+' t'+(short.length?' · qarzga: '+short.map(x=>x.name+' '+tn(x.need)+' t').join(', '):''),'feedProduction');save();render();if(short.length)toast('Yem chiqarildi. Skladda yetmadi — qarzga kirdi: '+short.map(x=>x.name+' '+tn(x.need)+' t').join(', '),5000);else toast('Yem chiqarildi')}
+function addBatch(){const name=$('bName').value.trim()||nextBatchName(),head=N($('bHead').value);if(!head)return toast('Jo\'ja sonini kiriting');DB.farmBatches.push({id:uid(),name,head,chickCost:N($('bCost').value)*KURS,date:$('bDate').value||today()});audit('Ferma partiyasi ochildi',name,'farmBatches');save();render();toast('Partiya ochildi')}
+function fdCells(){return [1,2,3,4,5,6,7].map(i=>({cex:i+'-sex',m:$('fd'+i+'m'),s:$('fd'+i+'s'),w:$('fd'+i+'w')}))}
+function fdSum(){let m=0,q=0,k=0;fdCells().forEach(c=>{m+=N(c.m.value);q+=N(c.s.value);k+=N(c.w.value)});$('fdSum').textContent=fmt(m)+' padyoj · '+tn(q)+' t · '+fmt(k)+' oshxona'}
+function clearDaily(){fdCells().forEach(c=>{c.m.value='';c.s.value='';c.w.value=''});fdSum()}
+function addFarmDaily(){const batch=$('fdBatch').value;if(!batch)return toast('Avval ferma partiyasini oching');const date=$('fdDate').value||today();const rows=fdCells().map(c=>({cex:c.cex,mort:N(c.m.value),tons:N(c.s.value),kitchen:N(c.w.value),filled:(c.m.value+c.s.value+c.w.value).trim()!==''})).filter(r=>r.filled);if(!rows.length)return toast('Kamida bitta sexni to\'ldiring');for(const r of rows){const received=DB.feedIn.filter(x=>x.batch===batch&&x.cex===r.cex).reduce((a,x)=>a+N(x.tons),0),used=DB.farmDaily.filter(x=>x.batch===batch&&x.cex===r.cex).reduce((a,x)=>a+N(x.tons),0);if(r.tons>received-used+0.001)return toast(r.cex+'da '+tn(received-used)+' t bor')}const fdIds=rows.map(r=>{const o={id:uid(),batch,cex:r.cex,mort:r.mort,tons:r.tons,kitchen:r.kitchen,date};DB.farmDaily.push(o);return o.id});const tm=rows.reduce((a,r)=>a+r.mort,0),tq=rows.reduce((a,r)=>a+r.tons,0),tk=rows.reduce((a,r)=>a+r.kitchen,0);audit('Kunlik ferma hisoboti',batch+' · '+rows.length+' sex · padyoj '+fmt(tm)+' · '+tn(tq)+' t · oshxona '+fmt(tk),'farmDaily',fdIds);save();render();clearDaily();toast(rows.length+' ta sex saqlandi')}
+function feedLeft(){const batch=$('fiBatch').value,type=$('fiType').value;const made=DB.feedProduction.filter(x=>x.batch===batch&&x.type===type).reduce((a,x)=>a+N(x.tons),0);const given=DB.feedIn.filter(x=>x.batch===batch&&x.type===type).reduce((a,x)=>a+N(x.tons),0);return{batch,type,made,given,left:made-given}}
+function feedAvail(){const f=feedLeft(),el=$('fiAvail');if(!f.batch){el.textContent='Avval ferma partiyasini oching.';return}
+ el.innerHTML=f.left>0.001?`<b>${esc(f.type)}</b> \u2014 sexlarga berish mumkin: <b>${tn(f.left)} t</b> (chiqarilgan ${tn(f.made)} t, berilgan ${tn(f.given)} t)`:`<b>${esc(f.type)}</b> \u2014 taqsimlash uchun qoldiq yo'q. Chiqarilgan ${tn(f.made)} t, sexlarga berilgan ${tn(f.given)} t. Yem sahifasida yangi yem chiqaring.`}
+function sexCells(){return [1,2,3,4,5,6,7].map(i=>({cex:i+'-sex',el:$('fi'+i)}))}
+function sexSum(){feedAvail();const t=sexCells().reduce((a,c)=>a+N(c.el.value),0);$('fiSum').textContent=tn(t)+' t';return t}
+function splitEqual(){const total=N($('fiTotal').value);if(!total)return toast('Kelgan jami tonnani kiriting');const base=Math.floor(total/7*1000)/1000;sexCells().forEach((c,i)=>c.el.value=i<6?base:Math.round((total-base*6)*1000)/1000);sexSum()}
+function clearSplit(){sexCells().forEach(c=>c.el.value='');$('fiTotal').value='';sexSum()}
+function addFeedIn(){const batch=$('fiBatch').value,type=$('fiType').value;if(!batch)return toast('Avval ferma partiyasini oching');const rows=sexCells().map(c=>({cex:c.cex,tons:N(c.el.value)})).filter(r=>r.tons>0);if(!rows.length)return toast('Kamida bitta sexga tonna yozing');const total=rows.reduce((a,r)=>a+r.tons,0),declared=N($('fiTotal').value);if(declared&&Math.abs(declared-total)>0.001)return toast('Kelgan '+tn(declared)+' t, taqsimlangan '+tn(total)+' t');const produced=DB.feedProduction.filter(x=>x.batch===batch&&x.type===type).reduce((a,x)=>a+N(x.tons),0),received=DB.feedIn.filter(x=>x.batch===batch&&x.type===type).reduce((a,x)=>a+N(x.tons),0),tons=total;if(tons>produced-received+0.001)return toast(type+': chiqarilgan '+tn(produced)+' t, sexlarga berilgan '+tn(received)+' t \u2014 qoldiq '+tn(produced-received)+' t');const by=pick('fiBy','fiByOth'),date=$('fiDate').value||today();const fiIds=rows.map(r=>{const o={id:uid(),batch,type,cex:r.cex,tons:r.tons,by,date};DB.feedIn.push(o);return o.id});audit('Yem sexlarga taqsimlandi',batch+' · '+type+' · '+tn(total)+' t / '+rows.length+' sex','feedIn',fiIds);save();render();clearSplit();feedAvail();toast(rows.length+' ta sexga yozildi')}
+const EXCATS=['Dori-darmon','Dezinfeksiya','Elektr','Gaz','Suv','Ish haqi','Transport',"Ta'mirlash",'Boshqa'];
+let EXMODE='one';
+const CATRULES=[[/f[oa]rmalin|ф[oaоа]рмалин|dezinf|дезин|xlor|izvest|kuydir/i,'Dezinfeksiya'],[/dori|дори|vaksin|вакц|preparat|vitamin|antibiotik|ukol/i,'Dori-darmon'],[/avans|аванс|oylik|maosh|ish haqi|zarplat|зарплат|premiya/i,'Ish haqi'],[/elektr|элект|svet|tok\b/i,'Elektr'],[/gaz|газ/i,'Gaz'],[/suv|вод|nasos/i,'Suv'],[/transport|benzin|dizel|solyar|mashina|dostavka/i,'Transport'],[/ta'mir|tamir|remont|ремонт|usta/i,"Ta'mirlash"]];
+function guessCat(name){for(const [re,c] of CATRULES)if(re.test(name))return c;return 'Boshqa'}
+function numFrom(str){let t=String(str).replace(/[^\d.,]/g,'');const seps=(t.match(/[.,]/g)||[]).length;if(seps>1)t=t.replace(/[.,]/g,'');else if(seps===1){const q=t.split(/[.,]/);t=q[1].length===3?q[0]+q[1]:q[0]+'.'+q[1]}return parseFloat(t)||0}
+function exParseRows(){return ($('exText').value||'').split('\n').map(l=>l.trim()).filter(l=>l.includes('=')).map(l=>{const i=l.lastIndexOf('=');const name=l.slice(0,i).trim();const amount=numFrom(l.slice(i+1));return{name,amount,category:guessCat(name)}}).filter(x=>x.name&&x.amount>0)}
+function exUnit(){return $('exCur').value==='USD'?KURS:1}
+function exParse(){const rows=exParseRows(),k=exUnit();$('exPrev').innerHTML=rows.length?rows.map(r=>`<div class="it"><div class="t"><b>${esc(r.name)}</b><i>${money(r.amount*k)}</i></div><p>${esc(r.category)}</p></div>`).join(''):'<div class="it"><p>Hali qator yo\'q</p></div>';exTotal()}
+function exMode(m){EXMODE=m;$('segOne').classList.toggle('on',m==='one');$('segMany').classList.toggle('on',m==='many');$('exOne').style.display=m==='one'?'block':'none';$('exMany').style.display=m==='many'?'block':'none';if(m==='many')exParse();else exTotal()}
+function addExRow(){const d=document.createElement('div');d.className='exrow';d.style.cssText='border:1px solid var(--line);border-radius:11px;padding:9px;margin-bottom:8px';d.innerHTML='<div class="row"><div><label>Kategoriya</label><select class="xCat">'+EXCATS.map(c=>'<option>'+c+'</option>').join('')+'</select></div><div><label>Summa</label><input class="xAmt" inputmode="decimal" oninput="exTotal()"></div><div><label>Kimga</label><input class="xTo"></div><div><label>Izoh</label><input class="xNote"></div></div><button class="danger" style="width:100%;margin-top:8px" onclick="delExRow(this)">Qatorni o\'chirish</button>';$('exRows').appendChild(d);exTotal()}
+function delExRow(b){b.closest('.exrow').remove();exTotal()}
+function exTotal(){const k=exUnit();let t=0;if(EXMODE==='many')t=exParseRows().reduce((a,r)=>a+r.amount,0);else document.querySelectorAll('#exRows .xAmt').forEach(i=>t+=N(i.value));$('exTotal').textContent=money(t*k)+(k===1?'':'')+(t?" \u00b7 "+fmt(t*k)+" so'm":'');return t}
+function resetExRows(){$('exRows').innerHTML='';for(let i=0;i<3;i++)addExRow()}
+function saveExpenses(){const batch=$('exBatch').value;if(!batch)return toast('Avval ferma partiyasini oching');const date=$('exDate').value||today(),kind=$('exKind').value;const k=exUnit();const rows=(EXMODE==='many'?exParseRows().map(r=>({category:r.category,amount:r.amount*k,to:'',note:r.name})):[...document.querySelectorAll('#exRows .exrow')].map(r=>({category:r.querySelector('.xCat').value,amount:N(r.querySelector('.xAmt').value)*k,to:r.querySelector('.xTo').value,note:r.querySelector('.xNote').value}))).filter(r=>r.amount>0);if(!rows.length)return toast(EXMODE==='many'?"\u00abNomi = Summa\u00bb ko'rinishida yozing":'Kamida bitta summani kiriting');const exIds=rows.map(r=>{const o={id:uid(),batch,category:r.category,amount:r.amount,kind,to:r.to,date,note:r.note};DB.expenses.push(o);return o.id});const sum=rows.reduce((a,r)=>a+r.amount,0);audit('Partiya xarajati',batch+' · '+rows.length+' qator · '+money(sum),'expenses',exIds);save();render();resetExRows();$('exText').value='';exParse();toast(rows.length+' ta xarajat saqlandi')}
+function addSlaughter(){const buyer=pick('zBuyer','zBuyerOth').trim(),tons=N($('zKg').value),price=N($('zPrice').value);if(!buyer||!tons||!price)return toast('Mijoz, tonna va narxni kiriting');DB.slaughter.push({id:uid(),batch:$('zBatch').value,buyer,tons,price,cur:$('zCur').value,rate:N($('zRate').value)||KURS,date:$('zDate').value||today()});audit('Zaboy sotuv',buyer+' · '+tn(tons)+' t','slaughter');save();render();toast('Sotuv saqlandi')}
+function addSlaughterPay(){const buyer=pick('zpBuyer','zpBuyerOth').trim(),amount=N($('zpAmt').value);if(!buyer||!amount)return toast('Mijoz va summani kiriting');DB.slaughterPayments.push({id:uid(),buyer,amount:$('zpCur').value==='USD'?amount*(N($('zpRate').value)||KURS):amount,date:$('zpDate').value||today()});audit('Zaboy to\'lovi',buyer,'slaughterPayments');save();render();toast('To\'lov saqlandi')}
+function exportData(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(DB,null,2)],{type:'application/json'}));a.download='agroos-v3-'+today()+'.json';a.click();URL.revokeObjectURL(a.href)}function wipeAll(){if(!confirm('Hamma ma\'lumot o\'chsinmi?'))return;DB=blank();save();render();toast('Tozalandi')}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('nav button').forEach(x=>x.classList.remove('on'));b.classList.add('on');document.querySelectorAll('.page').forEach(x=>x.classList.remove('on'));$('p-'+b.dataset.p).classList.add('on');const m={dashboard:['Dashboard','Bir marta yoziladi, hamma joyda hisoblanadi'],transactions:['Pul harakati','Investor, Bobur, Xasan va boshqa barcha pul'],wheat:["Bug'doy","Xarid → jo'natish → qabul → sotuv"],feed:['Yem zavodi','Ratsion snapshot bilan'],farm:['Ferma','Partiya va kunlik hisobot'],slaughter:['Zaboy','Sotuv va to\'lov'],audit:['Audit log','Kim nima qilgani tarixda qoladi']}[b.dataset.p];$('title').textContent=m[0];$('title').textContent=m[0];window.scrollTo(0,0)});
+load();['cDate','wBuyD','wShipD','wRecD','wSaleD','wPayD','wcDate','rFrom','xDate','fDate','bDate','fdDate','fiDate','exDate','zDate','zpDate'].forEach(id=>$(id).value=today());['fPlant','wBuyBy','wRecBy','fiBy'].forEach(i=>oth(i,i+'Oth'));LPO['lTx']={ph:'Kim, kategoriya, izoh\u2026',chips:[{label:'Hammasi'},{label:'Bu oy',test:x=>String(x.date||'').startsWith(thisMonth())},{label:'Investor',test:x=>/Investor/.test(x.category||'')},{label:'Bobur',test:x=>/Bobur/.test((x.to||'')+(x.category||''))}]};
+LPO['lWheat']={ph:'Partiya, transport, mijoz\u2026',chips:[{label:'Hammasi'},{label:'Ostatok bor',test:x=>x.rest>0.001},{label:'Sotilgan',test:x=>x.rest<=0.001&&x.rec},{label:"Yo'lda",test:x=>!x.rec}]};
+LPO['lExpenses']={ph:'Kategoriya, izoh, kimga\u2026',chips:[{label:'Hammasi'},{label:'Bu oy',test:x=>String(x.date||'').startsWith(thisMonth())},{label:'Naqd',test:x=>x.kind==='Naqd'},{label:'Perechislenie',test:x=>x.kind==='Perechislenie'}]};
+LPO['lFeed']={ph:'Partiya, yem turi, zavod\u2026',chips:[{label:'Hammasi'},{label:'Bu oy',test:x=>String(x.date||'').startsWith(thisMonth())},{label:'Start',test:x=>x.type==='Start'},{label:'Rost',test:x=>x.type==='Rost'},{label:'Finish',test:x=>/Finish/.test(x.type||'')}]};
+LPO['lRawIn']={ph:'Xomashyo, yetkazuvchi\u2026',chips:[{label:'Hammasi'},{label:'Bu oy',test:x=>String(x.date||'').startsWith(thisMonth())}]};
+LPO['lZaboy']={ph:'Mijoz\u2026',group:false,chips:[{label:'Hammasi'},{label:'Qarzi bor',test:x=>x.rev-x.paid>0.5}]};
+LPO['lAudit']={ph:'Amal, izoh\u2026',chips:[{label:'Hammasi'},{label:'Bugun',test:x=>String(x.date).slice(0,10)===today()},{label:'Bu oy',test:x=>String(x.date).slice(0,7)===thisMonth()}]};
+feedPreview();resetExRows();exMode('one');sexSum();fdSum();buildTabs();applyMode();buildPal();applyLook();bootServer().then(ok=>{if(ok){render();recCheck(1);recLoad();wcInfo();zPrev();zpPrev()}});rMode('one');['wcCat'].forEach(i=>oth(i,i+'Oth'));wagToggle();wagSum();saleHint();zHint();render();recCheck(1);recLoad();wcInfo();zPrev();zpPrev();feedAvail();buildTabs();
+</script>
+</body></html>
