@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: agroos
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --workers 1 --threads 4 --timeout 120
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: AGROOS_DB
+        value: /var/data/agroos.db
+    disk:
+      name: agroos-data
+      mountPath: /var/data
+      sizeGB: 1
