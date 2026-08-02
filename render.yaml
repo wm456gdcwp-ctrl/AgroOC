@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: agroos
+    name: agrooc
     runtime: python
     plan: free
     buildCommand: pip install -r requirements.txt
@@ -8,9 +8,5 @@ services:
     envVars:
       - key: SECRET_KEY
         generateValue: true
-      - key: AGROOS_DB
-        value: /var/data/agroos.db
-    disk:
-      name: agroos-data
-      mountPath: /var/data
-      sizeGB: 1
+      - key: AGROOC_DB
+        value: agrooc.db
