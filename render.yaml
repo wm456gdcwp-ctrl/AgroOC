@@ -2,11 +2,15 @@ services:
   - type: web
     name: agrooc
     runtime: python
-    plan: free
+    plan: starter
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn app:app --workers 1 --threads 4 --timeout 120
+    disk:
+      name: agrooc-data
+      mountPath: /data
+      sizeGB: 1
     envVars:
       - key: SECRET_KEY
         generateValue: true
       - key: AGROOC_DB
-        value: agrooc.db
+        value: /data/agrooc.db
