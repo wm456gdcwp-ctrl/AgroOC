@@ -34308,7 +34308,11 @@ function NN(v){return typeof N==='function'?N(v):(parseFloat(v)||0)}
 function MO(v){try{return money(v)}catch(e){return String(v)}}
 function FM(v){try{return fmt(v)}catch(e){return String(v)}}
 function TD(){try{return today()}catch(e){return new Date().toISOString().slice(0,10)}}
-function K(){return NN(window.KURS)||12100}
+function DBx(){try{if(typeof DB!=='undefined'&&DB)return DB}catch(e){}
+  return window.DB||null}
+function BL(){var d=DBx();return (d&&d.farmBatches)||[]}
+function K(){try{if(typeof KURS!=='undefined'&&NN(KURS)>0)return NN(KURS)}catch(e){}
+  return NN(window.KURS)||12100}
 function say(m){try{toast(m)}catch(e){}}
 function V(id){var e=el(id);return e?String(e.value||'').trim():''}
 function E(s){try{return esc(String(s==null?'':s))}catch(e){return String(s==null?'':s)}}
@@ -34346,7 +34350,7 @@ function ins(b){
   return b.chickIns
 }
 function bat(nm){
-  var L=(window.DB&&DB.farmBatches)||[];
+  var L=BL();
   for(var i=0;i<L.length;i++)if(String(L[i].name)===String(nm))return L[i];
   return null
 }
@@ -34401,10 +34405,10 @@ window.v235del=window.v237del=function(nm,i){
 /* partiya ochilganda birinchi qabul yoziladi (sexlar v21 dagi taqsimotdan) */
 var _ab=window.addBatch;
 if(typeof _ab==='function')window.addBatch=function(){
-  var L=(window.DB&&DB.farmBatches)||[], n0=L.length;
+  var L=BL(), n0=L.length;
   var out=_ab.apply(this,arguments);
   try{
-    L=(window.DB&&DB.farmBatches)||[];
+    L=BL();
     if(L.length>n0){
       var b=L[L.length-1];
       b.chickIns=[{date:b.date||TD(),head:NN(b.head),cost:NN(b.chickCost),
@@ -34448,7 +34452,7 @@ function build(){
 
 function paint(){
   if(!build())return;
-  var L=(window.DB&&DB.farmBatches)||[];
+  var L=BL();
   var s=el('v237b');
   if(s){
     var cur=s.value;
