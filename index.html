@@ -34299,4 +34299,194 @@ setTimeout(build,900); setTimeout(build,2500);
 
 </script>
 
+<script id="v237mod">
+/* v237 — QO'SHIMCHA JO'JA QABULI: sana + sexlar (v21 taqsimoti bilan birga) */
+(function(){
+var SEX=['1-sex','2-sex','3-sex','4-sex','5-sex','6-sex','7-sex'];
+function el(id){return document.getElementById(id)}
+function NN(v){return typeof N==='function'?N(v):(parseFloat(v)||0)}
+function MO(v){try{return money(v)}catch(e){return String(v)}}
+function FM(v){try{return fmt(v)}catch(e){return String(v)}}
+function TD(){try{return today()}catch(e){return new Date().toISOString().slice(0,10)}}
+function K(){return NN(window.KURS)||12100}
+function say(m){try{toast(m)}catch(e){}}
+function V(id){var e=el(id);return e?String(e.value||'').trim():''}
+function E(s){try{return esc(String(s==null?'':s))}catch(e){return String(s==null?'':s)}}
+function DAYS(a,b){var x=new Date(a),y=new Date(b);
+  if(isNaN(x)||isNaN(y))return 0;return Math.round((y-x)/86400000)}
+
+function readSex(){
+  var o={},s=0;
+  SEX.forEach(function(nm,i){var v=NN(V('v237s'+(i+1)));if(v>0){o[nm]=v;s+=v}});
+  return {sex:o,sum:s}
+}
+function clearSex(){SEX.forEach(function(nm,i){var e=el('v237s'+(i+1));if(e)e.value=''})}
+window.v237sum=function(){
+  var r=readSex(), h=el('v237head'), s=el('v237sum2');
+  if(s)s.textContent=FM(r.sum)+' bosh';
+  if(h){
+    if(r.sum>0){h.value=String(r.sum);h.readOnly=true;h.style.opacity=.6}
+    else{h.readOnly=false;h.style.opacity=1}
+  }
+  return r
+};
+window.v237eq=function(){
+  var h=NN(V('v237head'));
+  if(!h)return say('Avval jami jo\u2018ja sonini yozing');
+  var per=Math.floor(h/SEX.length), rest=h-per*SEX.length;
+  SEX.forEach(function(nm,i){var e=el('v237s'+(i+1));if(e)e.value=String(per+(i===0?rest:0))});
+  v237sum();
+};
+window.v237cl=function(){clearSex();v237sum()};
+
+function ins(b){
+  if(!b.chickIns||!b.chickIns.length)
+    b.chickIns=[{date:b.date||TD(),head:NN(b.head),cost:NN(b.chickCost),
+                 sex:b.cexHead||null,bir:1}];
+  return b.chickIns
+}
+function bat(nm){
+  var L=(window.DB&&DB.farmBatches)||[];
+  for(var i=0;i<L.length;i++)if(String(L[i].name)===String(nm))return L[i];
+  return null
+}
+function sexTot(b){
+  var o={},any=0;
+  (b.chickIns||[]).forEach(function(r){
+    Object.keys(r.sex||{}).forEach(function(k){o[k]=(o[k]||0)+NN(r.sex[k]);any=1})});
+  return any?o:null
+}
+function sexLine(o){
+  var k=Object.keys(o||{}).filter(function(x){return NN(o[x])>0});
+  return k.length?k.sort().map(function(x){return x+' '+FM(o[x])}).join(' \u00b7 '):''
+}
+
+window.v235add=window.v237add=function(){
+  var nm=V('v237b'), head=NN(V('v237head')), cost=NN(V('v237cost')), dt=V('v237date');
+  var r=readSex();
+  if(r.sum>0)head=r.sum;
+  if(!nm)return say('Partiyani tanlang');
+  if(!dt)return say('Jo\u2018ja kelgan sanani kiriting');
+  if(!head)return say('Jo\u2018ja sonini kiriting');
+  var b=bat(nm); if(!b)return say('Partiya topilmadi');
+  var L=ins(b);
+  L.push({date:dt,head:head,cost:cost*K(),sex:r.sum>0?r.sex:null});
+  b.head=NN(b.head)+head;
+  b.chickCost=NN(b.chickCost)+cost*K();
+  var st=sexTot(b); if(st)b.cexHead=st;
+  try{audit('Qo\u2018shimcha jo\u2018ja qabuli',nm+' \u00b7 '+FM(head)+' bosh \u00b7 '+dt,'farmBatches')}catch(e){}
+  try{save()}catch(e){}
+  var f=DAYS(L[0].date,dt);
+  if(el('v237head'))el('v237head').value='';
+  if(el('v237cost'))el('v237cost').value='';
+  clearSex();v237sum();
+  try{render()}catch(e){}
+  say(nm+': '+dt+' \u00b7 +'+FM(head)+' bosh'+(f?' \u00b7 '+f+' kun farq':''));
+};
+
+window.v235del=window.v237del=function(nm,i){
+  var b=bat(nm); if(!b)return;
+  var L=ins(b); if(i<=0||i>=L.length)return say('Birinchi qabulni bu yerdan o\u2018chirib bo\u2018lmaydi');
+  var r=L[i];
+  b.head=Math.max(0,NN(b.head)-NN(r.head));
+  b.chickCost=Math.max(0,NN(b.chickCost)-NN(r.cost));
+  L.splice(i,1);
+  var st=sexTot(b); if(st)b.cexHead=st;
+  try{audit('Jo\u2018ja qabuli o\u2018chirildi',nm+' \u00b7 '+FM(r.head)+' bosh','farmBatches')}catch(e){}
+  try{save()}catch(e){}
+  try{render()}catch(e){}
+  say('Qabul o\u2018chirildi');
+};
+
+/* partiya ochilganda birinchi qabul yoziladi (sexlar v21 dagi taqsimotdan) */
+var _ab=window.addBatch;
+if(typeof _ab==='function')window.addBatch=function(){
+  var L=(window.DB&&DB.farmBatches)||[], n0=L.length;
+  var out=_ab.apply(this,arguments);
+  try{
+    L=(window.DB&&DB.farmBatches)||[];
+    if(L.length>n0){
+      var b=L[L.length-1];
+      b.chickIns=[{date:b.date||TD(),head:NN(b.head),cost:NN(b.chickCost),
+                   sex:b.cexHead||null,bir:1}];
+      save();
+      try{paint()}catch(e){}
+    }
+  }catch(e){}
+  return out
+};
+
+/* --- ekran --- */
+function build(){
+  if(el('v237box'))return true;
+  var btn=document.querySelector('#p-farm button[onclick="addBatch()"]');
+  if(!btn)return false;
+  var box=btn.parentNode; if(!box)return false;
+  box.insertAdjacentHTML('afterend',
+    '<div class="section">Qo\u2018shimcha jo\u2018ja qabuli</div>'+
+    '<div class="box" id="v237box">'+
+    '<p class="hint">Jo\u2018ja ikki bo\u2018lib kelsa: partiya ochilgandan keyin kelgan jo\u2018jani shu yerdan '+
+    'qo\u2018shing. Bosh soni va tannarx partiyaga qo\u2018shiladi, sana esa saqlanadi.</p>'+
+    '<div class="row">'+
+      '<div><label>Partiya</label><select id="v237b"></select></div>'+
+      '<div><label>Jo\u2018ja kelgan sana</label><input id="v237date" type="date"></div>'+
+      '<div><label>Jo\u2018ja soni (bosh)</label><input id="v237head" inputmode="decimal"></div>'+
+      '<div><label>Jo\u2018ja jami narxi $</label><input id="v237cost" inputmode="decimal"></div>'+
+    '</div>'+
+    '<p class="hint">Sexlarga bo\u2018lish \u2014 ixtiyoriy. To\u2018ldirsangiz, jo\u2018ja soni yig\u2018indidan yoziladi.</p>'+
+    '<div class="row">'+SEX.map(function(nm,i){
+      return '<div><label>'+nm+'</label><input id="v237s'+(i+1)+'" inputmode="decimal" '+
+        'oninput="v237sum()"></div>'}).join('')+'</div>'+
+    '<div class="t" style="margin:10px 2px"><b>Taqsimlandi</b><i id="v237sum2">0 bosh</i></div>'+
+    '<div class="toolbar" style="margin-bottom:8px">'+
+      '<button class="ghost" onclick="v237eq()">Teng bo\u2018lish</button>'+
+      '<button class="ghost" onclick="v237cl()">Tozalash</button></div>'+
+    '<button class="go full" onclick="v237add()">Qabulni qo\u2018shish</button>'+
+    '<div id="v237list"></div></div>');
+  return true
+}
+
+function paint(){
+  if(!build())return;
+  var L=(window.DB&&DB.farmBatches)||[];
+  var s=el('v237b');
+  if(s){
+    var cur=s.value;
+    var nw=L.map(function(b){return '<option>'+E(b.name)+'</option>'}).join('')||
+      '<option value="">Avval partiya oching</option>';
+    if(s.innerHTML!==nw)s.innerHTML=nw;
+    if(cur&&L.some(function(b){return String(b.name)===cur}))s.value=cur;
+  }
+  var d=el('v237date'); if(d&&!d.value)d.value=TD();
+  var box=el('v237list'); if(!box)return;
+  var h='';
+  L.forEach(function(b){
+    var I=b.chickIns||[];
+    if(I.length<2)return;
+    h+='<div class="it"><div class="t"><b>'+E(b.name)+'</b><i>'+FM(NN(b.head))+' bosh</i></div>'+
+      I.map(function(r,i){
+        var dd=i?DAYS(I[0].date,r.date):0, sl=sexLine(r.sex);
+        return '<p>'+(i+1)+'-qabul \u00b7 <b>'+E(r.date)+'</b> \u00b7 '+FM(NN(r.head))+' bosh \u00b7 '+MO(NN(r.cost))+
+          (i?' \u00b7 '+dd+' kun farq <span style="color:var(--red)" onclick="v237del(\''+
+            String(b.name).replace(/'/g,"\\'")+'\','+i+')">o\u2018chirish</span>':'')+
+          (sl?'<br><span style="opacity:.7">'+E(sl)+'</span>':'')+'</p>'
+      }).join('')+'</div>';
+  });
+  if(box.innerHTML!==h)box.innerHTML=h;
+  try{v237sum()}catch(e){}
+}
+window.v237paint=paint;
+
+var _r=window.render;
+if(typeof _r==='function')window.render=function(){
+  var x=_r.apply(this,arguments);
+  try{paint()}catch(e){}
+  return x
+};
+setTimeout(function(){try{paint()}catch(e){}},300);
+setTimeout(function(){try{paint()}catch(e){}},1200);
+})();
+
+</script>
+
 </body></html>
